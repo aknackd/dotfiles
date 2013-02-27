@@ -1,0 +1,55 @@
+" Clear autocommands
+autocmd!
+
+" Enable syntax highlighting
+if has('syntax') && (&t_Co > 2)
+  syntax on
+endif
+
+set history=50
+set showmode
+set showcmd
+
+" Enable mouse
+" set mouse=a
+
+" Text formatting
+set nowrap
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set shiftround
+set autoindent
+" set textwidth=79
+set nu
+set mouse=a
+set ttymouse=xterm
+
+" Enable filetype detection
+filetype on
+
+autocmd FileType mail,human set formatoptions+=t textwidth=72
+autocmd FileType c,cpp,php,pascal set cindent
+autocmd FileType perl set smartindent
+autocmd FileType python set cindent
+autocmd FileType css set smartindent
+autocmd FileType html set formatoptions+=tl
+autocmd FileType html,css set noexpandtab tabstop=2
+
+" Searching and replacing
+set ignorecase
+set smartcase
+set gdefault
+set incsearch
+
+" Toggle pasting with F4
+" Taken from: http://www.davidpashley.com/blog/2008/01/24#vim-paste
+nmap <F4> :set invpaste paste?<CR>
+imap <F4> <C-O>:set invpaste<CR>
+set pastetoggle=<F4>
+
+map <F9> :NERDTreeToggle<CR>
+
+colorscheme desert
+" colorscheme ir_black
+" colorscheme harlequin

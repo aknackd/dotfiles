@@ -1,0 +1,128 @@
+#!/bin/bash
+# Various functions
+
+# Adds a directory to $PATH if not already present
+# -- stolen from Redhat/Fedora/CentOS
+pathmunge () {
+	if ! echo $PATH | egrep -q "(^|:)$1($|:)" ; then
+        # only append paths that exist
+        [ ! -d $1 ] && return
+        [[ "$2" == "after" ]] && PATH="${PATH}:$1" || PATH="$1:${PATH}"
+	fi
+}
+
+# Checks if a function/alias exists
+function_exists() {
+	type -t $1 | grep -q 'shell function'
+}
+
+# convert string to lowercase
+strtolower() {
+    echo $@ | tr '[A-Z]' '[a-z]'
+}
+
+# convert string to uppercase
+strtoupper() {
+    echo $@ | tr '[a-z]' '[A-Z]'
+}
+
+# trim leading and trailing whitepaces from a string
+trim_string() {
+    local s=$1
+    s="$(echo $s | sed 's/^\s+//g; s/\s*$//g')"
+    echo $s
+}
+
+# checks if an item is in an array
+# usage:
+#     $ my_arr=(one two three)
+#     $ [[ $(in_array two "${my_arr[@]}") -eq 1 ]] && echo YES || echo NO
+in_array() {
+    local item
+    for item in "${@:2}"; do
+        if [[ "$item" == "$1" ]]; then
+            echo 1
+            return
+        fi
+    done
+    echo 0
+}
+
+# is <script/binary> installed?
+am_i_installed() {
+    type -t $1 >/dev/null
+    [ $? -eq 0 ] && echo 1 || echo 0
+}
+
+# is an alias defined?
+is_alias_defined() {
+    alias | grep $1 1>/dev/null && echo 1 || echo 0
+}
+
+# am I on OSX?
+is_this_osx() {
+    [[ "$(strtolower $(uname -s))" == "darwin" ]] && echo 1 || echo 0
+}
+
+# am I on linux?
+is_this_linux() {
+    [[ "$(strtolower $(uname -s))" == "linux" ]] && echo 1 || echo 0
+}
+
+# simple calculator
+? () {
+    awk "BEGIN { pi = 4.0*atan2(1.0,1.0); degree = pi/180.0; print $* }";
+}
+
+# get current timezone
+get_timezone() {
+    local timezone=
+
+    if [ ! -z "$TZ" ]; then
+        timezone="$TZ"
+    else
+        if [ $(is_this_osx) -eq 1 ]; then
+            timezone="$(systemsetup -gettimezone | cut -d : -f 2)"
+        elif [ $(is_this_linux) -eq 1 ]; then
+            # not sure if this'll work for all linux distros
+            timezone="$(readlink /etc/localtime | sed -s /\/usr\/share\/zoneinfo\//g)"
+        fi
+    fi
+
+    echo $(trim_string "${timezone}")
+}
+
+# convert epoch (unix time) to a more readable format (default: Y-m-d H:i:s)
+# usage: fromunixtime <epoch> <php date() format>
+fromunixtime() {
+    if [ $(am_i_installed php) -eq 1 ]; then
+        local format="Y-m-d H:i:s"
+        local timezone="$(get_timezone)"
+        [[ ! -z "$2" ]] && format="$2"
+        php -r "date_default_timezone_set('${timezone}'); echo date('${format}', $1).PHP_EOL;"
+    fi
+}
+
+# Determines the current branch if we're in a git repository
+if [ -f /opt/local/etc/bash_completion ]; then
+    . /opt/local/etc/bash_completion
+elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+else
+    __git_ps1() {
+	    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
+    }
+fi
+
+# telnet SSL connections
+telnet_ssl() {
+    # Usage: $0 _server_ _port_
+    if [ $(am_i_installed openssl) -eq 1 ]; then
+        openssl s_client -connect $1:$2
+    elif [ $(am_i_installed gnutls-cli) -eq 1 ]; then
+        gnutls-cli --insecure $1
+    else
+        echo "Please install either \`openssl\` or \`gnutls-utils\`"
+        echo 1
+    fi
+}

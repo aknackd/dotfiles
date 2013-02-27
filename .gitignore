@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+
+*.py[oc]
+*.sw[op]
+*.bak
+*.tmp
+
+/.ssh/*_rsa
+/.ssh/*_rsa.pub
+/.ssh/known_hosts
+/.ssh/authorized_keys
+

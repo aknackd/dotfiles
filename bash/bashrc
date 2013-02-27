@@ -1,0 +1,14 @@
+#!/bin/bash
+
+[ -z "$PS1" ] && return
+shopt -s checkwinsize
+
+[ -f $HOME/.functions ]   && . $HOME/.functions
+[ -f $HOME/.environment ] && . $HOME/.environment
+[ -f $HOME/.aliases ]     && . $HOME/.aliases
+
+if [ -s $HOME/.rvm ]; then
+    . $HOME/.rvm/scripts/rvm
+    pathmunge $HOME/.rvm/bin
+fi
+

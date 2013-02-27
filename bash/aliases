@@ -1,0 +1,95 @@
+#!/bin/bash
+# Various aliases
+
+alias d='wget -c'
+alias die='kill -9'
+alias edit=$EDITOR
+alias whereami='echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"'
+alias df='df -h'
+alias free='free -m'
+alias more='less -im'
+alias rm='rm -i'
+
+# Use 256 colors for tmux
+if [ $(am_i_installed tmux) -eq 1 ]; then
+    alias tmux="TERM=xterm-256color tmux"
+    # Avoid weird errors when ssh'ing into remote servers that don't
+    # have 256 color support installed
+    alias ssh="TERM=xterm-color ssh"
+    # prefer tmux over screen
+    [ $(am_i_installed screen) -eq 1 ] && alias screen=tmux
+fi
+
+# alias calc to our earlier defined '?' in ~/.functions
+if [ $(am_i_installed calc) -ne 1 ]; then
+    [ $(am_i_installed "?") -eq 1 ] && alias calc=?
+fi
+
+_ls_bin=ls
+_ls_args=
+_truecrypt_bin=
+
+# OS-specific aliases and options
+case "$(strtolower $(uname -s))" in
+    darwin)
+    	alias top='top -s 1 -ca -o cpu'
+    	alias lsmod=kextstat
+
+        # Allow crontab editing
+        alias crontab="VIM_CRONTAB=true crontab"
+
+        # 7-zip
+        [ $(am_i_installed 7za) -eq 1 ] && alias 7z=7za
+
+    	# Prefer GNU versions from macports/homebrew
+        [ $(am_i_installed gsed) -eq 1 ] && alias sed=gsed
+        [ $(am_i_installed gseq) -eq 1 ] && alias seq=gseq
+        [ $(am_i_installed gwc) -eq 1 ]  && alias wc=gwc
+
+        # ls arguments
+        if [ $(am_i_installed gls) -eq 1 ]; then
+            _ls_bin=gls
+            _ls_args="${_ls_args} --color=always"
+        else
+            _ls_args="${_ls_args} -G"
+        fi
+
+        # Use homebrew version of git instead of version supplied with XCode
+        # ..but only ase Apple's git when at work
+        if [ $AT_WORK -eq 1 ]; then
+            alias git=/usr/bin/git
+        else
+            if [ $(am_i_installed brew) -eq 1 ]; then
+                [ -f "$(brew --cellar)/git" ] && alias git=/usr/local/bin/git
+            fi
+        fi
+
+        [ -d /Applications/TrueCrypt.app ] && _truecrypt_bin=/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt
+
+        # subl for opening a dir from the command line (ST2)
+        if [ -d '/Applications/Sublime Text 2.app' ]; then
+            alias subl='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
+            # if TextMate is not installed, use ST2 for `mate`
+            [ ! -d /Applications/TextMate.app ] && alias mate='subl -w'
+        fi
+
+        # Prefer the_silver_searcher (ag) over ack
+        if [ $(am_i_installed brew) ]; then
+            [ -d "$(brew --cellar)/the_silver_searcher" ] && alias ack=ag
+        fi
+        ;;
+
+
+    linux)
+        _ls_args="${_ls_args} --color=always"
+        ;;
+esac
+
+# ls: Group directories if ls has the capability
+man "$_ls_bin" | col -bx | grep '\-\-group\-directories\-first' >/dev/null
+[ $? -eq 0 ] && _ls_args="${_ls_args} --group-directories-first"
+
+alias ls="${_ls_bin} ${_ls_args}"
+
+unset _ls_args
+unset _ls_bin

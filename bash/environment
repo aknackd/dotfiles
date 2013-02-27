@@ -1,0 +1,58 @@
+#!/bin/bash
+# Sets up the environment
+
+pathmunge "${HOME}/bin"
+pathmunge /usr/local/bin
+pathmunge /usr/local/sbin
+pathmunge /opt/android-sdk/tools
+pathmunge /opt/android-sdk/platform-tools
+pathmunge /opt/pear/bin
+pathmunge /usr/bin/vendor_perl
+export PATH
+
+export EDITOR=vim
+export VISUAL=$EDITOR
+export BROWSER=lynx
+export PAGER=less
+export HISTCONTROL=ignoredups
+export HISTSIZE=1000000
+export HISTTIMEFORMAT="%F %T >> "
+export TMPDIR="${HOME}/Temp"
+export AT_WORK=0
+
+_workMachines=(sentry saxton)
+[[ $(in_array $(hostname | sed 's/\.local//') "${_workMachines[@]}") -eq 1 ]] && export AT_WORK=1
+unset _workMachines
+
+[ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
+
+# virtualenv settings
+if [ $(am_i_installed virtualenv) -eq 1 ]; then
+    export WORKON_HOME="${HOME}/.virtualenv"
+    [ $(am_i_installed pip) -eq 1 ] && export PIP_RESPECT_VIRTUALENV=true
+
+    if [ -d $WORKON_HOME ]; then
+        if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+        	. /usr/local/bin/virtualenvwrapper.sh
+        elif [ -f /usr/bin/virtualenvwrapper.sh ]; then
+        	. /usr/bin/virtualenvwrapper.sh
+        fi
+    fi
+fi
+
+# OSX-specific
+if [ $(is_this_osx) -eq 1 ]; then
+	export LSCOLORS=gxfxcxdxbxegedabagacad
+    if [ $(am_i_installed brew) -eq 1 ]; then
+        # bash completions
+    	[ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
+        [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ] && . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+        # android sdk
+        [ -d $(brew --prefix)/opt/android-sdk ] && export ANDROID_SDK_ROOT="$(brew --prefix)/opt/android-sdk"
+    fi
+fi
+
+# prompts
+export PS1='[\e[1;32m\D{%m/%d/%Y} \t\e[0m][\e[1;36m\h\e[0m \e[1;34m\w\e[0m]$(__git_ps1 "[\e[1;31mgit::%s\e[0m]")\n\$ '
+export MYSQL_PS1='[\u@\h]\n(mysql::\d)> '
+
