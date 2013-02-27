@@ -55,7 +55,7 @@ case "$(strtolower $(uname -s))" in
         fi
 
         # Use homebrew version of git instead of version supplied with XCode
-        # ..but only ase Apple's git when at work
+        # ..but only use Apple's git when at work
         if [ $AT_WORK -eq 1 ]; then
             alias git=/usr/bin/git
         else
