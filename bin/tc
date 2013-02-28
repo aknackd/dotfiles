@@ -6,10 +6,20 @@
 TRUECRYPT=
 case "$(uname -s)" in
     Darwin)
-        [ -d /Applications/TrueCrypt.app ] && TRUECRYPT=/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt
+        if [ -d /Applications/TrueCrypt.app ]; then
+            TRUECRYPT=/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt
+        else
+            echo 'ERROR: Truecrypt is not installed!'
+            exit 1
+        fi
         ;;
     linux)
-        [ $(am_i_installed truecrypt) -eq 1 ] && TRUECRYPT="$(which truecrypt 2>/dev/null)"
+        if [ $(command -v truecrypt >/dev/null) ]; then
+            TRUECRYPT="$(which truecrypt 2>/dev/null)"
+        else
+            echo 'ERROR: Truecrypt is not installed!'
+            exit 1
+        fi
         ;;
 esac
 
