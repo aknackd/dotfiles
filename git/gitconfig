@@ -1,3 +1,30 @@
 [user]
-	name = aknackd
-	email = adam@pyknotic.net
+    name = aknackd
+    email = adam@pyknotic.net
+
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    lg = log --oneline --decorate --full-index
+
+[diff]
+    renames = copy
+
+[color]
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
+
+[core]
+    compression = 9
+
+[pack]
+    window = 1000
+
+[pretty]
+    changelog = %Cgreen[%Cred%h%Cgreen]%Creset %s
+
