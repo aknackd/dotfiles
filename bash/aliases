@@ -20,20 +20,16 @@ if [ $(am_i_installed tmux) -eq 1 ]; then
     [ $(am_i_installed screen) -eq 1 ] && alias screen=tmux
 fi
 
-# alias calc to our earlier defined '?' in ~/.functions
-if [ $(am_i_installed calc) -ne 1 ]; then
-    [ $(am_i_installed "?") -eq 1 ] && alias calc=?
-fi
-
 _ls_bin=ls
 _ls_args=
-_truecrypt_bin=
 
 # OS-specific aliases and options
 case "$(strtolower $(uname -s))" in
     darwin)
-    	alias top='top -s 1 -ca -o cpu'
-    	alias lsmod=kextstat
+        alias top='top -s 1 -ca -o cpu'
+        alias lsmod=kextstat
+        alias modprobe=kextload
+        alias rmmod=kextunload
 
         # Allow crontab editing
         alias crontab="VIM_CRONTAB=true crontab"
@@ -41,7 +37,7 @@ case "$(strtolower $(uname -s))" in
         # 7-zip
         [ $(am_i_installed 7za) -eq 1 ] && alias 7z=7za
 
-    	# Prefer GNU versions from macports/homebrew
+        # Prefer GNU versions from macports/homebrew
         [ $(am_i_installed gsed) -eq 1 ] && alias sed=gsed
         [ $(am_i_installed gseq) -eq 1 ] && alias seq=gseq
         [ $(am_i_installed gwc) -eq 1 ]  && alias wc=gwc
@@ -64,21 +60,11 @@ case "$(strtolower $(uname -s))" in
             fi
         fi
 
-        [ -d /Applications/TrueCrypt.app ] && _truecrypt_bin=/Applications/TrueCrypt.app/Contents/MacOS/Truecrypt
-
-        # subl for opening a dir from the command line (ST2)
-        if [ -d '/Applications/Sublime Text 2.app' ]; then
-            alias subl='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
-            # if TextMate is not installed, use ST2 for `mate`
-            [ ! -d /Applications/TextMate.app ] && alias mate='subl -w'
-        fi
-
         # Prefer the_silver_searcher (ag) over ack
         if [ $(am_i_installed brew) ]; then
             [ -d "$(brew --cellar)/the_silver_searcher" ] && alias ack=ag
         fi
         ;;
-
 
     linux)
         _ls_args="${_ls_args} --color=always"
