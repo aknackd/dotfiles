@@ -7,8 +7,8 @@ Thumbs.db
 *.tmp
 *.~*
 
-/src/ssh/id_rsa*
-/src/ssh/id_dsa*
+/src/ssh/*_rsa*
+/src/ssh/*_dsa*
 /src/ssh/known_hosts
 /src/ssh/authorized_keys*
 
