@@ -1,6 +1,5 @@
 
 require 'rake'
-require 'digest/sha1'
 
 EXCLUDES = %w(Rakefile README.md)
 PREFIX = File.join(ENV['HOME'], 'Temp', 'dotfiles')
