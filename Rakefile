@@ -2,7 +2,7 @@
 require 'rake'
 
 EXCLUDES = %w(Rakefile README.md)
-PREFIX = File.join(ENV['HOME'], 'Temp', 'dotfiles')
+PREFIX = ENV['HOME']
 
 desc <<-EOS
     Installs dotfiles
