@@ -18,11 +18,6 @@ export HISTCONTROL=ignoredups
 export HISTSIZE=1000000
 export HISTTIMEFORMAT="%F %T >> "
 export TMPDIR="${HOME}/Temp"
-export AT_WORK=0
-
-_workMachines=(sentry saxton)
-[[ $(in_array $(hostname | sed 's/\.local//') "${_workMachines[@]}") -eq 1 ]] && export AT_WORK=1
-unset _workMachines
 
 [ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
 
