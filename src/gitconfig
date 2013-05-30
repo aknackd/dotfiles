@@ -9,6 +9,8 @@
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     lg = log --oneline --decorate --full-index
+    hist = log -15 --format=\"%Cgreen %h %Creset %ad %Cred %an %Creset %s\"
+    cl = log --format=\"%Cgreen[%Cred%h%Cgreen]%Creset %s %C(bold blue)%an <%ae>%Creset\" --abbrev-commit
 
 [diff]
     renames = copy
@@ -27,4 +29,7 @@
 
 [pretty]
     changelog = %Cgreen[%Cred%h%Cgreen]%Creset %s
+
+[log]
+	date = local
 
