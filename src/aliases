@@ -1,4 +1,3 @@
-#!/bin/bash
 # Various aliases
 
 alias d='wget -c'
@@ -10,6 +9,7 @@ alias free='free -m'
 alias more='less -im'
 alias rm='rm -i'
 alias grep='grep --color=always'
+[[ "$(basename $SHELL)" = "bash" ]] && alias ?=calc
 
 # Use 256 colors for tmux
 if [ $(am_i_installed tmux) -eq 1 ]; then
@@ -21,6 +21,7 @@ if [ $(am_i_installed tmux) -eq 1 ]; then
     [ $(am_i_installed screen) -eq 1 ] && alias screen=tmux
 fi
 
+_ls=ls
 _ls_bin=ls
 _ls_args=
 
@@ -39,13 +40,16 @@ case "$(strtolower $(uname -s))" in
         [ $(am_i_installed 7za) -eq 1 ] && alias 7z=7za
 
         # Prefer GNU versions from macports/homebrew
-        [ $(am_i_installed gsed) -eq 1 ] && alias sed=gsed
-        [ $(am_i_installed gseq) -eq 1 ] && alias seq=gseq
-        [ $(am_i_installed gwc) -eq 1 ]  && alias wc=gwc
+        if [ $(am_i_installed brew) ]; then
+            [ $(am_i_installed $(brew --prefix)/bin/gsed) -eq 1 ] && alias sed=$(brew --prefix)/bin/gsed
+            [ $(am_i_installed $(brew --prefix)/bin/gseq) -eq 1 ] && alias seq=$(brew --prefix)/bin/gseq
+            [ $(am_i_installed $(brew --prefix)/bin/gwc) -eq 1 ]  && alias wc=$(brew --prefix)/bin/gwc
+        fi
 
         # ls arguments
-        if [ $(am_i_installed gls) -eq 1 ]; then
-            _ls_bin=gls
+        if [ $(am_i_installed $(brew --prefix)/bin/gls) -eq 1 ]; then
+            _ls=gls
+            _ls_bin=$(brew --prefix)/bin/gls
             _ls_args="${_ls_args} --color=always"
         else
             _ls_args="${_ls_args} -G"
@@ -53,7 +57,7 @@ case "$(strtolower $(uname -s))" in
 
         # Use homebrew version of git instead of version supplied with XCode
         if [ $(am_i_installed brew) -eq 1 ]; then
-            [ -f "$(brew --cellar)/git" ] && alias git=/usr/local/bin/git
+            [ -f "$(brew --cellar)/git" ] && alias git=$(brew --prefix)/bin/git
         fi
 
         # Prefer the_silver_searcher (ag) over ack
@@ -68,10 +72,13 @@ case "$(strtolower $(uname -s))" in
 esac
 
 # ls: Group directories if ls has the capability
-man "$_ls_bin" | col -bx | grep '\-\-group\-directories\-first' >/dev/null
-[ $? -eq 0 ] && _ls_args="${_ls_args} --group-directories-first"
+if [ "${_ls}" = "gls" ]; then
+    man "${_ls}" | col -bx | grep '\-\-group\-directories\-first' >/dev/null
+    [ $? -eq 0 ] && _ls_args="${_ls_args} --group-directories-first"
+fi
 
 alias ls="${_ls_bin} ${_ls_args}"
 
 unset _ls_args
 unset _ls_bin
+unset _ls

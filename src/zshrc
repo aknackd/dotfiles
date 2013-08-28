@@ -1,0 +1,26 @@
+
+ZSH=$HOME/.oh-my-zsh
+
+[[ ! -d "${ZSH}" ]] && git clone https://github.com/robbyrussel/oh-my-zsh.git "${ZSH}"
+
+ZSH_THEME="fino-time"
+
+# CASE_SENSITIVE="true"
+# DISABLE_AUTO_UPDATE="true"
+# export UPDATE_ZSH_DAYS=13
+# DISABLE_LS_COLORS="true"
+DISABLE_AUTO_TITLE="true"
+# DISABLE_CORRECTION="true"
+# COMPLETION_WAITING_DOTS="true"
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+[[ -f "${HOME}/.functions" ]]   && source "${HOME}/.functions"
+[[ -f "${HOME}/.environment" ]] && source "${HOME}/.environment"
+[[ -f "${HOME}/.aliases" ]]     && source "${HOME}/.aliases"
+
+if test -f ~/.rvm/scripts/rvm; then
+    [ "$(type rvm)" = "function" ] || source ~/.rvm/scripts/rvm
+fi

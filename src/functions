@@ -1,9 +1,20 @@
-#!/bin/bash
 # Various functions
+
+# retrieves our current shell according to $SHELL
+function get_shell () {
+    echo $(basename $SHELL)
+}
+
+# define . if our shell is zsh
+if [ $(get_shell) = "zsh" ]; then
+    function . () {
+        source $*
+    }
+fi
 
 # Adds a directory to $PATH if not already present
 # -- stolen from Redhat/Fedora/CentOS
-pathmunge () {
+function pathmunge () {
 	if ! echo $PATH | egrep -q "(^|:)$1($|:)" ; then
         # only append paths that exist
         [ ! -d $1 ] && return
@@ -11,23 +22,23 @@ pathmunge () {
 	fi
 }
 
-# Checks if a function/alias exists
-function_exists() {
-	type -t $1 | grep -q 'shell function'
+# checks if a function/alias exists
+function function_exists() {
+	type $1 | grep -q 'shell function'
 }
 
 # convert string to lowercase
-strtolower() {
+function strtolower() {
     echo $@ | tr '[A-Z]' '[a-z]'
 }
 
 # convert string to uppercase
-strtoupper() {
+function strtoupper() {
     echo $@ | tr '[a-z]' '[A-Z]'
 }
 
 # trim leading and trailing whitepaces from a string
-trim_string() {
+function trim_string() {
     local s=$1
     s="$(echo $s | sed 's/^\s+//g; s/\s*$//g')"
     echo $s
@@ -37,7 +48,7 @@ trim_string() {
 # usage:
 #     $ my_arr=(one two three)
 #     $ [[ $(in_array two "${my_arr[@]}") -eq 1 ]] && echo YES || echo NO
-in_array() {
+function in_array() {
     local item
     for item in "${@:2}"; do
         if [[ "$item" == "$1" ]]; then
@@ -49,37 +60,37 @@ in_array() {
 }
 
 # is <script/binary> installed? (only checks $PATH and builtins)
-am_i_installed() {
+function am_i_installed() {
     command -v $1 >/dev/null 2>&1 && echo 1 || echo 0
 }
 
 # is an alias defined?
-is_alias_defined() {
+function is_alias_defined() {
     alias | grep $1 1>/dev/null && echo 1 || echo 0
 }
 
 # am I on OSX?
-is_this_osx() {
+function is_this_osx() {
     [[ "$(strtolower $(uname -s))" == "darwin" ]] && echo 1 || echo 0
 }
 
 # am I on linux?
-is_this_linux() {
+function is_this_linux() {
     [[ "$(strtolower $(uname -s))" == "linux" ]] && echo 1 || echo 0
 }
 
 # am I on SunOS? (ha!)
-is_this_sunos() {
+function is_this_sunos() {
     [[ "$(strtolower $(uname -s))" == 'sunos' ]] && echo 1 || echo 0
 }
 
 # simple calculator
-? () {
+function calc () {
     awk "BEGIN { pi = 4.0*atan2(1.0,1.0); degree = pi/180.0; print $* }";
 }
 
 # get current timezone
-get_timezone() {
+function get_timezone() {
     local timezone=
 
     if [ ! -z "$TZ" ]; then
@@ -98,7 +109,7 @@ get_timezone() {
 
 # convert epoch (unix time) to a more readable format (default: Y-m-d H:i:s)
 # usage: fromunixtime <epoch> <php date() format>
-fromunixtime() {
+function fromunixtime() {
     local use_fallback=0
     local _date=
 
@@ -138,7 +149,7 @@ else
 fi
 
 # telnet SSL connections
-telnet_ssl() {
+function telnet_ssl() {
     # Usage: $0 _server_ _port_
     if [ $(am_i_installed openssl) -eq 1 ]; then
         openssl s_client -connect $1:$2

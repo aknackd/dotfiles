@@ -1,4 +1,3 @@
-#!/bin/bash
 # Sets up the environment
 
 pathmunge "${HOME}/bin"
@@ -8,6 +7,7 @@ pathmunge /opt/android-sdk/tools
 pathmunge /opt/android-sdk/platform-tools
 pathmunge /opt/pear/bin
 pathmunge /usr/bin/vendor_perl
+pathmunge /usr/local/share/npm/bin
 export PATH
 
 export EDITOR=vim
@@ -40,14 +40,19 @@ if [ $(is_this_osx) -eq 1 ]; then
 	export LSCOLORS=gxfxcxdxbxegedabagacad
     if [ $(am_i_installed brew) -eq 1 ]; then
         # bash completions
-    	[ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
-        [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ] && . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+        if [ $(get_shell) = "bash" ]; then
+        	[ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
+            [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ] && . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+        fi
         # android sdk
         [ -d $(brew --prefix)/opt/android-sdk ] && export ANDROID_SDK_ROOT="$(brew --prefix)/opt/android-sdk"
     fi
 fi
 
 # prompts
-export PS1='[\e[1;32m\D{%m/%d/%Y} \t\e[0m][\e[1;36m\h\e[0m \e[1;34m\w\e[0m]$(__git_ps1 "[\e[1;31mgit::%s\e[0m]")\n\$ '
+if [ $(get_shell) = "bash" ]; then
+    export PS1='[\e[1;32m\D{%m/%d/%Y} \t\e[0m][\e[1;36m\h\e[0m \e[1;34m\w\e[0m]$(__git_ps1 "[\e[1;31mgit::%s\e[0m]")\n\$ '
+fi
+
 export MYSQL_PS1='[\u@\h]\n(mysql::\d)> '
 
