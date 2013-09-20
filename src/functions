@@ -138,14 +138,16 @@ function fromunixtime() {
 }
 
 # Determines the current branch if we're in a git repository
-if [ -f /opt/local/etc/bash_completion ]; then
-    . /opt/local/etc/bash_completion
-elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-else
-    __git_ps1() {
-	    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
-    }
+if [ "$(basename $SHELL)" = "bash" ]; then
+    if [ -f /opt/local/etc/bash_completion ]; then
+        . /opt/local/etc/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    else
+        __git_ps1() {
+            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
+        }
+    fi
 fi
 
 # telnet SSL connections
