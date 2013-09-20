@@ -10,6 +10,7 @@ alias more='less -im'
 alias rm='rm -i'
 alias grep='grep --color=always'
 [[ "$(basename $SHELL)" = "bash" ]] && alias ?=calc
+[[ "$(basename $SHELL)" = "zsh" ]]  && alias scp="noglob scp"
 
 # Use 256 colors for tmux
 if [ $(am_i_installed tmux) -eq 1 ]; then
