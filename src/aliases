@@ -5,7 +5,6 @@ alias die='kill -9'
 alias edit=$EDITOR
 alias whereami='echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"'
 alias df='df -h'
-#alias free='free -m'
 alias more='less -im'
 alias rm='rm -i'
 alias grep='grep --color=always'
@@ -33,37 +32,31 @@ case "$(strtolower $(uname -s))" in
         alias lsmod=kextstat
         alias modprobe=kextload
         alias rmmod=kextunload
-
-        # Allow crontab editing
         alias crontab="VIM_CRONTAB=true crontab"
 
         # 7-zip
         [ $(am_i_installed 7za) -eq 1 ] && alias 7z=7za
 
-        # Prefer GNU versions from homebrew
         if [ $(am_i_installed brew) ]; then
+            # Prefer GNU versions from homebrew
             [ $(am_i_installed $(brew --prefix)/bin/gsed) -eq 1 ] && alias sed=$(brew --prefix)/bin/gsed
             [ $(am_i_installed $(brew --prefix)/bin/gseq) -eq 1 ] && alias seq=$(brew --prefix)/bin/gseq
             [ $(am_i_installed $(brew --prefix)/bin/gwc) -eq 1 ]  && alias wc=$(brew --prefix)/bin/gwc
-        fi
 
-        # ls arguments
-        if [ $(am_i_installed $(brew --prefix)/bin/gls) -eq 1 ]; then
-            _ls=gls
-            _ls_bin=$(brew --prefix)/bin/gls
-            _ls_args="${_ls_args} --color=always"
-        else
-            _ls_args="${_ls_args} -G"
-        fi
+            # Use homebrew version of git instead of version supplied with XCode
+            [ $(am_i_installed $(brew --prefix git)/bin/git) -eq 1 ] && alias git=$(brew --prefix git)/bin/git
 
-        # Use homebrew version of git instead of version supplied with XCode
-        if [ $(am_i_installed brew) -eq 1 ]; then
-            [ -f "$(brew --cellar)/git" ] && alias git=$(brew --prefix)/bin/git
-        fi
+            # Prefer the_silver_searcher (ag) over ack
+            [ $(am_i_installed $(brew --prefix the_silver_searcher)/bin/ag) -eq 1 ] && alias ack=ag
 
-        # Prefer the_silver_searcher (ag) over ack
-        if [ $(am_i_installed brew) ]; then
-            [ -d "$(brew --cellar)/the_silver_searcher" ] && alias ack=ag
+            # ls arguments
+            if [ $(am_i_installed $(brew --prefix)/bin/gls) -eq 1 ]; then
+                _ls=gls
+                _ls_bin=$(brew --prefix)/bin/gls
+                _ls_args="${_ls_args}--color=always"
+            else
+                _ls_args="${_ls_args} -G"
+            fi
         fi
         ;;
 
