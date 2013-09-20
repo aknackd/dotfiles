@@ -5,7 +5,7 @@ alias die='kill -9'
 alias edit=$EDITOR
 alias whereami='echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"'
 alias df='df -h'
-alias free='free -m'
+#alias free='free -m'
 alias more='less -im'
 alias rm='rm -i'
 alias grep='grep --color=always'
@@ -39,7 +39,7 @@ case "$(strtolower $(uname -s))" in
         # 7-zip
         [ $(am_i_installed 7za) -eq 1 ] && alias 7z=7za
 
-        # Prefer GNU versions from macports/homebrew
+        # Prefer GNU versions from homebrew
         if [ $(am_i_installed brew) ]; then
             [ $(am_i_installed $(brew --prefix)/bin/gsed) -eq 1 ] && alias sed=$(brew --prefix)/bin/gsed
             [ $(am_i_installed $(brew --prefix)/bin/gseq) -eq 1 ] && alias seq=$(brew --prefix)/bin/gseq
