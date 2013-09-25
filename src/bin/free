@@ -16,7 +16,7 @@ import re
 if __name__ == '__main__':
     osname = platform.system()
     if 'Linux' in osname:
-        free = subprocess.Popen(['free', '-m'], stdout=subprocess.PIPE).communicate()[0]
+        free = subprocess.Popen(['/usr/bin/free', '-m'], stdout=subprocess.PIPE).communicate()[0]
         print(free.decode(encoding='UTF-8'))
     elif 'Darwin' in osname:
         # Get process info
