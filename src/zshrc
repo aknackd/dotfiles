@@ -17,6 +17,8 @@ DISABLE_AUTO_TITLE="true"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+unset GREP_OPTIONS
+
 [[ -f "${HOME}/.functions" ]]   && source "${HOME}/.functions"
 [[ -f "${HOME}/.environment" ]] && source "${HOME}/.environment"
 [[ -f "${HOME}/.aliases" ]]     && source "${HOME}/.aliases"

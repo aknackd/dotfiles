@@ -1,4 +1,6 @@
+#
 # Various functions
+#
 
 # retrieves our current shell according to $SHELL
 function get_shell () {
@@ -44,21 +46,6 @@ function trim_string() {
     echo $s
 }
 
-# checks if an item is in an array
-# usage:
-#     $ my_arr=(one two three)
-#     $ [[ $(in_array two "${my_arr[@]}") -eq 1 ]] && echo YES || echo NO
-function in_array() {
-    local item
-    for item in "${@:2}"; do
-        if [[ "$item" == "$1" ]]; then
-            echo 1
-            return
-        fi
-    done
-    echo 0
-}
-
 # is <script/binary> installed? (only checks $PATH and builtins)
 function am_i_installed() {
     command -v $1 >/dev/null 2>&1 && echo 1 || echo 0
@@ -77,11 +64,6 @@ function is_this_osx() {
 # am I on linux?
 function is_this_linux() {
     [[ "$(strtolower $(uname -s))" == "linux" ]] && echo 1 || echo 0
-}
-
-# am I on SunOS? (ha!)
-function is_this_sunos() {
-    [[ "$(strtolower $(uname -s))" == 'sunos' ]] && echo 1 || echo 0
 }
 
 # simple calculator
@@ -107,36 +89,6 @@ function get_timezone() {
     echo $(trim_string "${timezone}")
 }
 
-# convert epoch (unix time) to a more readable format (default: Y-m-d H:i:s)
-# usage: fromunixtime <epoch> <php date() format>
-function fromunixtime() {
-    local use_fallback=0
-    local _date=
-
-    if [ $(is_this_osx) -eq 1 ]; then
-        # try gdate from homebrew first
-        if [ $(am_i_installed brew) -eq 1 ]; then
-            [ $(am_i_installed gdate) ] && _date=gdate || use_fallback=1
-        fi
-    else
-        _date=date
-    fi
-
-    # fallback is using php
-    if [ $use_fallback -eq 1 ]; then
-        if [ $(am_i_installed php) -eq 1 ]; then
-            local format="Y-m-d H:i:s"
-            local timezone="$(get_timezone)"
-            [[ ! -z "$2" ]] && format="$2"
-            php -r "date_default_timezone_set('${timezone}'); echo date('${format}', $1).PHP_EOL;"
-        fi
-    else
-        # most linux systems should have `date -d` available by now
-        # unfortunately `-d` in BSD is for setting DST
-        ${_date} -d @$1 +'%Y-%m-%d %H:%M:%S'
-    fi
-}
-
 # Determines the current branch if we're in a git repository
 if [ "$(basename $SHELL)" = "bash" ]; then
     if [ -f /opt/local/etc/bash_completion ]; then
@@ -156,7 +108,7 @@ function telnet_ssl() {
     if [ $(am_i_installed openssl) -eq 1 ]; then
         openssl s_client -connect $1:$2
     elif [ $(am_i_installed gnutls-cli) -eq 1 ]; then
-        gnutls-cli --insecure $1
+        gnutls-cli $1
     else
         echo "Please install either \`openssl\` or \`gnutls-utils\`"
         echo 1

@@ -1,4 +1,6 @@
+#
 # Sets up the environment
+#
 
 pathmunge "${HOME}/bin"
 pathmunge /usr/local/bin
@@ -21,31 +23,18 @@ export TMPDIR="${HOME}/Temp"
 
 [ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
 
-# virtualenv settings
-if [ $(am_i_installed virtualenv) -eq 1 ]; then
-    export WORKON_HOME="${HOME}/.virtualenv"
-    [ $(am_i_installed pip) -eq 1 ] && export PIP_RESPECT_VIRTUALENV=true
-
-    if [ -d $WORKON_HOME ]; then
-        if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-        	. /usr/local/bin/virtualenvwrapper.sh
-        elif [ -f /usr/bin/virtualenvwrapper.sh ]; then
-        	. /usr/bin/virtualenvwrapper.sh
-        fi
-    fi
-fi
-
 # OSX-specific
 if [ $(is_this_osx) -eq 1 ]; then
-	export LSCOLORS=gxfxcxdxbxegedabagacad
+    export LSCOLORS=gxfxcxdxbxegedabagacad
     if [ $(am_i_installed brew) -eq 1 ]; then
+        HOMEBREW_PREFIX=$(brew --prefix)
         # bash completions
         if [ $(get_shell) = "bash" ]; then
-        	[ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
-            [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ] && . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+            [ -f "${HOMEBREW_PREFIX}/etc/bash_completion" ] && source "${HOMEBREW_PREFIX}/etc/bash_completion"
+            [ -f "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash" ] && source "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash"
         fi
         # android sdk
-        [ -d $(brew --prefix)/opt/android-sdk ] && export ANDROID_SDK_ROOT="$(brew --prefix)/opt/android-sdk"
+        [ -d "${HOMEBREW_PREFIX}/opt/android-sdk" ] && export ANDROID_SDK_ROOT="${HOMEBREW_PREFIX}/opt/android-sdk"
     fi
 fi
 

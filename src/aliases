@@ -1,4 +1,8 @@
+#
 # Various aliases
+#
+
+HOMEBREW_PREFIX=$(brew --prefix)
 
 alias d='wget -c'
 alias die='kill -9'
@@ -6,8 +10,11 @@ alias edit=$EDITOR
 alias whereami='echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"'
 alias df='df -h'
 alias more='less -im'
+alias mv='mv -i'
 alias rm='rm -i'
-alias grep='grep --color=always'
+alias grep='grep -E --color=auto'
+alias htop='htop -d 10'
+
 [[ "$(basename $SHELL)" = "bash" ]] && alias ?=calc
 [[ "$(basename $SHELL)" = "zsh" ]]  && alias scp="noglob scp"
 
@@ -18,14 +25,11 @@ if [ $(am_i_installed tmux) -eq 1 ]; then
     # have 256 color support installed
     alias ssh="TERM=xterm-color ssh"
     # prefer tmux over screen
-    [ $(am_i_installed screen) -eq 1 ] && alias screen=tmux
+    alias screen=tmux
 fi
 
-_ls=ls
-_ls_bin=ls
-_ls_args=
+alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
 
-# OS-specific aliases and options
 case "$(strtolower $(uname -s))" in
     darwin)
         alias top='top -s 1 -ca -o cpu'
@@ -34,45 +38,21 @@ case "$(strtolower $(uname -s))" in
         alias rmmod=kextunload
         alias crontab="VIM_CRONTAB=true crontab"
 
-        # 7-zip
-        [ $(am_i_installed 7za) -eq 1 ] && alias 7z=7za
+        [ $(am_i_installed gzcat) -eq 1 ] && alias zcat=gzcat
+        [ $(am_i_installed 7za) -eq 1 ]   && alias 7z=7za
 
-        if [ $(am_i_installed brew) ]; then
-            # Prefer GNU versions from homebrew
-            [ $(am_i_installed $(brew --prefix)/bin/gsed) -eq 1 ] && alias sed=$(brew --prefix)/bin/gsed
-            [ $(am_i_installed $(brew --prefix)/bin/gseq) -eq 1 ] && alias seq=$(brew --prefix)/bin/gseq
-            [ $(am_i_installed $(brew --prefix)/bin/gwc) -eq 1 ]  && alias wc=$(brew --prefix)/bin/gwc
-
-            # Use homebrew version of git instead of version supplied with XCode
-            [ $(am_i_installed $(brew --prefix git)/bin/git) -eq 1 ] && alias git=$(brew --prefix git)/bin/git
-
-            # Prefer the_silver_searcher (ag) over ack
-            [ $(am_i_installed $(brew --prefix the_silver_searcher)/bin/ag) -eq 1 ] && alias ack=ag
-
-            # ls arguments
-            if [ $(am_i_installed $(brew --prefix)/bin/gls) -eq 1 ]; then
-                _ls=gls
-                _ls_bin=$(brew --prefix)/bin/gls
-                _ls_args="${_ls_args}--color=always"
-            else
-                _ls_args="${_ls_args} -G"
-            fi
+        if [ $(am_i_installed brew) -eq 1 ]; then
+            alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first"
+            alias sed="${HOMEBREW_PREFIX}/bin/gsed"
+            alias seq="${HOMEBREW_PREFIX}/bin/gseq"
+            alias wc="${HOMEBREW_PREFIX}/bin/gwc"
+            alias git="${HOMEBREW_PREFIX}/bin/git"
         fi
         ;;
 
     linux)
-        _ls_args="${_ls_args} --color=always"
+        # ls: Group directories if ls has the capability
+        man ls | col -bx | grep '\-\-group\-directories\-first' >/dev/null
+        [ $? -eq 0 ] && alias ls='ls --color=auto --group-directories-first'
         ;;
 esac
-
-# ls: Group directories if ls has the capability
-if [ "${_ls}" = "gls" ]; then
-    man "${_ls}" | col -bx | grep '\-\-group\-directories\-first' >/dev/null
-    [ $? -eq 0 ] && _ls_args="${_ls_args} --group-directories-first"
-fi
-
-alias ls="${_ls_bin} ${_ls_args}"
-
-unset _ls_args
-unset _ls_bin
-unset _ls
