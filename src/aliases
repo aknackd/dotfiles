@@ -2,8 +2,6 @@
 # Various aliases
 #
 
-HOMEBREW_PREFIX=$(brew --prefix)
-
 alias d='wget -c'
 alias die='kill -9'
 alias edit=$EDITOR
@@ -32,6 +30,7 @@ alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
 
 case "$(strtolower $(uname -s))" in
     darwin)
+
         alias top='top -s 1 -ca -o cpu'
         alias lsmod=kextstat
         alias modprobe=kextload
@@ -42,6 +41,7 @@ case "$(strtolower $(uname -s))" in
         [ $(am_i_installed 7za) -eq 1 ]   && alias 7z=7za
 
         if [ $(am_i_installed brew) -eq 1 ]; then
+            HOMEBREW_PREFIX=$(brew --prefix)
             alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first"
             alias sed="${HOMEBREW_PREFIX}/bin/gsed"
             alias seq="${HOMEBREW_PREFIX}/bin/gseq"
