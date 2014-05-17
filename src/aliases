@@ -11,10 +11,8 @@ alias more='less -im'
 alias mv='mv -i'
 alias rm='rm -i'
 alias grep='grep -E --color=auto'
-alias htop='htop -d 10'
 
 [[ "$(basename $SHELL)" = "bash" ]] && alias ?=calc
-[[ "$(basename $SHELL)" = "zsh" ]]  && alias scp="noglob scp"
 
 # Use 256 colors for tmux
 if [ $(am_i_installed tmux) -eq 1 ]; then
@@ -30,7 +28,6 @@ alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
 
 case "$(strtolower $(uname -s))" in
     darwin)
-
         alias top='top -s 1 -ca -o cpu'
         alias lsmod=kextstat
         alias modprobe=kextload
