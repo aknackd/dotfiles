@@ -21,7 +21,10 @@ export HISTSIZE=1000000
 export HISTTIMEFORMAT="%F %T >> "
 export TMPDIR="${HOME}/Temp"
 
+export GOPATH=$HOME/Workspace
+
 [ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
+[ ! -d "${GOPATH}" ] && mkdir -p "${GOPATH}/{src,pkg,bin}" 2>/dev/null
 
 # OSX-specific
 if [ $(is_this_osx) -eq 1 ]; then
