@@ -14,7 +14,12 @@ DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(git)
+plugins=(git gitfast git-extras git-flow go node npm rvm ruby vagrant docker tmux)
+
+case "$(uname -s)" in
+    Darwin) plugins+=(brew brew-cask) ;;
+    Linux)  plugins+=(systemd)        ;;
+esac
 
 source $ZSH/oh-my-zsh.sh
 unset GREP_OPTIONS
