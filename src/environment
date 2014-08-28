@@ -2,16 +2,6 @@
 # Sets up the environment
 #
 
-pathmunge "${HOME}/bin"
-pathmunge /usr/local/bin
-pathmunge /usr/local/sbin
-pathmunge /opt/android-sdk/tools
-pathmunge /opt/android-sdk/platform-tools
-pathmunge /opt/pear/bin
-pathmunge /usr/bin/vendor_perl
-pathmunge /usr/local/share/npm/bin
-export PATH
-
 export EDITOR=vim
 export VISUAL=$EDITOR
 export BROWSER=lynx
@@ -20,11 +10,21 @@ export HISTCONTROL=ignoredups
 export HISTSIZE=1000000
 export HISTTIMEFORMAT="%F %T >> "
 export TMPDIR="${HOME}/Temp"
-
 export GOPATH=$HOME/Workspace
 
 [ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
 [ ! -d "${GOPATH}" ] && mkdir -p "${GOPATH}/{src,pkg,bin}" 2>/dev/null
+
+pathmunge "${HOME}/bin"
+pathmunge /usr/local/bin
+pathmunge /usr/local/sbin
+pathmunge /opt/android-sdk/tools
+pathmunge /opt/android-sdk/platform-tools
+pathmunge /opt/pear/bin
+pathmunge /usr/bin/vendor_perl
+pathmunge /usr/local/share/npm/bin
+pathmunge "${GOPATH}/bin"
+export PATH
 
 # OSX-specific
 if [ $(is_this_osx) -eq 1 ]; then
