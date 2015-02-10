@@ -58,6 +58,8 @@ for filename in "${dotfiles[@]}"; do
     [ -f $HOME/$filename ] && source $HOME/$filename
 done
 
-if test -f ~/.rvm/scripts/rvm; then
-    [ "$(type rvm)" = "function" ] || source ~/.rvm/scripts/rvm
+# load rbenv
+if test -d ${HOME}/.rbenv/bin; then
+	export PATH="${HOME}/.rbenv/bin:${PATH}"
+	eval "$(rbenv init -)"
 fi
