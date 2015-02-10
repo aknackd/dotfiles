@@ -1,32 +1,62 @@
 
-ZSH=$HOME/.oh-my-zsh
+use_antigen() {
+    alias ls='/bin/ls'
 
-[[ ! -d "${ZSH}" ]] && git clone https://github.com/robbyrussell/oh-my-zsh.git "${ZSH}"
+    if ! test -d $HOME/.antigen ; then
+        git clone https://github.com/zsh-users/antigen.git $HOME/.antigen
+    fi
 
-ZSH_THEME=norm
+    source $HOME/.antigen/antigen.zsh
 
-# CASE_SENSITIVE="true"
-# DISABLE_AUTO_UPDATE="true"
-# export UPDATE_ZSH_DAYS=13
-# DISABLE_LS_COLORS="true"
-DISABLE_AUTO_TITLE="true"
-# DISABLE_CORRECTION="true"
-# COMPLETION_WAITING_DOTS="true"
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+    antigen use oh-my-zsh
+    antigen bundle gitfast
+    antigen bundle git-extras
+    #antigen bundle rbenv
+    antigen bundle tmux
+    antigen bundle zsh-users/zsh-syntax-highlighting
+    antigen theme kolo
+    antigen apply
+}
 
-plugins=(git gitfast git-extras git-flow go node npm rvm ruby vagrant docker tmux)
+use_oh_my_zsh() {
+    ZSH=$HOME/.oh-my-zsh
+
+    if ! test -d $ZSH ; then
+        git clone https://github.com/robbyrussell/oh-my-zsh.git $ZSH
+    fi
+
+    ZSH_THEME=norm
+
+    # CASE_SENSITIVE="true"
+    # DISABLE_AUTO_UPDATE="true"
+    # export UPDATE_ZSH_DAYS=13
+    # DISABLE_LS_COLORS="true"
+    DISABLE_AUTO_TITLE="true"
+    # DISABLE_CORRECTION="true"
+    # COMPLETION_WAITING_DOTS="true"
+    # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+    plugins=(git gitfast git-extras git-flow go node npm rvm ruby vagrant docker tmux)
+
+    case "$(uname -s)" in
+        Darwin) plugins+=(brew brew-cask) ;;
+        Linux)  plugins+=(systemd)        ;;
+    esac
+
+    source $ZSH/oh-my-zsh.sh
+    unset GREP_OPTIONS
+}
 
 case "$(uname -s)" in
-    Darwin) plugins+=(brew brew-cask) ;;
-    Linux)  plugins+=(systemd)        ;;
+    Darwin) use_antigen   ;;
+    *)      use_oh_my_zsh ;;
 esac
 
-source $ZSH/oh-my-zsh.sh
-unset GREP_OPTIONS
-
-[[ -f "${HOME}/.functions" ]]   && source "${HOME}/.functions"
-[[ -f "${HOME}/.environment" ]] && source "${HOME}/.environment"
-[[ -f "${HOME}/.aliases" ]]     && source "${HOME}/.aliases"
+# separate dotfiles
+dotfiles=( .functions .environment .aliases )
+for filename in "${dotfiles[@]}"; do
+    [ -f $HOME/$filename ] && source $HOME/$filename
+done
 
 if test -f ~/.rvm/scripts/rvm; then
     [ "$(type rvm)" = "function" ] || source ~/.rvm/scripts/rvm
