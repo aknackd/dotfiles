@@ -9,6 +9,7 @@ Thumbs.db
 
 /src/ssh/*_rsa*
 /src/ssh/*_dsa*
+/src/ssh/id_boot2docker*
 /src/ssh/known_hosts
 /src/ssh/authorized_keys*
 
