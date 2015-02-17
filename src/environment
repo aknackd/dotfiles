@@ -15,16 +15,18 @@ export GOPATH=$HOME/Workspace
 [ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
 [ ! -d "${GOPATH}" ] && mkdir -p "${GOPATH}/{src,pkg,bin}" 2>/dev/null
 
-pathmunge "${HOME}/bin"
-pathmunge /usr/local/bin
-pathmunge /usr/local/sbin
-pathmunge /opt/android-sdk/tools
-pathmunge /opt/android-sdk/platform-tools
-pathmunge /opt/pear/bin
-pathmunge /usr/bin/vendor_perl
-pathmunge /usr/local/share/npm/bin
-pathmunge "${GOPATH}/bin"
+_paths=(
+    /usr/local/share/npm/bin
+    ${GOPATH}/bin
+    ${HOME}/bin
+    /usr/local/sbin
+    /usr/local/bin
+)
+for _path in ${_paths[@]}; do
+    [ -d $_path -o -l $_path ] && PATH="${_path}:${PATH}"
+done
 export PATH
+unset _paths
 
 # OSX-specific
 if [ $(is_this_osx) -eq 1 ]; then

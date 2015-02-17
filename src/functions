@@ -14,16 +14,6 @@ if [ $(get_shell) = "zsh" ]; then
     }
 fi
 
-# Adds a directory to $PATH if not already present
-# -- stolen from Redhat/Fedora/CentOS
-function pathmunge () {
-	if ! echo $PATH | egrep -q "(^|:)$1($|:)" ; then
-        # only append paths that exist
-        [ ! -d $1 ] && return
-        [[ "$2" == "after" ]] && PATH="${PATH}:$1" || PATH="$1:${PATH}"
-	fi
-}
-
 # checks if a function/alias exists
 function function_exists() {
 	type $1 | grep -q 'shell function'
