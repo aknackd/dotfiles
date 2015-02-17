@@ -59,7 +59,6 @@ for filename in "${dotfiles[@]}"; do
 done
 
 # load rbenv
-if test -d ${HOME}/.rbenv/bin; then
-	export PATH="${HOME}/.rbenv/bin:${PATH}"
-	eval "$(rbenv init -)"
-fi
+[ -d "${HOME}/.rbenv/bin" ] && PATH="${HOME}/.rbenv/bin:${PATH}"
+command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
+export PATH
