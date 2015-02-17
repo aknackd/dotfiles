@@ -7,53 +7,9 @@ function get_shell () {
     echo $(basename $SHELL)
 }
 
-# define . if our shell is zsh
-if [ $(get_shell) = "zsh" ]; then
-    function . () {
-        source $*
-    }
-fi
-
-# checks if a function/alias exists
-function function_exists() {
-	type $1 | grep -q 'shell function'
-}
-
-# convert string to lowercase
-function strtolower() {
-    echo $@ | tr '[A-Z]' '[a-z]'
-}
-
-# convert string to uppercase
-function strtoupper() {
-    echo $@ | tr '[a-z]' '[A-Z]'
-}
-
-# trim leading and trailing whitepaces from a string
-function trim_string() {
-    local s=$1
-    s="$(echo $s | sed 's/^\s+//g; s/\s*$//g')"
-    echo $s
-}
-
 # is <script/binary> installed? (only checks $PATH and builtins)
 function am_i_installed() {
     command -v $1 >/dev/null 2>&1 && echo 1 || echo 0
-}
-
-# is an alias defined?
-function is_alias_defined() {
-    alias | grep $1 1>/dev/null && echo 1 || echo 0
-}
-
-# am I on OSX?
-function is_this_osx() {
-    [[ "$(strtolower $(uname -s))" == "darwin" ]] && echo 1 || echo 0
-}
-
-# am I on linux?
-function is_this_linux() {
-    [[ "$(strtolower $(uname -s))" == "linux" ]] && echo 1 || echo 0
 }
 
 # simple calculator
@@ -61,29 +17,9 @@ function calc () {
     awk "BEGIN { pi = 4.0*atan2(1.0,1.0); degree = pi/180.0; print $* }";
 }
 
-# get current timezone
-function get_timezone() {
-    local timezone=
-
-    if [ ! -z "$TZ" ]; then
-        timezone="$TZ"
-    else
-        if [ $(is_this_osx) -eq 1 ]; then
-            timezone="$(systemsetup -gettimezone | cut -d : -f 2)"
-        elif [ $(is_this_linux) -eq 1 ]; then
-            # not sure if this'll work for all linux distros
-            timezone="$(readlink /etc/localtime | sed -s /\/usr\/share\/zoneinfo\//g)"
-        fi
-    fi
-
-    echo $(trim_string "${timezone}")
-}
-
 # Determines the current branch if we're in a git repository
-if [ "$(basename $SHELL)" = "bash" ]; then
-    if [ -f /opt/local/etc/bash_completion ]; then
-        . /opt/local/etc/bash_completion
-    elif [ -f /etc/bash_completion ]; then
+if test "$(basename $SHELL)" = "bash" ; then
+    if test -f /etc/bash_completion ; then
         . /etc/bash_completion
     else
         __git_ps1() {

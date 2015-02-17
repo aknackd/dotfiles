@@ -12,8 +12,8 @@ export HISTTIMEFORMAT="%F %T >> "
 export TMPDIR="${HOME}/Temp"
 export GOPATH=$HOME/Workspace
 
-[ ! -d "${TMPDIR}" ] && mkdir -p "${TMPDIR}" 2>/dev/null
-[ ! -d "${GOPATH}" ] && mkdir -p "${GOPATH}/{src,pkg,bin}" 2>/dev/null
+test -d "${TMPDIR}" || mkdir -p "${TMPDIR}" 2>/dev/null
+test -d "${GOPATH}" || mkdir -p "${GOPATH}/{src,pkg,bin}" 2>/dev/null
 
 _paths=(
     /usr/local/share/npm/bin
@@ -23,23 +23,21 @@ _paths=(
     /usr/local/bin
 )
 for _path in ${_paths[@]}; do
-    [ -d $_path -o -l $_path ] && PATH="${_path}:${PATH}"
+    test -d $_path && PATH="${_path}:${PATH}"
 done
 export PATH
 unset _paths
 
 # OSX-specific
-if [ $(is_this_osx) -eq 1 ]; then
+if [ "$(uname -s)" = "Darwin" ]; then
     export LSCOLORS=gxfxcxdxbxegedabagacad
     if [ $(am_i_installed brew) -eq 1 ]; then
         HOMEBREW_PREFIX=$(brew --prefix)
         # bash completions
         if [ $(get_shell) = "bash" ]; then
-            [ -f "${HOMEBREW_PREFIX}/etc/bash_completion" ] && source "${HOMEBREW_PREFIX}/etc/bash_completion"
-            [ -f "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash" ] && source "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash"
+            test -f "${HOMEBREW_PREFIX}/etc/bash_completion" && source "${HOMEBREW_PREFIX}/etc/bash_completion"
+            test -f "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash" && source "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash"
         fi
-        # android sdk
-        [ -d "${HOMEBREW_PREFIX}/opt/android-sdk" ] && export ANDROID_SDK_ROOT="${HOMEBREW_PREFIX}/opt/android-sdk"
     fi
 fi
 
@@ -49,4 +47,3 @@ if [ $(get_shell) = "bash" ]; then
 fi
 
 export MYSQL_PS1='[\u@\h]\n(mysql::\d)> '
-

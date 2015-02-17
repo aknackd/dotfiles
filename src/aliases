@@ -26,8 +26,8 @@ fi
 
 alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
 
-case "$(strtolower $(uname -s))" in
-    darwin)
+case "$(uname -s)" in
+    Darwin)
         alias top='top -s 1 -ca -o cpu'
         alias lsmod=kextstat
         alias modprobe=kextload
@@ -47,9 +47,9 @@ case "$(strtolower $(uname -s))" in
         fi
         ;;
 
-    linux)
+    Linux)
         # ls: Group directories if ls has the capability
         man ls | col -bx | grep '\-\-group\-directories\-first' >/dev/null
-        [ $? -eq 0 ] && alias ls='ls --color=auto --group-directories-first'
+        test $? && alias ls='ls --color=auto --group-directories-first'
         ;;
 esac
