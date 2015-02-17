@@ -31,5 +31,4 @@
     changelog = %Cgreen[%Cred%h%Cgreen]%Creset %s
 
 [log]
-	date = local
-
+    date = local
