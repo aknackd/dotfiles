@@ -15,7 +15,8 @@ alias grep='grep -E --color=auto'
 [[ "$(basename $SHELL)" = "bash" ]] && alias ?=calc
 
 # Use 256 colors for tmux
-if [ $(am_i_installed tmux) -eq 1 ]; then
+if [ $(am_i_installed tmux) -eq 1 ]
+then
     alias tmux="TERM=xterm-256color tmux"
     # Avoid weird errors when ssh'ing into remote servers that don't
     # have 256 color support installed
@@ -37,7 +38,8 @@ case "$(uname -s)" in
         [ $(am_i_installed gzcat) -eq 1 ] && alias zcat=gzcat
         [ $(am_i_installed 7za) -eq 1 ]   && alias 7z=7za
 
-        if [ $(am_i_installed brew) -eq 1 ]; then
+        if [ $(am_i_installed brew) -eq 1 ]
+        then
             HOMEBREW_PREFIX=$(brew --prefix)
             alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first"
             alias sed="${HOMEBREW_PREFIX}/bin/gsed"
@@ -53,3 +55,23 @@ case "$(uname -s)" in
         test $? && alias ls='ls --color=auto --group-directories-first'
         ;;
 esac
+
+if [ $(am_i_installed git) -eq 1 ]
+then
+    alias gs='git status'
+    alias gh='git hist'
+    alias gl='git log'
+    alias gc='git commit'
+    alias ga='git add'
+    alias gm='git merge'
+    alias gp='git push'
+    alias gfo='git fetch origin'
+    alias gpo='git push origin'
+
+    # merge origin branch
+    function gmo() {
+        test -z $1 && return 1
+        git merge origin/$1
+    }
+fi
+
