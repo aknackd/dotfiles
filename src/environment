@@ -29,14 +29,25 @@ export PATH
 unset _paths
 
 # OSX-specific
-if [ "$(uname -s)" = "Darwin" ]; then
+if [ "$(uname -s)" = "Darwin" ]
+then
     export LSCOLORS=gxfxcxdxbxegedabagacad
-    if [ $(am_i_installed brew) -eq 1 ]; then
+
+    if [ $(am_i_installed brew) -eq 1 ]
+    then
         HOMEBREW_PREFIX=$(brew --prefix)
         # bash completions
-        if [ $(get_shell) = "bash" ]; then
+        if [ $(get_shell) = "bash" ]
+        then
             test -f "${HOMEBREW_PREFIX}/etc/bash_completion" && source "${HOMEBREW_PREFIX}/etc/bash_completion"
             test -f "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash" && source "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash"
+        fi
+
+        # grails workaround
+        if [ $(am_i_installed grails) -eq 1 ]
+        then
+            export GRAILS_HOME="$(brew --prefix grails)/libexec"
+            export GRAILS_OPTS="-XX:-UseSplitVerifier -Xverify:none"
         fi
     fi
 fi
