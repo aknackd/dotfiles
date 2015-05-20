@@ -14,7 +14,7 @@ antigen bundle git-extras
 #antigen bundle rbenv
 antigen bundle tmux
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen theme kolo
+antigen theme gallifrey
 antigen apply
 
 # separate dotfiles
