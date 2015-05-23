@@ -62,9 +62,11 @@ then
     alias gh='git hist'
     alias gl='git log'
     alias gc='git commit'
+    alias gco='git checkout'
     alias ga='git add'
     alias gm='git merge'
     alias gp='git push'
+    alias gr='git reset'
     alias gfo='git fetch origin'
     alias gpo='git push origin'
 
