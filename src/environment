@@ -58,7 +58,8 @@ then
 fi
 
 # prompts
-if [ $(get_shell) = "bash" ]; then
+if [ $(get_shell) = "bash" ]
+then
     export PS1='[\e[1;32m\D{%m/%d/%Y} \t\e[0m][\e[1;36m\h\e[0m \e[1;34m\w\e[0m]$(__git_ps1 "[\e[1;31mgit::%s\e[0m]")\n\$ '
 fi
 

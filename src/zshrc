@@ -19,7 +19,8 @@ antigen apply
 
 # separate dotfiles
 dotfiles=( .functions .environment .aliases )
-for filename in "${dotfiles[@]}"; do
+for filename in "${dotfiles[@]}"
+do
     test -f $HOME/$filename && source $HOME/$filename
 done
 

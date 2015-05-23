@@ -18,8 +18,10 @@ function calc () {
 }
 
 # Determines the current branch if we're in a git repository
-if test "$(basename $SHELL)" = "bash" ; then
-    if test -f /etc/bash_completion ; then
+if test "$(basename $SHELL)" = "bash"
+then
+    if test -f /etc/bash_completion
+    then
         . /etc/bash_completion
     else
         __git_ps1() {
@@ -31,9 +33,11 @@ fi
 # telnet SSL connections
 function telnet_ssl() {
     # Usage: $0 _server_ _port_
-    if [ $(am_i_installed openssl) -eq 1 ]; then
+    if [ $(am_i_installed openssl) -eq 1 ]
+    then
         openssl s_client -connect $1:$2
-    elif [ $(am_i_installed gnutls-cli) -eq 1 ]; then
+    elif [ $(am_i_installed gnutls-cli) -eq 1 ]
+    then
         gnutls-cli $1
     else
         echo "Please install either \`openssl\` or \`gnutls-utils\`"
