@@ -1,18 +1,22 @@
 #!/bin/sh
 
-[[ $(command -v $0 >/dev/null) ]] || {
-    case "$(uname -s)" in
-        Darwin)
-            if test -d /Applications/Sublime\ Text.app
-            then
-                /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl $*
-            elif test -d /Applications/Sublime\ Text\ 2.app
-            then
-                /Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl $*
-            elif test -d /Applications/TextMate.app
-            then
-                /Applications/TextMate.app/Contents/SharedSupport/Support/bin/mate $*
-            fi
-            ;;
-    esac
-}
+#
+# Launch GUI text editor from command line
+#
+
+case "$(uname -s)" in
+    Darwin)
+        locations=( ~/Applications /Applications )
+        editors=(
+            Sublime\ Text.app/Contents/SharedSupport/bin/subl
+            Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl
+        )
+
+        for appdir in "${locations[@]}"; do
+            for editor in "${editors[@]}"; do
+                [[ -f $appdir/$editor ]] && exec "$appdir/$editor" $*
+            done
+        done
+        echo here
+        ;;
+esac
