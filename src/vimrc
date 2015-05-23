@@ -1,7 +1,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Must Have
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible " get out of horrible vi-compatible mode
+set nocompatible
 
 if has('gui_running')
     set background=light
@@ -9,9 +9,8 @@ else
     set background=dark
 endif
 
-colorscheme jellybeans
+colorscheme wombat256
 syntax on
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -134,9 +133,9 @@ let b:match_ignorecase = 1
 let perl_extended_vars=1 " highlight advanced perl vars inside strings
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pathogen 
+" Pathogen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call pathogen#runtime_append_all_bundles() 
+call pathogen#infect()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Functions
@@ -159,7 +158,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Useful abbrevs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr> 
+iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocommands
@@ -168,7 +167,6 @@ au BufRead,BufNewFile *.zcml set filetype=xml
 au BufRead,BufNewFile *.rb,*.rhtml,*.pp,*.cap,*.erb set filetype=ruby
 au BufRead,BufNewFile *.otl set syntax=blockhl
 au BufRead,BufNewFile Vagrantfile,Rakefile,Gemfile,Capfile set filetype=ruby
-au BufRead,BufNewFile Mustardfile set filetype=yaml
 au BufRead,BufNewFile *.gradle set filetype=groovy
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -179,6 +177,9 @@ au FileType c set omnifunc=ccomplete#Complete
 au FileType ruby set tabstop=2
 au FileType ruby set softtabstop=2
 au FileType ruby set shiftwidth=2
+au FileType yaml set tabstop=2
+au FileType yaml set softtabstop=2
+au FileType yaml set shiftwidth=2
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Change paging overlap amount from 2 to 5 (+3)
