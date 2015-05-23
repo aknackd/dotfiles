@@ -11,10 +11,10 @@ export HISTCONTROL=ignoredups
 export HISTSIZE=1000000
 export HISTTIMEFORMAT="%F %T >> "
 export TMPDIR="${HOME}/Temp"
-export GOPATH=$HOME/Workspace
+export GOPATH=$HOME/go
 
 test -d "${TMPDIR}" || mkdir -p "${TMPDIR}" 2>/dev/null
-test -d "${GOPATH}" || mkdir -p "${GOPATH}/{src,pkg,bin}" 2>/dev/null
+test -d "${GOPATH}" || mkdir -p $GOPATH/{src,pkg,bin} 2>/dev/null
 
 _paths=(
     /usr/local/share/npm/bin
