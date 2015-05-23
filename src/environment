@@ -52,7 +52,7 @@ then
         fi
 
         # autoenv
-        brew list autoenv 1>2 2>/dev/null
+        brew list autoenv 1>&2 2>/dev/null
         [ $? -eq 0 ] && source "$(brew --prefix autoenv)/activate.sh"
     fi
 fi
