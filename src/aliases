@@ -59,7 +59,7 @@ esac
 if [ $(am_i_installed git) -eq 1 ]
 then
     alias gs='git status'
-    alias gh='git hist'
+    alias gh='git hist | cat -'
     alias gl='git log'
     alias gc='git commit'
     alias gco='git checkout'
