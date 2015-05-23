@@ -39,7 +39,27 @@ function install_color_schemes() {
     fi
 }
 
+#
+# Installs various plugins
+#
+function install_plugins() {
+    # vim plugins on github
+    local plugins=(
+        bling/vim-airline
+        fatih/vim-go
+    )
+
+    for plugin in "${plugins[@]}"
+    do
+        if ! test -d ~/.vim/bundle/$(basename $plugin)
+        then
+            echo "==> Installing plugin: $plugin"
+            git clone https://github.com/${plugin}.git ~/.vim/bundle/$(basename $plugin)
+        fi
+    done
+}
+
 create_vim_folder
 install_pathogen
 install_color_schemes
-
+install_plugins
