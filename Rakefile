@@ -24,4 +24,9 @@ task :install do
 
     system %Q{ln -s "#{src}" "#{dest}"}
   end
+
+  # setup vim
+  if !Dir.exists?("#{PREFIX}/.vim")
+    system %Q{./scripts/setup-vim.sh}
+  end
 end
