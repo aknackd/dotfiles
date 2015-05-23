@@ -23,8 +23,3 @@ for filename in "${dotfiles[@]}"
 do
     test -f $HOME/$filename && source $HOME/$filename
 done
-
-# load rbenv
-[ -d "${HOME}/.rbenv/bin" ] && PATH="${HOME}/.rbenv/bin:${PATH}"
-command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
-export PATH

@@ -1,3 +1,4 @@
+
 #
 # Sets up the environment
 #
@@ -16,6 +17,7 @@ export GOPATH=$HOME/go
 test -d "${TMPDIR}" || mkdir -p "${TMPDIR}" 2>/dev/null
 test -d "${GOPATH}" || mkdir -p $GOPATH/{src,pkg,bin} 2>/dev/null
 
+# add to $PATH if directories exist
 _paths=(
     /usr/local/share/npm/bin
     ${GOPATH}/bin
@@ -23,11 +25,17 @@ _paths=(
     /usr/local/sbin
     /usr/local/bin
 )
-for _path in ${_paths[@]}; do
+for _path in ${_paths[@]}
+do
     test -d $_path && PATH="${_path}:${PATH}"
 done
 export PATH
 unset _paths
+
+# load rbenv
+[ -d "${HOME}/.rbenv/bin" ] && PATH="${HOME}/.rbenv/bin:${PATH}"
+command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
+export PATH
 
 # OSX-specific
 if [ "$(uname -s)" = "Darwin" ]
@@ -52,7 +60,7 @@ then
         fi
 
         # autoenv
-        brew list autoenv 1>&2 2>/dev/null
+        brew list autoenv 1>/dev/null 2>/dev/null
         [ $? -eq 0 ] && source "$(brew --prefix autoenv)/activate.sh"
     fi
 fi
