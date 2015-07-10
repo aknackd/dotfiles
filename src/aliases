@@ -26,8 +26,6 @@ then
     alias screen=tmux
 fi
 
-alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
-
 case "$(uname -s)" in
     Darwin)
         alias top='top -s 1 -ca -o cpu'
@@ -57,6 +55,7 @@ case "$(uname -s)" in
         ;;
 esac
 
+# git aliases
 if [ $(am_i_installed git) -eq 1 ]
 then
     alias gs='git status'
@@ -76,5 +75,32 @@ then
         test -z $1 && return 1
         git merge origin/$1
     }
+fi
+
+# vagrant aliases
+if [ $(am_i_installed vagrant) -eq 1 ]
+then
+    alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
+    alias vinit='vagrant init'
+    alias vba='vagrant box add'
+    alias vbrm='vagrant box remove'
+    alias vbu='vagrant box update'
+    alias vbls='vagrant box list'
+    alias vup='vagrant up'
+    alias vh='vagrant halt'
+    alias vd='vagrant destroy -f'
+    alias vssh='vagrant ssh'
+    alias vr='vagrant reload'
+    alias vp='vagrant provision'
+    alias vps='vagrant provision --provision-with shell'
+    alias vpp='vagrant provision --provision-woth puppet'
+    alias vpd='vagrant provision --provision-with docker'
+    alias vpl='vagrant plugin list'
+    alias vpi='vagrant plugin install'
+    alias vprm='vagrant plugin uninstall'
+    alias vpu='vagrant plugin update'
+    alias vs='vagrant status'
+    alias vgs='vagrant global-status'
+
 fi
 
