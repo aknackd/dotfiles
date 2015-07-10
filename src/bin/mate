@@ -17,6 +17,5 @@ case "$(uname -s)" in
                 [[ -f $appdir/$editor ]] && exec "$appdir/$editor" $*
             done
         done
-        echo here
         ;;
 esac
