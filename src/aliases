@@ -111,15 +111,16 @@ then
     alias vssh='vagrant ssh'
     alias vr='vagrant reload'
     alias vp='vagrant provision'
-    alias vps='vagrant provision --provision-with shell'
+    alias vpsh='vagrant provision --provision-with shell'
+    alias vps='vagrant provision --provision-with salt'
     alias vpp='vagrant provision --provision-woth puppet'
     alias vpd='vagrant provision --provision-with docker'
-    alias vpl='vagrant plugin list'
+    alias vpls='vagrant plugin list'
     alias vpi='vagrant plugin install'
     alias vprm='vagrant plugin uninstall'
     alias vpu='vagrant plugin update'
     alias vs='vagrant status'
     alias vgs='vagrant global-status'
-
 fi
 
+[ $(am_i_installed VBoxManage) ] && alias vbm='VBoxManage'
