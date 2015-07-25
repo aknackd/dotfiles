@@ -46,10 +46,20 @@ case "$(uname -s)" in
             if [ $? -eq 0 ]
             then
                 alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first"
-                alias sed="${HOMEBREW_PREFIX}/bin/gsed"
                 alias seq="${HOMEBREW_PREFIX}/bin/gseq"
                 alias wc="${HOMEBREW_PREFIX}/bin/gwc"
+                alias du="${HOMEBREW_PREFIX}/bin/gdu"
+                alias df="${HOMEBREW_PREFIX}/bin/df"
+                alias sha1sum="${HOMEBREW_PREFIX}/bin/gsha1sum"
+                alias sha244sum="${HOMEBREW_PREFIX}/bin/gsha244sum"
+                alias sha256sum="${HOMEBREW_PREFIX}/bin/gsha256sum"
+                alias sha384sum="${HOMEBREW_PREFIX}/bin/gsha384sum"
+                alias sha512sum="${HOMEBREW_PREFIX}/bin/gsha512sum"
             fi
+
+            # use GNU sed
+            brew list | grep gnu-sed >/dev/null
+            [ $? -eq 0 ] && alias sed="${HOMEBREW_PREFIX}/bin/gsed"
 
             # git
             brew list | grep '^git$' >/dev/null
