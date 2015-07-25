@@ -24,6 +24,7 @@ _paths=(
     ${HOME}/bin
     /usr/local/sbin
     /usr/local/bin
+    ${HOME}/.composer/vendor/bin
 )
 for _path in ${_paths[@]}
 do
