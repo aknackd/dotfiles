@@ -39,12 +39,16 @@ case "$(uname -s)" in
 
         if [ $(am_i_installed brew) -eq 1 ]
         then
-            HOMEBREW_PREFIX=$(brew --prefix)
-            alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first"
-            alias sed="${HOMEBREW_PREFIX}/bin/gsed"
-            alias seq="${HOMEBREW_PREFIX}/bin/gseq"
-            alias wc="${HOMEBREW_PREFIX}/bin/gwc"
-            alias git="${HOMEBREW_PREFIX}/bin/git"
+            brew list | grep coreutils >/dev/null
+            if [ $? -eq 0 ]
+            then
+                HOMEBREW_PREFIX=$(brew --prefix)
+                alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first"
+                alias sed="${HOMEBREW_PREFIX}/bin/gsed"
+                alias seq="${HOMEBREW_PREFIX}/bin/gseq"
+                alias wc="${HOMEBREW_PREFIX}/bin/gwc"
+                alias git="${HOMEBREW_PREFIX}/bin/git"
+            fi
         fi
         ;;
 
