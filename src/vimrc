@@ -188,3 +188,8 @@ au FileType yaml set shiftwidth=2
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <C-f> <C-f>3<C-y> "  Make overlap 3 extra on control-f
 nnoremap <C-b> <C-b>3<C-e> "  Make overlap 3 extra on control-b
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable powerline fonts via airline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline_powerline_fonts = 1
