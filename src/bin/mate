@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #
 # Launch GUI text editor from command line
@@ -18,4 +18,16 @@ case "$(uname -s)" in
             done
         done
         ;;
+
+    Linux)
+        locations=( /usr/bin /usr/local/bin )
+        editors=( subl3 )
+
+        for appdir in "${locations[@]}"; do
+            for editor in "${editors[@]}"; do
+                [[ -f $appdir/$editor ]] && exec "$appdir/$editor" $*
+            done
+        done
+        ;;
 esac
+
