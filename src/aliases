@@ -49,7 +49,7 @@ case "$(uname -s)" in
                 alias seq="${HOMEBREW_PREFIX}/bin/gseq"
                 alias wc="${HOMEBREW_PREFIX}/bin/gwc"
                 alias du="${HOMEBREW_PREFIX}/bin/gdu"
-                alias df="${HOMEBREW_PREFIX}/bin/df"
+                alias df="${HOMEBREW_PREFIX}/bin/gdf"
                 alias sha1sum="${HOMEBREW_PREFIX}/bin/gsha1sum"
                 alias sha244sum="${HOMEBREW_PREFIX}/bin/gsha244sum"
                 alias sha256sum="${HOMEBREW_PREFIX}/bin/gsha256sum"
