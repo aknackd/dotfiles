@@ -121,7 +121,7 @@ then
     alias vp='vagrant provision'
     alias vpsh='vagrant provision --provision-with shell'
     alias vps='vagrant provision --provision-with salt'
-    alias vpp='vagrant provision --provision-woth puppet'
+    alias vpp='vagrant provision --provision-with puppet'
     alias vpd='vagrant provision --provision-with docker'
     alias vpls='vagrant plugin list'
     alias vpi='vagrant plugin install'
