@@ -4,7 +4,7 @@
 
 # retrieves our current shell according to $SHELL
 function get_shell () {
-    echo $(basename $SHELL)
+    basename $SHELL
 }
 
 # is <script/binary> installed? (only checks $PATH and builtins)
@@ -17,51 +17,26 @@ function calc () {
     awk "BEGIN { pi = 4.0*atan2(1.0,1.0); degree = pi/180.0; print $* }";
 }
 
-# Determines the current branch if we're in a git repository
-if test "$(basename $SHELL)" = "bash"
-then
-    if test -f /etc/bash_completion
-    then
-        . /etc/bash_completion
-    else
-        __git_ps1() {
-            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
-        }
-    fi
-fi
-
 # telnet SSL connections
 function telnet_ssl() {
     # Usage: $0 _server_ _port_
-    if [ $(am_i_installed openssl) -eq 1 ]
-    then
-        openssl s_client -connect $1:$2
-    elif [ $(am_i_installed gnutls-cli) -eq 1 ]
-    then
-        gnutls-cli $1
-    else
-        echo "Please install either \`openssl\` or \`gnutls-utils\`"
-        echo 1
-    fi
+    openssl s_client -connect $1:$2
 }
 
 # git-related functions
-if [ $(am_i_installed git) -eq 1 ]
-then
-    # merge origin branch
-    function gmo() {
-        test -z $1 && return 1
-        git merge origin/$1
-    }
+# merge origin branch
+function gmo() {
+    test -z $1 && return 1
+    git merge origin/$1
+}
 
-    # merge upstream branch
-    function gmu() {
-        test -z $1 && return 1
-        git merge upstream/$1
-    }
+# merge upstream branch
+function gmu() {
+    test -z $1 && return 1
+    git merge upstream/$1
+}
 
-    # rename local branch
-    function gbr() {
-        git branch -m "$1" "$2"
-    }
-fi
+# rename local branch
+function gbr() {
+    git branch -m "$1" "$2"
+}

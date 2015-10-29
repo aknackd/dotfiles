@@ -15,16 +15,12 @@ alias grep='grep -E --color=auto'
 
 [[ "$(basename $SHELL)" = "bash" ]] && alias ?=calc
 
-# Use 256 colors for tmux
-if [ $(am_i_installed tmux) -eq 1 ]
-then
-    alias tmux="TERM=xterm-256color tmux"
-    # Avoid weird errors when ssh'ing into remote servers that don't
-    # have 256 color support installed
-    alias ssh="TERM=xterm-color ssh"
-    # prefer tmux over screen
-    alias screen=tmux
-fi
+alias tmux="TERM=xterm-256color tmux"
+alias screen=tmux
+
+# Avoid wierd errors when ssh'ing into remote servers that don't
+# have 256 color support installed
+alias ssh="TERM=xterm-color ssh"
 
 case "$(uname -s)" in
     Darwin)
@@ -34,8 +30,8 @@ case "$(uname -s)" in
         alias rmmod=kextunload
         alias crontab="VIM_CRONTAB=true crontab"
 
-        [ $(am_i_installed gzcat) -eq 1 ] && alias zcat=gzcat
-        [ $(am_i_installed 7za) -eq 1 ]   && alias 7z=7za
+        alias zcat=gzcat
+        alias 7z=7za
 
         if [ $(am_i_installed brew) -eq 1 ]
         then
@@ -75,48 +71,43 @@ case "$(uname -s)" in
 esac
 
 # git aliases
-if [ $(am_i_installed git) -eq 1 ]
-then
-    alias gs='git status'
-    alias gh='git hist | cat -'
-    alias gl='git log'
-    alias gc='git commit'
-    alias gco='git checkout'
-    alias ga='git add'
-    alias gm='git merge'
-    alias gp='git push'
-    alias gr='git reset'
-    alias gfo='git fetch origin'
-    alias gpo='git push origin'
-    alias gfu='git fetch upstream'
-    alias gpu='git push upstream'
-fi
+alias gs='git status'
+alias gh='git hist | cat -'
+alias gl='git log'
+alias gc='git commit'
+alias gco='git checkout'
+alias ga='git add'
+alias gm='git merge'
+alias gp='git push'
+alias gr='git reset'
+alias gfo='git fetch origin'
+alias gpo='git push origin'
+alias gfu='git fetch upstream'
+alias gpu='git push upstream'
 
 # vagrant aliases
-if [ $(am_i_installed vagrant) -eq 1 ]
-then
-    alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
-    alias vinit='vagrant init'
-    alias vba='vagrant box add'
-    alias vbrm='vagrant box remove'
-    alias vbu='vagrant box update'
-    alias vbls='vagrant box list'
-    alias vup='vagrant up'
-    alias vh='vagrant halt'
-    alias vd='vagrant destroy -f'
-    alias vssh='vagrant ssh'
-    alias vr='vagrant reload'
-    alias vp='vagrant provision'
-    alias vpsh='vagrant provision --provision-with shell'
-    alias vps='vagrant provision --provision-with salt'
-    alias vpp='vagrant provision --provision-with puppet'
-    alias vpd='vagrant provision --provision-with docker'
-    alias vpls='vagrant plugin list'
-    alias vpi='vagrant plugin install'
-    alias vprm='vagrant plugin uninstall'
-    alias vpu='vagrant plugin update'
-    alias vs='vagrant status'
-    alias vgs='vagrant global-status'
-fi
+alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
+alias vinit='vagrant init'
+alias vba='vagrant box add'
+alias vbrm='vagrant box remove'
+alias vbu='vagrant box update'
+alias vbls='vagrant box list'
+alias vup='vagrant up'
+alias vh='vagrant halt'
+alias vd='vagrant destroy -f'
+alias vssh='vagrant ssh'
+alias vr='vagrant reload'
+alias vp='vagrant provision'
+alias vpsh='vagrant provision --provision-with shell'
+alias vps='vagrant provision --provision-with salt'
+alias vpp='vagrant provision --provision-with puppet'
+alias vpd='vagrant provision --provision-with docker'
+alias vpls='vagrant plugin list'
+alias vpi='vagrant plugin install'
+alias vprm='vagrant plugin uninstall'
+alias vpu='vagrant plugin update'
+alias vs='vagrant status'
+alias vgs='vagrant global-status'
 
-[ $(am_i_installed VBoxManage) ] && alias vbm='VBoxManage'
+# VirtualBox
+alias vbm='VBoxManage'
