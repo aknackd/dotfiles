@@ -11,10 +11,8 @@ export TERM=xterm-256color
 export HISTCONTROL=ignoredups
 export HISTSIZE=1000000
 export HISTTIMEFORMAT="%F %T >> "
-export TMPDIR="${HOME}/Temp"
 export GOPATH=$HOME/go
 
-test -d "${TMPDIR}" || mkdir -p "${TMPDIR}" 2>/dev/null
 test -d "${GOPATH}" || mkdir -p $GOPATH/{src,pkg,bin} 2>/dev/null
 
 # add to $PATH if directories exist

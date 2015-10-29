@@ -86,7 +86,6 @@ alias gfu='git fetch upstream'
 alias gpu='git push upstream'
 
 # vagrant aliases
-alias vagrant="TMPDIR=${HOME}/.vagrant.d/tmp vagrant"
 alias vinit='vagrant init'
 alias vba='vagrant box add'
 alias vbrm='vagrant box remove'
