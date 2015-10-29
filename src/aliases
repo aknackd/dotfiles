@@ -90,18 +90,6 @@ then
     alias gpo='git push origin'
     alias gfu='git fetch upstream'
     alias gpu='git push upstream'
-
-    # merge origin branch
-    function gmo() {
-        test -z $1 && return 1
-        git merge origin/$1
-    }
-
-    # merge upstream branch
-    function gmu() {
-        test -z $1 && return 1
-        git merge upstream/$1
-    }
 fi
 
 # vagrant aliases

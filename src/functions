@@ -44,3 +44,24 @@ function telnet_ssl() {
         echo 1
     fi
 }
+
+# git-related functions
+if [ $(am_i_installed git) -eq 1 ]
+then
+    # merge origin branch
+    function gmo() {
+        test -z $1 && return 1
+        git merge origin/$1
+    }
+
+    # merge upstream branch
+    function gmu() {
+        test -z $1 && return 1
+        git merge upstream/$1
+    }
+
+    # rename local branch
+    function gbr() {
+        git branch -m "$1" "$2"
+    }
+fi
