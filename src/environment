@@ -57,9 +57,6 @@ then
             export GRAILS_HOME="$(brew --prefix grails)/libexec"
             export GRAILS_OPTS="-XX:-UseSplitVerifier -Xverify:none"
         fi
-
-        # autoenv
-        test -f "$(brew --prefix autoenv 2>/dev/null)/activate.sh" && source "$(brew --prefix autoenv)/activate.sh"
     fi
 fi
 
