@@ -44,6 +44,7 @@ then
     if [ $(am_i_installed brew) -eq 1 ]
     then
         HOMEBREW_PREFIX=$(brew --prefix)
+
         # bash completions
         if [ $(get_shell) = "bash" ]
         then
@@ -57,6 +58,20 @@ then
             export GRAILS_HOME="$(brew --prefix grails)/libexec"
             export GRAILS_OPTS="-XX:-UseSplitVerifier -Xverify:none"
         fi
+
+        # AWS cli completion
+        case $(get_shell) in
+            bash)
+                [ $(am_i_installed aws_completer) -eq 1 ] \
+                    && complete -C "$(which aws_completer)" aws
+                ;;
+            zsh)
+                [ -f "${HOMEBREW_PREFIX}/share/zsh/site-functions/_aws" ] \
+                    && source "${HOMEBREW_PREFIX}/share/zsh/site-functions/_aws"
+                ;;
+        esac
+
+        unset HOMEBREW_PREFIX
     fi
 fi
 
