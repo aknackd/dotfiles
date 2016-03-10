@@ -36,6 +36,10 @@ unset _paths
 command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
 export PATH
 
+# load nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+
 # OSX-specific
 if [ "$(uname -s)" = "Darwin" ]
 then
