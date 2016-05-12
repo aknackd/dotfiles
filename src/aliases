@@ -55,6 +55,10 @@ case "$(uname -s)" in
             brew list | grep gnu-sed >/dev/null
             [ $? -eq 0 ] && alias sed="${HOMEBREW_PREFIX}/bin/gsed"
 
+            # use GNU tar
+            brew list | grep gnu-tar >/dev/null
+            [ $? -eq 0 ] && alias tar="${HOMEBREW_PREFIX}/bin/gtar"
+
             # git
             brew list | grep '^git$' >/dev/null
             [ $? -eq 0 ] && alias git="${HOMEBREW_PREFIX}/bin/git"
