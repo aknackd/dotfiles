@@ -37,6 +37,7 @@ command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
 export PATH
 
 # load pyenv
+[ -f "${HOME}/.pyenv/bin/pyenv" ] && PATH="${HOME}/.pyenv/bin:${PATH}"
 command -v pyenv 1>/dev/null && eval "$(pyenv init -)"
 export PATH
 
