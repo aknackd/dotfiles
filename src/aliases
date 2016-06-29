@@ -62,6 +62,9 @@ case "$(uname -s)" in
             # git
             brew list | grep '^git$' >/dev/null
             [ $? -eq 0 ] && alias git="${HOMEBREW_PREFIX}/bin/git"
+
+            # .net Core
+            [ -f /usr/local/share/dotnet/dotnet ] && alias dotnet=/usr/local/share/dotnet/dotnet
         fi
         ;;
 
