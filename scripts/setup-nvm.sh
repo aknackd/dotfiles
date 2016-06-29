@@ -28,7 +28,7 @@ install() {
         && popd >/dev/null
 
     source "$NVM_DIR/nvm.sh"
-    printf "nvm version: %s\n" $(nvm --version)
+    log::info "---> nvm version: $(nvm --version)"
 }
 
 [ ! -f "$NVM_DIR/nvm.sh" ] && install || log::warning "nvm already installed! skipping"
