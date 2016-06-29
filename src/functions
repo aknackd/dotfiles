@@ -3,40 +3,58 @@
 #
 
 # retrieves our current shell according to $SHELL
-function get_shell () {
+get_shell () {
     basename $SHELL
 }
 
 # is <script/binary> installed? (only checks $PATH and builtins)
-function am_i_installed() {
+am_i_installed() {
     command -v $1 >/dev/null 2>&1 && echo 1 || echo 0
 }
 
 # simple calculator
-function calc () {
+calc () {
     awk "BEGIN { pi = 4.0*atan2(1.0,1.0); degree = pi/180.0; print $* }";
 }
 
 # telnet SSL connections
-function telnet_ssl() {
-    # Usage: $0 _server_ _port_
+telnet-ssl() {
+    if test $# -ne 2 ; then
+        printf "Usage: $0 SERVER PORT\n"
+        return 1
+    fi
+
     openssl s_client -connect $1:$2
 }
 
 # git-related functions
+
 # merge origin branch
-function gmo() {
-    test -z $1 && return 1
+gmo() {
+    if test $# -ne 1 ; then
+        printf "Usage: $0 BRANCH\n"
+        return 1
+    fi
+
     git merge origin/$1
 }
 
 # merge upstream branch
-function gmu() {
-    test -z $1 && return 1
+gmu() {
+    if test $# -ne 1 ; then
+        printf "Usage: $0 BRANCH\n"
+        return 1
+    fi
+
     git merge upstream/$1
 }
 
 # rename local branch
-function gbr() {
+gbmv() {
+    if test $# -ne 2 ; then
+        printf "Usage: $0 OLDBRANCH NEWBRANCH\n"
+        return 1
+    fi
+
     git branch -m "$1" "$2"
 }

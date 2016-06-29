@@ -11,7 +11,7 @@ alias rm='rm -i'
 alias rmdir='rm -r'
 alias grep='grep -E --color=auto'
 
-[[ $(get_shell) == "bash" ]] && alias ?=calc
+test $(get_shell) = "bash" && alias ?=calc
 
 alias tmux="TERM=xterm-256color tmux"
 alias screen=tmux
@@ -27,44 +27,34 @@ case "$(uname -s)" in
         alias modprobe=kextload
         alias rmmod=kextunload
         alias crontab="VIM_CRONTAB=true crontab"
-
         alias zcat=gzcat
-        alias 7z=7za
 
-        if [ $(am_i_installed brew) -eq 1 ]
-        then
+        test -f /usr/local/share/dotnet/dotnet && alias dotnet=/usr/local/share/dotnet/dotnet
+
+        if [ $(am_i_installed brew) -eq 1 ]; then
             HOMEBREW_PREFIX=$(brew --prefix)
+            HOMEBREW_CELLAR=$(brew --cellar)
+            LS_OPTIONS="--color=auto --group-directories-first --quoting-style=literal"
 
-            # coreutil aliases
-            brew list | grep coreutils >/dev/null
-            if [ $? -eq 0 ]
-            then
-                alias ls="${HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first --quoting-style=literal"
-                alias seq="${HOMEBREW_PREFIX}/bin/gseq"
-                alias wc="${HOMEBREW_PREFIX}/bin/gwc"
-                alias du="${HOMEBREW_PREFIX}/bin/gdu"
-                alias df="${HOMEBREW_PREFIX}/bin/gdf"
-                alias sha1sum="${HOMEBREW_PREFIX}/bin/gsha1sum"
-                alias sha244sum="${HOMEBREW_PREFIX}/bin/gsha244sum"
-                alias sha256sum="${HOMEBREW_PREFIX}/bin/gsha256sum"
-                alias sha384sum="${HOMEBREW_PREFIX}/bin/gsha384sum"
-                alias sha512sum="${HOMEBREW_PREFIX}/bin/gsha512sum"
-            fi
+            test -f "$HOMEBREW_PREFIX/bin/7za" && alias 7z="$HOMEBREW_PREFIX/bin/7za"
+            test -f "$HOMEBREW_PREFIX/bin/git" && alias git="$HOMEBREW_PREFIX/bin/git"
 
-            # use GNU sed
-            brew list | grep gnu-sed >/dev/null
-            [ $? -eq 0 ] && alias sed="${HOMEBREW_PREFIX}/bin/gsed"
+            # prefer GNU versions
+            test -f "$HOMEBREW_PREFIX/bin/gls"        && alias ls="${HOMEBREW_PREFIX}/bin/gls $LS_OPTIONS"
+            test -f "$HOMEBREW_PREFIX/bin/gseq"       && alias seq="${HOMEBREW_PREFIX}/bin/gseq"
+            test -f "$HOMEBREW_PREFIX/bin/gwc"        && alias wc="${HOMEBREW_PREFIX}/bin/gwc"
+            test -f "$HOMEBREW_PREFIX/bin/gdu"        && alias du="${HOMEBREW_PREFIX}/bin/gdu"
+            test -f "$HOMEBREW_PREFIX/bin/gdf"        && alias df="${HOMEBREW_PREFIX}/bin/gdf"
+            test -f "$HOMEBREW_PREFIX/bin/gha1sum"    && alias sha1sum="${HOMEBREW_PREFIX}/bin/gsha1sum"
+            test -f "$HOMEBREW_PREFIX/bin/gsha244sum" && alias sha244sum="${HOMEBREW_PREFIX}/bin/gsha244sum"
+            test -f "$HOMEBREW_PREFIX/bin/gsha256sum" && alias sha256sum="${HOMEBREW_PREFIX}/bin/gsha256sum"
+            test -f "$HOMEBREW_PREFIX/bin/gsha384sum" && alias sha384sum="${HOMEBREW_PREFIX}/bin/gsha384sum"
+            test -f "$HOMEBREW_PREFIX/bin/gsha512sum" && alias sha512sum="${HOMEBREW_PREFIX}/bin/gsha512sum"
+            test -f "$HOMEBREW_PREFIX/bin/gcal"       && alias cal="$HOMEBREW_PREFIX/bin/gcal"
+            test -f "$HOMEBREW_PREFIX/bin/gsed"       && alias sed="$HOMEBREW_PREFIX/bin/gsed"
+            test -f "$HOMEBREW_PREFIX/bin/gtar"       && alias tar="$HOMEBREW_PREFIX/bin/gtar"
 
-            # use GNU tar
-            brew list | grep gnu-tar >/dev/null
-            [ $? -eq 0 ] && alias tar="${HOMEBREW_PREFIX}/bin/gtar"
-
-            # git
-            brew list | grep '^git$' >/dev/null
-            [ $? -eq 0 ] && alias git="${HOMEBREW_PREFIX}/bin/git"
-
-            # .net Core
-            [ -f /usr/local/share/dotnet/dotnet ] && alias dotnet=/usr/local/share/dotnet/dotnet
+            unset HOMEBREW_PREFIX HOMEBREW_CELLAR LS_OPTIONS
         fi
         ;;
 

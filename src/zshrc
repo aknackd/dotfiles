@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 alias ls='/bin/ls'
 
 if ! test -d $HOME/.antigen ; then
@@ -10,7 +12,6 @@ source $HOME/.antigen/antigen.zsh
 antigen use oh-my-zsh
 antigen bundle gitfast
 antigen bundle git-extras
-#antigen bundle rbenv
 antigen bundle tmux
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen theme gallifrey
@@ -18,7 +19,6 @@ antigen apply
 
 # separate dotfiles
 dotfiles=( .functions .environment .aliases )
-for filename in "${dotfiles[@]}"
-do
+for filename in "${dotfiles[@]}"; do
     test -f $HOME/$filename && source $HOME/$filename
 done

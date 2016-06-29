@@ -11,23 +11,17 @@ case "$(uname -s)" in
             Sublime\ Text.app/Contents/SharedSupport/bin/subl
             Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl
         )
-
-        for appdir in "${locations[@]}"; do
-            for editor in "${editors[@]}"; do
-                [[ -f $appdir/$editor ]] && exec "$appdir/$editor" $*
-            done
-        done
         ;;
 
     Linux)
         locations=( /usr/bin /usr/local/bin )
         editors=( subl3 )
-
-        for appdir in "${locations[@]}"; do
-            for editor in "${editors[@]}"; do
-                [[ -f $appdir/$editor ]] && exec "$appdir/$editor" $*
-            done
-        done
         ;;
 esac
 
+
+for appdir in "${locations[@]}"; do
+    for editor in "${editors[@]}"; do
+        test -f "$appdir/$editor" && exec "$appdir/$editor" $*
+    done
+done
