@@ -9,11 +9,19 @@
 
 set -o errexit
 
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
+readonly DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
+
+cd "$DIR"
+
+source "${DIR}/scripts/.common.sh"
+
 readonly NVM_DIR=$HOME/.nvm
 
 # Install the latest stable version of nvm
 install() {
-    printf "==> Installing latest stable nvm...\n"
+    log::info "===> Installing latest stable nvm..."
     git clone https://github.com/creationix/nvm.git "$NVM_DIR" \
         && pushd "$NVM_DIR" >/dev/null \
         && git checkout $(git describe --abbrev=0 --tags) \
@@ -23,4 +31,4 @@ install() {
     printf "nvm version: %s\n" $(nvm --version)
 }
 
-[ ! -f "$NVM_DIR/nvm.sh" ] && install || printf "nvm already installed!\n"
+[ ! -f "$NVM_DIR/nvm.sh" ] && install || log::warning "nvm already installed! skipping"

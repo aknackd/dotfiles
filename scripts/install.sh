@@ -2,26 +2,18 @@
 #
 # Installation script
 
-# colors
-RESET='\033[;0m'
-BLACK='\033[;30m'
-RED='\033[0;31m'
-GREEN='\033[;32m'
-YELLOW='\033[;33m'
-BLUE='\033[;34m'
-
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
-DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
+readonly DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
 
 cd "$DIR"
 
-source "${DIR}/scripts/_common.sh"
+source "${DIR}/scripts/.common.sh"
 
 pushd src >/dev/null
 
 # Symlink directories
-echo -e "${GREEN}==> Symlinking directories${RESET}"
+log::info "===> Symlinking directories"
 for FILE in $(find . -maxdepth 1 -type d ! -name .); do
     src="$(basename $FILE)"
     dest="${HOME}/"
@@ -30,32 +22,32 @@ for FILE in $(find . -maxdepth 1 -type d ! -name .); do
 
     if [[ -s "$dest" ]]; then
         # Destination exists but is already symlinked so skip
-        echo -e "${YELLOW}---> Skipping ${src} (dest is already linked)${RESET}"
+        log::warning "---> Skipping ${src} (dest is already linked)"
     elif [[ -d "$dest" && "$(find ${dest} | wc -l)" -gt 0 ]]; then
         # Directory exists and is NOT empty, skip
-        echo -e "${YELLOW}---> Skipping ${src} (dir not empty)${RESET}"
+        log::warning "---> Skipping ${src} (dir not empty)"
     else
         # All good, symlink directory
-        echo -e "${YELLOW}---> Linking ${BLUE}${DIR}/src/${src}${RESET} to ${BLUE}${dest}${BLUE}"
+        log::info "---> Linking ${BLUE}${DIR}/src/${SRC}${RESET} ${GREEN}to${RESET} ${BLUE}${dest}${RESET}"
         ln -nfs "${DIR}/src/${src}" "${dest}"
     fi
 done
 
 # Symlink files
-echo -e "${GREEN}==> Symlinking files${RESET}"
+log::info "===> Symlinking files"
 find . -maxdepth 1 -type f -print0 | while read -d $'\0' FILE; do
     src="$(basename $FILE)"
     dest="${HOME}/.${src}"
 
     if [[ -s "$dest" ]]; then
         # File already exists and is a symlink, skip
-        echo -e "${YELLOW}---> Skipping ${src} (dest is already linked)${RESET}"
+        log::warning "---> Skipping ${src} (dest is already linked)"
     elif [[ -f "$dest" ]]; then
         # File exists, skip
-        echo -e "${YELLOW}---> Skipping ${src} (exists)${RESET}"
+        log::warning "---> Skipping ${src} (dir not empty)"
     else
         # All good, symlink file
-        echo -e "${YELLOW}---> Linking ${RESET}${DIR}/src/${src}${YELLOW} to ${RESET}${dest}"
+        log::info "---> Linking ${BLUE}${DIR}/src/${SRC}${RESET} ${GREEN}to${RESET} ${BLUE}${dest}${RESET}"
         ln -nfs "${DIR}/src/${src}" "${dest}"
     fi
 done
@@ -63,7 +55,7 @@ done
 popd >/dev/null
 
 # Run setup scripts
-echo -e "${GREEN}==> Running setup scripts${RESET}"
+log::info "===> Running setup scripts"
 EXCLUDES="! -name install.sh"
 find ./scripts -type f -name '*.sh' \( $EXCLUDES \) -print0 | while read -d $'\0' FILE; do
     sh -c "'$FILE'"
