@@ -23,6 +23,9 @@ _paths=(
     /usr/local/sbin
     /usr/local/bin
     ${HOME}/.composer/vendor/bin
+    ${HOME}/.rbenv/bin
+    ${HOME}/.pyenv/bin
+    ${HOME}/.nvm/bin
 )
 for _path in ${_paths[@]}
 do
@@ -31,19 +34,15 @@ done
 export PATH
 unset _paths
 
-# load rbenv
-[ -d "${HOME}/.rbenv/bin" ] && PATH="${HOME}/.rbenv/bin:${PATH}"
 command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
-export PATH
-
-# load pyenv
-[ -f "${HOME}/.pyenv/bin/pyenv" ] && PATH="${HOME}/.pyenv/bin:${PATH}"
 command -v pyenv 1>/dev/null && eval "$(pyenv init -)"
-export PATH
 
 # load nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+command -v pyenv 1>/dev/null
+if [ $? -eq 0 ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+fi
 
 # OSX-specific
 if [ "$(uname -s)" = "Darwin" ]
