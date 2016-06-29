@@ -24,7 +24,7 @@ source "${DIR}/scripts/.common.sh"
 export PYENV_ROOT=$HOME/.pyenv
 export PATH="$PATH:$PYENV_ROOT/bin"
 
-# Install the latest stable version of nvm
+# Install the latest stable version of pyenv
 install() {
     log::info "===> Installing pyenv..."
 
