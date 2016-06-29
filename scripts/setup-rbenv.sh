@@ -21,8 +21,7 @@ cd "$DIR"
 
 source "${DIR}/scripts/.common.sh"
 
-export RBENV_ROOT=$HOME/.rbenv
-export PATH="$PATH:$RBENV_ROOT/bin"
+readonly RBENV_ROOT=$HOME/.rbenv
 
 # Install the latest stable version of rbenv
 install() {
@@ -35,8 +34,8 @@ install() {
     pushd "$RBENV_ROOT" >/dev/null ; src/configure ; make -C src ; popd >/dev/null
 
     set -o errexit
-    eval "$(rbenv init -)"
-    log::info "---> rbenv version: $(rbenv --version | awk '{print $2}')"
+    eval "$(${RBENV_ROOT}/bin/rbenv init -)"
+    log::info "---> rbenv version: $(${RBENV_ROOT}/bin/rbenv --version | awk '{print $2}')"
 
     # install plugins
     local readonly plugins=(

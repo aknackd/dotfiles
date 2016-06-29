@@ -8,13 +8,15 @@ cd "$DIR"
 
 source "${DIR}/scripts/.common.sh"
 
+readonly VIM_ROOT=$HOME/.vim
+
 #
 # Creates ~/.vim directory
 #
 create_vim_folder() {
-    if ! test -d ~/.vim; then
-        log::info "===> Creating ~/.vim"
-        mkdir -p ~/.vim/{autoload,backup,bundle,temp}
+    if ! test -d $VIM_ROOT; then
+        log::info "===> Creating $VIM_ROOT"
+        mkdir -p $VIM_ROOT/{autoload,backup,bundle,temp}
     fi
 }
 
@@ -22,9 +24,9 @@ create_vim_folder() {
 # Installs pathogen
 #
 install_pathogen() {
-    if ! test -f ~/.vim/autoload/pathogen.vim; then
+    if ! test -f $VIM_ROOT/autoload/pathogen.vim; then
         log::info "===> Installing pathogen"
-        curl -sSLo ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+        curl -sSLo $VIM_ROOT/autoload/pathogen.vim https://tpo.pe/pathogen.vim
     fi
 }
 
@@ -33,14 +35,14 @@ install_pathogen() {
 # https://github.com/flazz/vim-colorschemes
 #
 install_color_schemes() {
-    if test ! -d ~/.vim/colors; then
+    if test ! -d $VIM_ROOT/colors; then
         log::info "===> Installing vim colors"
 
         # handle mktemp for Linux and Darwin (OSX)
         local readonly tmpdir=$(mktemp -d 2>/dev/null || mktemp -d -t vim-colors)
 
         git clone https://github.com/flazz/vim-colorschemes.git $tmpdir
-        mv "${tmpdir}/colors" ~/.vim/colors
+        mv "${tmpdir}/colors" $VIM_ROOT/colors
         rm -rf $tmpdir
     fi
 }
@@ -56,9 +58,9 @@ install_plugins() {
     )
 
     for plugin in "${plugins[@]}"; do
-        if ! test -d ~/.vim/bundle/$(basename $plugin); then
+        if ! test -d $VIM_ROOT/bundle/$(basename $plugin); then
             log::info "===> Installing plugin: $plugin"
-            git clone https://github.com/${plugin}.git ~/.vim/bundle/$(basename $plugin)
+            git clone https://github.com/${plugin}.git $VIM_ROOT/bundle/$(basename $plugin)
         fi
     done
 }

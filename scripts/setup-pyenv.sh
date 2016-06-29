@@ -21,16 +21,15 @@ cd "$DIR"
 
 source "${DIR}/scripts/.common.sh"
 
-export PYENV_ROOT=$HOME/.pyenv
-export PATH="$PATH:$PYENV_ROOT/bin"
+readonly PYENV_ROOT=$HOME/.pyenv
 
 # Install the latest stable version of pyenv
 install() {
     log::info "===> Installing pyenv..."
 
     git clone https://github.com/yyuu/pyenv.git "$PYENV_ROOT" \
-        && eval "$(pyenv init -)" \
-        && log::info "---> pyenv version: $(pyenv --version | awk '{print $2}')"
+        && eval "$(${PYENV_ROOT}/bin/pyenv init -)" \
+        && log::info "---> pyenv version: $(${PYENV_ROOT}/bin/pyenv --version | awk '{print $2}')"
 }
 
 [ ! -f "$PYENV_ROOT/bin/pyenv" ] && install || log::warning "pyenv already installed! skipping"
