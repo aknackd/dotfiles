@@ -26,7 +26,7 @@ _paths=(
     ${HOME}/.composer/vendor/bin
     ${HOME}/.rbenv/bin
     ${HOME}/.pyenv/bin
-    ${HOME}/.nvm/bin
+    ${HOME}/.nodenv/bin
 )
 for _path in ${_paths[@]}; do
     test -d $_path && PATH="${_path}:${PATH}"
@@ -34,9 +34,9 @@ done
 export PATH
 unset _paths
 
-command -v rbenv 1>/dev/null && eval "$(rbenv init -)"
-command -v pyenv 1>/dev/null && eval "$(pyenv init -)"
-test -f "$HOME/.nvm/nvm.sh"  && source "$HOME/.nvm/nvm.sh"
+command -v rbenv 1>/dev/null  && eval "$(rbenv init -)"
+command -v pyenv 1>/dev/null  && eval "$(pyenv init -)"
+command -v nodenv 1>/dev/null && eval "$(nodenv init -)"
 
 # OSX-specific
 if [ "$(uname -s)" = "Darwin" ]; then
