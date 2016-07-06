@@ -5,10 +5,6 @@ Host github.com github-client
     Port 443
     IdentityFile ~/.ssh/github_rsa
 
-Host *vps?
-    IdentityFile ~/.ssh/vps_rsa
-
 # dynamic jumphost; ex: `$ ssh host1+host2` connects to host2 via host1
 Host *+*
     ProxyCommand ssh $(echo %h | sed 's/+[^+]*$//;s/\([^+%%]*\)%%\([^+]*\)$/\2 -l \1/;s/:/ -p /') nc -w1 $(echo %h | sed 's/^.*+//;/:/!s/$/ %p/;s/:/ /')
-
