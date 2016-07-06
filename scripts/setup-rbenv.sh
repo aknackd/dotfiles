@@ -51,4 +51,4 @@ install() {
     done
 }
 
-[ ! -f "$PYENV_ROOT/bin/rbenv" ] && install || log::warning "rbenv already installed! skipping"
+[ ! -f "$RBENV_ROOT/bin/rbenv" ] && install || log::warning "rbenv already installed! skipping"
