@@ -55,6 +55,8 @@ install_plugins() {
     local readonly plugins=(
         bling/vim-airline
         fatih/vim-go
+        scrooloose/nerdtree
+        godlygeek/tabular
     )
 
     for plugin in "${plugins[@]}"; do
