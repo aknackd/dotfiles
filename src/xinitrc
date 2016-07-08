@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-if test -f /usr/bin/gnome-keyring-daemon
-then
-    eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
+if test $(which gnome-keyring-daemon); then
+    eval $(gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
     export GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GPG_AGENT_INFO SSH_AUTH_SOCK
 fi
 
@@ -14,17 +13,12 @@ autocutsel -fork -selection PRIMARY &
 #xmodmap ~/.keybindings &
 
 # set resolution
-xrandr | grep 1920x1080 | tail -1 >/dev/null
-if test $? -eq 0
-then
-    xrandr --output VGA-0 --mode 1920x1080 &
+if test $(which xrandr); then
+    xrandr | grep 1920x1080 | tail -1 >/dev/null
+    test $? -eq 0 && xrandr --output VGA-0 --mode 1920x1080 &
 fi
 
 # set background
-command -v feh >/dev/null
-if [ $? -eq 0 -a -f ~/.background ]
-then
-    feh --bg-fill ~/.background
-fi
+test $(which feh) -a -f ~/.background && feh --bg-fill ~/.background
 
 exec i3

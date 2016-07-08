@@ -34,9 +34,9 @@ done
 export PATH
 unset _paths
 
-command -v rbenv 1>/dev/null  && eval "$(rbenv init -)"
-command -v pyenv 1>/dev/null  && eval "$(pyenv init -)"
-command -v nodenv 1>/dev/null && eval "$(nodenv init -)"
+test $(which rbenv)  && eval "$(rbenv init -)"
+test $(which pyenv)  && eval "$(pyenv init -)"
+test $(which nodenv) && eval "$(nodenv init -)"
 
 # OSX-specific
 if [ "$(uname -s)" = "Darwin" ]; then
