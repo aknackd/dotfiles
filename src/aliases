@@ -21,7 +21,7 @@ alias screen=tmux
 alias ssh="TERM=xterm-color ssh"
 
 # Prefer neovim over vim
-test $(which nvim) && alias vim=nvim
+command -v nvim >/dev/null && alias vim=nvim
 
 case "$(uname -s)" in
     Darwin)
