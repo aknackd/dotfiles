@@ -52,7 +52,7 @@ COMMANDS
 EXAMPLES
 
     Use the git profile named "home"
-        $ git profile use work
+        $ git profile use home
 
     Create a git profile named "work"
         $ git profile add work
