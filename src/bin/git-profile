@@ -1,0 +1,220 @@
+#!/usr/bin/env bash
+
+#
+# Script to manage ~/.gitconfig. Useful when you're working in
+# multiple environments, so you don't, for example, make commits
+# using your personal name/email at work and vice-versa.
+#
+
+set -o errexit
+
+readonly CONFIGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/git/config/profiles"
+readonly GITCONFIG="$HOME/.gitconfig"
+readonly EDITOR=${EDITOR:-${VISUAL:-nano}}
+
+[ ! -d "$CONFIGDIR" ] && mkdir -p "$CONFIGDIR"
+
+# Set colors if our terminal is able to
+which tput >/dev/null 2>&1 && ncolors=$(tput colors)
+if [[ -t 1 ]] && [[ -n "$ncolors" ]] && [[ "$ncolors" -ge 0 ]] ; then
+    RED="$(tput setaf 1)"
+    GREEN="$(tput setaf 2)"
+    YELLOW="$(tput setaf 3)"
+    BLUE="$(tput setaf 4)"
+    BOLD="$(tput bold)"
+    RESET="$(tput sgr0)"
+else
+    RED=
+    GREEN=
+    YELLOW=
+    BLUE=
+    BOLD=
+    RESET=
+fi
+
+readonly DEFAULT_NAME=$(id -F || whoami)
+readonly NAME_PROMPT="What is your name? [${DEFAULT_NAME}]"
+readonly EMAIL_PROMPT="What is your email address?"
+
+# Display usage
+usage() {
+    cat <<-EOS
+usage: git profile COMMAND <argument>
+
+COMMANDS
+
+    ls         List git profiles
+    use        Set your git profile
+    add        Create a new git profile
+    edit       Edit an existing git profile using your editor (default: nano)
+    rm         Delete a git profile
+
+EXAMPLES
+
+    Use the git profile named "home"
+        $ git profile use work
+
+    Create a git profile named "work"
+        $ git profile add work
+EOS
+    exit 1
+}
+
+# Prompt for user
+#
+# args:
+#     $1 - Text
+#     $2 - Default (optional)
+prompt() {
+    [ $# -lt 1 ] && echo ''
+
+    local question="$1"
+    local default=""
+    if [ ! -z "$2" ]; then
+        default="$2"
+        question+=" [$default] "
+    else
+        question+=" "
+    fi
+
+    read -p "$1 "
+    local answer=$REPLY
+    [ "${#answer}" -eq 0 ] && echo $default || echo $answer
+}
+
+# Display warning message
+_warning() {
+    >&2 echo "${YELLOW}warning: ${1}${RESET}"
+}
+
+# Display error message and exit
+_error() {
+    >&2 echo "${RED}error: ${1}${RESET}"
+    exit 1
+}
+
+# Set profile
+#
+# args:
+#     $1 - profile name
+set_profile() {
+    [ $# -ne 1 ] && _error "Missing profile name!"
+
+    local profile="$CONFIGDIR/$1"
+    [ ! -s "$profile" ] && _error "Cannot set profile to \"$1\"; file $profile does not exist!"
+
+    ln -nfs "$profile" "$GITCONFIG"
+
+    echo "Using profile ${BOLD}${1}${RESET}"
+}
+
+# Create profile
+#
+# args:
+#     $1 - profile name
+create_profile() {
+    [ $# -ne 1 ] && _error "Missing profile name!"
+
+    local profile="$CONFIGDIR/$1"
+    [ -s "$profile" ] && _error "Cannot create profile \"$1\"; profile already exists!"
+
+    local readonly _name=$(prompt "$NAME_PROMPT" "$DEFAULT_NAME")
+    local readonly _email=$(prompt "$EMAIL_PROMPT")
+    cat << EOF > "$profile"
+[user]
+    name = $_name
+    email = $_email
+EOF
+
+    echo
+    echo "${BOLD}Successfully created profile \"$1\"${RESET}"
+    echo "${BOLD}To set this as your profile, execute ${BLUE}git profile use ${1}${RESET}"
+}
+
+# Edit profile using your editor
+#
+# args:
+#     $1 - profile name
+edit_profile() {
+    [ $# -ne 1 ] && _error "Missing profile name!"
+
+    local profile="$CONFIGDIR/$1"
+    [ ! -s "$profile" ] && _error "Cannot edit profile \"$1\"; profile does not exist!"
+
+    # we don't want to ask tons of questions for every possible configuration
+    # option so just put the user into an editor to edit the profile directly
+    exec "$EDITOR" "$profile"
+}
+
+# Delete profile
+#
+# args:
+#     $1 - profile name
+delete_profile() {
+    [ $# -ne 1 ] && _error "Missing profile name!"
+
+    local profile="$CONFIGDIR/$1"
+    local current="$(basename $(readlink "$GITCONFIG"))"
+
+    [ ! -s "$profile" ] && _error "Cannot delete profile \"$1\"; profile doesn't exists!"
+    [[ "$(basename "$profile")" == "$current" ]] && _error "Cannot delete profile \"$1\" as it's the current profile"
+
+    rm -f "$profile"
+}
+
+# Creates a default profile when one doesn't exist
+create_default_profile() {
+    echo "${GREEN}Git config not present at ${GITCONFIG}. Let's create it, shall we?${RESET}"
+    local readonly _name=$(prompt "$NAME_PROMPT" "$DEFAULT_NAME")
+    local readonly _email=$(prompt "$EMAIL_PROMPT")
+    git config --global user.name "$_name"
+    git config --global user.email "$_email"
+    mv "$GITCONFIG" "$CONFIGDIR/default"
+}
+
+# Checks for a default profile, if one doesn't exist then it will be
+# created and set as the default
+default_profile_check() {
+    readonly numProfiles=$(ls -1 "$CONFIGDIR" | wc -l)
+
+    if [[ $numProfiles -eq 0 ]]; then
+        create_default_profile
+        set_profile default
+    fi
+
+    # TODO: What do we do if one of the following is true?
+    #   1) ~/.gitconfig is a regular file; or
+    #   2) ~/.gitconfig is a symlink that *doesn't* point to a file in $CONFIGDIR
+    #
+    # Possible solutions:
+    #   1) Move ~/.gitconfig into $CONFIGDIR/default (if it doesn't exist) then set as profile
+    #   2) Copy ~/.gitconfig target into $ONCIGDIR/default then set as profile
+}
+
+# List profiles
+list_profiles() {
+    local current="$(basename $(readlink "$GITCONFIG"))"
+
+    for profile in $(ls -1 "$CONFIGDIR") ; do
+        local filename="${CONFIGDIR}/${profile}"
+        local name=$(sed 's/[ \t]*//'  $filename | awk -F '=' '/^name/ { print $2 ; exit }' | xargs)
+        local email=$(sed 's/[ \t]*//' $filename | awk -F '=' '/^email/ { print $2 ; exit }' | xargs)
+
+        local output=""
+        output+="[${profile}] ${name} <${email}>"
+        [[ "$profile" == "$current" ]] && output+=" ${GREEN}(current)${RESET}"
+        echo $output
+    done
+}
+
+# always ensure we have a default profile
+default_profile_check
+
+case "$1" in
+    ls)           list_profiles       ;;
+    use)  shift ; set_profile "$1"    ;;
+    add)  shift ; create_profile "$1" ;;
+    edit) shift ; edit_profile "$1"   ;;
+    rm)   shift ; delete_profile "$1" ;;
+    *)            usage               ;;
+esac
