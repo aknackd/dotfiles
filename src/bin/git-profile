@@ -44,6 +44,7 @@ usage: git profile COMMAND <argument>
 COMMANDS
 
     ls         List git profiles
+    current    Display the current profile
     use        Set your git profile
     add        Create a new git profile
     edit       Edit an existing git profile using your editor (default: nano)
@@ -207,14 +208,20 @@ list_profiles() {
     done
 }
 
+# Display the current profile name
+show_current_profile() {
+    echo "$(basename $(readlink "$GITCONFIG"))"
+}
+
 # always ensure we have a default profile
 default_profile_check
 
 case "$1" in
-    ls)           list_profiles       ;;
-    use)  shift ; set_profile "$1"    ;;
-    add)  shift ; create_profile "$1" ;;
-    edit) shift ; edit_profile "$1"   ;;
-    rm)   shift ; delete_profile "$1" ;;
-    *)            usage               ;;
+    ls)              list_profiles        ;;
+    current)         show_current_profile ;;
+    use)     shift ; set_profile "$1"     ;;
+    add)     shift ; create_profile "$1"  ;;
+    edit)    shift ; edit_profile "$1"    ;;
+    rm)      shift ; delete_profile "$1"  ;;
+    *)               usage                ;;
 esac
