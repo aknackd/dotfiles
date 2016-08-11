@@ -132,7 +132,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec bash -c "gdialog --yesno 'Are you sure you want to exit i3?' 0 0 && i3-msg exit"
 
 # Run terminal with mod+enter
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec termite
 
 # Ranger with mod+e
 bindsym $mod+e exec urxvt -e ranger
