@@ -48,7 +48,7 @@ Xcursor.size: 12
 URxvt.background: #181512
 URxvt.urgentOnBell: true
 URxvt.scrollBar: false
-URxvt*font: xft:inconsolata:size=9:hinting=true:monospaced
+URxvt*font: xft:inconsolata:size=12:hinting=true:monospaced
 URxvt.depth: 24
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
