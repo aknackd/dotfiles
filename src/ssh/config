@@ -3,7 +3,7 @@ Host github.com github-client
     HostName ssh.github.com
     User git
     Port 443
-    IdentityFile ~/.ssh/github_rsa
+    IdentityFile ~/.ssh/github_rsa.pem
 
 # dynamic jumphost; ex: `$ ssh host1+host2` connects to host2 via host1
 Host *+*
