@@ -179,7 +179,7 @@ bar {
     height 24
     position top
     #font -misc-fixed-medium-r-normal--6-120-75-75-C-70-iso10646-1
-    font pango:ProFont 6
+    font pango:ProFont 10
     #mode hide
     colors {
         statusline #f0f0f0
