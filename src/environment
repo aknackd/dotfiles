@@ -56,6 +56,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
             export GRAILS_HOME="$(brew --prefix grails)/libexec"
             export GRAILS_OPTS="-XX:-UseSplitVerifier -Xverify:none"
         fi
+        
+        # if node is installed via homebrew then add its bin to $PATH
+        brew list | grep '^node$' >/dev/null
+        [ $? -eq 0 ] && export PATH="$PATH:$(brew --prefix node)/bin"
 
         unset HOMEBREW_PREFIX
     fi
