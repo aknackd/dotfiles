@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-test -z "$PS1" && return
-shopt -s checkwinsize
-
-dotfiles=( .functions .environment .aliases )
-for filename in "${dotfiles[@]}"; do
-    test -f $HOME/$filename && source $HOME/$filename
-done
