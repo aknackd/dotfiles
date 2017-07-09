@@ -26,6 +26,7 @@ install::dotfiles () {
     if [[ $(uname -s) == "Linux" ]]; then
         printf ":: Linking linux-specific dotfiles...\n"
         stow --target $HOME --verbose xorg
+	stow --target $HOME --verbose i3
     fi
 }
 

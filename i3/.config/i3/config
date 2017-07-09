@@ -132,7 +132,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec bash -c "gdialog --yesno 'Are you sure you want to exit i3?' 0 0 && i3-msg exit"
 
 # Run terminal with mod+enter
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec urxvt
 
 # Ranger with mod+e
 bindsym $mod+e exec urxvt -e ranger
@@ -174,12 +174,12 @@ bindsym $mod+bracketright exec compton-trans -c +5
 
 # Status bar uses custom script
 bar {
-    status_command ~/bin/custom_statusbar
+    status_command ~/.config/i3/statusbar.sh
     #tray_output primary
     height 24
     position top
     #font -misc-fixed-medium-r-normal--6-120-75-75-C-70-iso10646-1
-    font pango:ProFont 10
+    font pango:ProFont for Powerline 10
     #mode hide
     colors {
         statusline #f0f0f0
