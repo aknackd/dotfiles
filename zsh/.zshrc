@@ -32,6 +32,7 @@ export HISTCONTROL="ignoredups"
 export HISTSIZE="1000000"
 export HISTTIMEFORMAT="%F %T >> "
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
 export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 
 ___paths=(
