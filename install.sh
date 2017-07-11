@@ -16,7 +16,7 @@ install::homebrew () {
 
 install::dotfiles () {
     printf ":: Linking dotfiles...\n"
-    stow --target $HOME --verbose git ssh tmux vim zsh
+    stow --target $HOME --verbose git neovim ssh tmux vim zsh
 
     mkdir -p $HOME/.ssh/sessions
 
