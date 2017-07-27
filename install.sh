@@ -23,11 +23,17 @@ install::dotfiles () {
     mkdir -p $HOME/bin
     stow --target $HOME/bin bin
 
-    if [[ $(uname -s) == "Linux" ]]; then
-        printf ":: Linking linux-specific dotfiles...\n"
-        stow --target $HOME --verbose xorg
-	stow --target $HOME --verbose i3
-    fi
+    case "$(uname -s)" in
+        Linux)
+            printf ":: Linking linux-specific dotfiles...\n"
+            stow --target $HOME --verbose xorg
+            stow --target $HOME --verbose i3
+            ;;
+        Darwin)
+            printf ":: Linking MacOS-specific dotfiles...\n"
+            stow --target $HOME --verbose macOS
+            ;;
+    esac
 }
 
 install::homebrew
