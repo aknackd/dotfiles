@@ -32,7 +32,7 @@ export HISTCONTROL="ignoredups"
 export HISTSIZE="1000000"
 export HISTTIMEFORMAT="%F %T >> "
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 
 ___paths=(
@@ -41,6 +41,9 @@ ___paths=(
     /usr/local/sbin
     /usr/local/bin
     ${HOME}/.composer/vendor/bin
+    ${ANDROID_SDK_ROOT}/emulator
+    ${ANDROID_SDK_ROOT}/platform-tools
+    ${ANDROID_SDK_ROOT}/tools/bin
 )
 for ___path in ${___paths[@]}; do
     test -d $_path && PATH="${___path}:${PATH}"
