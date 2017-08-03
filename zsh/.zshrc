@@ -146,3 +146,6 @@ gmo () {
 
     git merge origin/$1
 }
+
+# direnv hook
+command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
