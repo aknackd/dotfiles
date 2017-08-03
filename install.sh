@@ -32,6 +32,7 @@ install::dotfiles () {
         Darwin)
             printf ":: Linking MacOS-specific dotfiles...\n"
             stow --target $HOME --verbose macOS
+            stow --target $HOME --verbose chunkwm
             ;;
     esac
 }
