@@ -45,23 +45,23 @@ shift + cmd - right  : chunkc tiling::window --warp-floating top-right
 shift + alt - x : chunkc tiling::window --send-to-desktop $(chunkc get _last_active_desktop)
 shift + alt - z : chunkc tiling::window --send-to-desktop prev
 shift + alt - c : chunkc tiling::window --send-to-desktop next
-shift + alt - 1 : chunkc tiling::window --send-to-desktop 1
-shift + alt - 2 : chunkc tiling::window --send-to-desktop 2
-shift + alt - 3 : chunkc tiling::window --send-to-desktop 3
-shift + alt - 4 : chunkc tiling::window --send-to-desktop 4
-shift + alt - 5 : chunkc tiling::window --send-to-desktop 5
-shift + alt - 6 : chunkc tiling::window --send-to-desktop 6
+# shift + alt - 1 : chunkc tiling::window --send-to-desktop 1
+# shift + alt - 2 : chunkc tiling::window --send-to-desktop 2
+# shift + alt - 3 : chunkc tiling::window --send-to-desktop 3
+# shift + alt - 4 : chunkc tiling::window --send-to-desktop 4
+# shift + alt - 5 : chunkc tiling::window --send-to-desktop 5
+# shift + alt - 6 : chunkc tiling::window --send-to-desktop 6
 
 # send window to desktop and switch desktop
 shift + cmd - x : `id=$(chunkc get _last_active_desktop); chunkc tiling::window -d $id; khd -p "cmd + alt - $id" &> /dev/null`
 shift + cmd - z : chunkc tiling::window -d prev; khd -p "cmd + alt - z"
 shift + cmd - c : chunkc tiling::window -d next; khd -p "cmd + alt - c"
-shift + cmd - 1 : chunkc tiling::window -d 1; khd -p "cmd + alt - 1"
-shift + cmd - 2 : chunkc tiling::window -d 2; khd -p "cmd + alt - 2"
-shift + cmd - 3 : chunkc tiling::window -d 3; khd -p "cmd + alt - 3"
-shift + cmd - 4 : chunkc tiling::window -d 4; khd -p "cmd + alt - 4"
-shift + cmd - 5 : chunkc tiling::window -d 5; khd -p "cmd + alt - 5"
-shift + cmd - 6 : chunkc tiling::window -d 6; khd -p "cmd + alt - 6"
+# shift + cmd - 1 : chunkc tiling::window -d 1; khd -p "cmd + alt - 1"
+# shift + cmd - 2 : chunkc tiling::window -d 2; khd -p "cmd + alt - 2"
+# shift + cmd - 3 : chunkc tiling::window -d 3; khd -p "cmd + alt - 3"
+# shift + cmd - 4 : chunkc tiling::window -d 4; khd -p "cmd + alt - 4"
+# shift + cmd - 5 : chunkc tiling::window -d 5; khd -p "cmd + alt - 5"
+# shift + cmd - 6 : chunkc tiling::window -d 6; khd -p "cmd + alt - 6"
 
 # switch to last active desktop
 cmd + alt - x   : `id=$(chunkc get _last_active_desktop); khd -p "cmd + alt - $id" &> /dev/null`
@@ -85,10 +85,10 @@ shift + alt - a : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-windo
 shift + alt - s : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
 shift + alt - w : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
 shift + alt - d : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
-ctrl + shift - right : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
-ctrl + shift - left  : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
-ctrl + shift - up    : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
-ctrl + shift - down  : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
+cmd + ctrl + shift - right : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge west
+cmd + ctrl + shift - left  : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge east
+cmd + ctrl + shift - up    : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge north
+cmd + ctrl + shift - down  : chunkc tiling::window --use-temporary-ratio 0.1 --adjust-window-edge south
 
 # decrease region size
 shift + cmd - a : chunkc tiling::window --use-temporary-ratio -0.1 --adjust-window-edge west
