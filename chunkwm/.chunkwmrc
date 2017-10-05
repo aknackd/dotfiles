@@ -34,7 +34,7 @@ chunkc set global_desktop_offset_gap     15
 
 # chunkc set 1_desktop_offset_top          190
 # chunkc set 1_desktop_offset_bottom       190
-# chunkc set 1_desktop_offset_left         190
+# chunkc set 1_desktop_offset_left         1
 # chunkc set 1_desktop_offset_right        190
 # chunkc set 1_desktop_offset_gap          15
 
@@ -105,3 +105,7 @@ chunkc core::load border.so
 
 chunkc tiling::rule --owner \"System Preferences\" --subrole AXStandardWindow --state tile
 chunkc tiling::rule --owner Finder --name Copy --state float
+chunkc tiling::rule --owner Finder --state float
+chunkc tiling::rule --owner "App Store" --state float
+chunkc tiling::rule --owner "Sequel Pro" --state float
+chunkc tiling::rule --owner "iTerm2" --state float
