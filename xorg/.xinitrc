@@ -56,4 +56,6 @@ fi
 # set background
 command -v feh >/dev/null -a -f ~/.background && feh --bg-fill ~/.background
 
-exec i3
+#exec i3
+#exec twm
+exec herbstluftwm
