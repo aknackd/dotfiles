@@ -39,5 +39,20 @@ install::dotfiles () {
     esac
 }
 
+setup::neovim () {
+    if which nvim 1>/dev/null 2>/dev/null -eq 0; then
+        if [ ! -d $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim ]; then
+            printf ":: Setting up neovim...\n"
+            git clone https://github.com/Shougo/dein.vim.git $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+            printf "-->\n"
+            printf "--> Dein.vim plugin manager setup\n"
+            printf "--> To complete the installation, open nvim and install dein:\n"
+            printf "-->     :call dein#install()\n"
+            printf "-->\n"
+        fi
+    fi
+}
+
 install::homebrew
 install::dotfiles
+setup::neovim
