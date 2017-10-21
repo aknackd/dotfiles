@@ -28,6 +28,8 @@ install::dotfiles () {
             printf ":: Linking linux-specific dotfiles...\n"
             stow --target $HOME --verbose xorg
             stow --target $HOME --verbose i3
+            stow --target $HOME --verbose herbstluftwm
+            stow --target $HOME --verbose termite
             ;;
         Darwin)
             printf ":: Linking MacOS-specific dotfiles...\n"
