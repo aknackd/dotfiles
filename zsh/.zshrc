@@ -23,14 +23,16 @@ ___am_i_installed() {
 
 ## Setup environment
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export BROWSER="lynx"
 export PAGER="less"
 export TERM="xterm-256color"
+export TERMINAL="urxvt"
 export HISTCONTROL="ignoredups"
 export HISTSIZE="1000000"
 export HISTTIMEFORMAT="%F %T >> "
+export XDG_CONFIG_HOME="$HOME/.config"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
@@ -41,6 +43,7 @@ ___paths=(
     /usr/local/sbin
     /usr/local/bin
     ${HOME}/.composer/vendor/bin
+    ${HOME}/.config/composer/vendor/bin
     ${ANDROID_SDK_ROOT}/emulator
     ${ANDROID_SDK_ROOT}/platform-tools
     ${ANDROID_SDK_ROOT}/tools/bin
@@ -63,11 +66,14 @@ alias rmdir="rm -r"
 alias grep="grep -E --color=auto"
 alias tmux="TERM=xterm-256color tmux"
 alias screen="tmux"
+
 # Avoid wierd errors when ssh'ing into remote servers that don't
 # have 256 color support installed
 alias ssh="TERM=xterm-color ssh"
-# Prefer neovim over vim
-command -v nvim >/dev/null && alias vim="TERM=screen-256color nvim"
+
+command -v nvim >/dev/null   && alias vim="TERM=screen-256color nvim"
+command -v rg >/dev/null     && alias ack="rg"
+command -v rustup >/dev/null && alias rup="rustup"
 
 case "$(uname -s)" in
     Darwin)
@@ -136,6 +142,7 @@ alias gfo="git fetch origin"
 alias gpo="git push origin"
 alias gfu="git fetch upstream"
 alias gpu="git push upstream"
+alias dotnet="TERM=xterm dotnet"
 
 gmo () {
     if test $# -ne 1 ; then
