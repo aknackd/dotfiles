@@ -2,7 +2,7 @@
 # Windows key on most keyboards
 set $mod Mod1
 
-font pango:DejaVu Sans Mono 8
+font pango:DejaVu Sans Mono 9
 #gaps inner 20
 #gaps outer 15
 
@@ -16,7 +16,7 @@ gaps inner 10
 floating_modifier $mod
 
 # Kill focused window with mod+shift+q
-bindsym $mod+Shift+q kill
+bindsym $mod+Shift+q i3-msg exit
 
 # Toggle fullscreen with mod+f
 bindsym $mod+f fullscreen
@@ -132,10 +132,10 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec bash -c "gdialog --yesno 'Are you sure you want to exit i3?' 0 0 && i3-msg exit"
 
 # Run terminal with mod+enter
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec ${TERMINAL:-urxvt}
 
 # Ranger with mod+e
-bindsym $mod+e exec urxvt -e ranger
+bindsym $mod+e exec ${TERMINAL:~urxvt} -e ranger
 
 # Screenshot -> mediacrush with mod+s
 #bindsym $mod+s exec sleep 0.1 && scrush
@@ -144,13 +144,13 @@ bindsym $mod+e exec urxvt -e ranger
 #bindsym $mod+Shift+s exec sleep 0.1 && takeselection
 
 # dmenu with mod+d for arbituary programs
-bindsym $mod+d exec dmenu_run -p "Run:" -l 10
+bindsym $mod+d exec rofi -show run
 
 # dmenu with mod+shift+d for arbituary REMOTE programs on my work laptop
 bindsym $mod+shift+d exec remote_dmenu
 
 # passwords
-bindsym $mod+p exec pass-dmenu
+# bindsym $mod+p exec pass-dmenu
 
 # volume controls (special keys on keyboard)
 bindsym XF86AudioMute exec pa-adjust mute
@@ -178,8 +178,8 @@ bar {
     #tray_output primary
     height 24
     position top
-    #font -misc-fixed-medium-r-normal--6-120-75-75-C-70-iso10646-1
-    font pango:ProFont for Powerline 10
+    # font -misc-fixed-medium-r-normal--6-120-75-75-C-70-iso10646-1
+    font pango:ProFont for Powerline 8
     #mode hide
     colors {
         statusline #f0f0f0
