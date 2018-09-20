@@ -47,7 +47,7 @@ let g:enable_bold_font = 1                                                      
 set t_Co=256                                   " Set 256 colors
 set title                                      " Change the terminal's title
 set number                                     " Line numbers are good
-set relativenumber                             " Show numbers relative to current line
+" set relativenumber                             " Show numbers relative to current line
 set history=500                                " Store lots of :cmdline history
 set showcmd                                    " Show incomplete cmds down the bottom
 set noshowmode                                 " Hide showmode because of the powerline plugin
@@ -321,7 +321,7 @@ let g:user_emmet_next_key = '<c-n>'                                             
 let g:NERDTreeChDirMode = 2                                                     " Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     " Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    " Show hidden files in NERDTree
-let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
+let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea', 'node_modules', 'vendor', 'composer\.lock', 'yarn\.lock']
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           " Snippets setup
 let g:neosnippet#snippets_directory = [
@@ -329,7 +329,7 @@ let g:neosnippet#snippets_directory = [
             \ '~/.config/nvim/snippets']
 
 let g:deoplete#enable_at_startup = 1                                            " Enable deoplete autocompletion
-let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
+let g:deoplete#file#enable_buffer_path = 1                                      " Autocomplete files relative to current buffer
 
 let g:ackhighlight = 1                                                          " Highlight current search
 let g:ackprg = 'ag --vimgrep'                                                   " Use ag instead of ack for searching
