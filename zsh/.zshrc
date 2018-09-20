@@ -23,36 +23,8 @@ ___am_i_installed() {
 
 ## Setup environment
 
-export EDITOR="nvim"
-export VISUAL="$EDITOR"
-export BROWSER="lynx"
-export PAGER="less"
-export TERM="xterm-256color"
-export TERMINAL="urxvt"
-export HISTCONTROL="ignoredups"
-export HISTSIZE="1000000"
-export HISTTIMEFORMAT="%F %T >> "
-export XDG_CONFIG_HOME="$HOME/.config"
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
-
-___paths=(
-    /usr/local/share/npm/bin
-    ${HOME}/bin
-    /usr/local/sbin
-    /usr/local/bin
-    ${HOME}/.composer/vendor/bin
-    ${HOME}/.config/composer/vendor/bin
-    ${ANDROID_SDK_ROOT}/emulator
-    ${ANDROID_SDK_ROOT}/platform-tools
-    ${ANDROID_SDK_ROOT}/tools/bin
-)
-for ___path in ${___paths[@]}; do
-    test -d $_path && PATH="${___path}:${PATH}"
-done
-export PATH
-unset ___paths
+[ -s "$NVM_DIR/nvm.sh" ]          && source "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 ## Aliases
 
@@ -66,6 +38,7 @@ alias rmdir="rm -r"
 alias grep="grep -E --color=auto"
 alias tmux="TERM=xterm-256color tmux"
 alias screen="tmux"
+alias art="php artisan"
 
 # Avoid wierd errors when ssh'ing into remote servers that don't
 # have 256 color support installed
@@ -77,12 +50,6 @@ command -v rustup >/dev/null && alias rup="rustup"
 
 case "$(uname -s)" in
     Darwin)
-        export LSCOLORS=gxfxcxdxbxegedabagacad
-
-        # if node is installed via homebrew then add its bin to $PATH
-        brew list | grep '^node$' >/dev/null
-        [ $? -eq 0 ] && export PATH="$PATH:$(brew --prefix node)/bin"
-
         alias top='top -s 1 -ca -o cpu'
         alias lsmod=kextstat
         alias modprobe=kextload
@@ -156,3 +123,4 @@ gmo () {
 
 # direnv hook
 command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
+
