@@ -1,5 +1,11 @@
 #!/bin/bash
 
+OFFSET_TOP=15
+OFFSET_BOTTOM=15
+OFFSET_LEFT=15
+OFFSET_RIGHT=15
+OFFSET_GAP=15
+
 #
 # NOTE: specify the absolutepath to the directory to use when
 #       loading a plugin. '~' expansion is supported.
@@ -25,23 +31,19 @@ chunkc set global_desktop_mode           bsp
 # chunkc set 1_desktop_tree                ~/.chunkwm_layouts/dev_1
 
 # chunkc set global_desktop_offset_top     20
-chunkc set global_desktop_offset_top     15
-# chunkc set global_desktop_offset_bottom  20
-chunkc set global_desktop_offset_bottom  15
-chunkc set global_desktop_offset_left    15
-chunkc set global_desktop_offset_right   15
-chunkc set global_desktop_offset_gap     15
+chunkc set global_desktop_offset_top     $OFFSET_TOP
+chunkc set global_desktop_offset_bottom  $OFFSET_BOTTOM
+chunkc set global_desktop_offset_left    $OFFSET_LEFT
+chunkc set global_desktop_offset_right   $OFFSET_RIGHT
+chunkc set global_desktop_offset_gap     $OFFSET_GAP
 
-# chunkc set 1_desktop_offset_top          190
-# chunkc set 1_desktop_offset_bottom       190
-# chunkc set 1_desktop_offset_left         1
-# chunkc set 1_desktop_offset_right        190
-# chunkc set 1_desktop_offset_gap          15
-
-# chunkc set 3_desktop_offset_top          190
-# chunkc set 3_desktop_offset_bottom       190
-# chunkc set 3_desktop_offset_left         190
-# chunkc set 3_desktop_offset_right        190
+for idx in $(seq 1 20); do
+    chunkc set "${idx}_desktop_offset_top" $OFFSET_TOP
+    chunkc set "${idx}_desktop_offset_bottom" $OFFSET_BOTTOM
+    chunkc set "${idx}_desktop_offset_left" $OFFSET_LEFT
+    chunkc set "${idx}_desktop_offset_right" $OFFSET_RIGHT
+    chunkc set "${idx}_desktop_offset_gap" $OFFSET_GAP
+done
 
 chunkc set desktop_padding_step_size     10.0
 chunkc set desktop_gap_step_size         5.0
@@ -52,7 +54,8 @@ chunkc set bsp_split_mode                optimal
 chunkc set bsp_split_ratio               0.5
 
 chunkc set window_focus_cycle            monitor
-chunkc set mouse_follows_focus           1
+# chunkc set mouse_follows_focus           1
+chunkc set mouse_follows_focus           0
 chunkc set window_float_next             0
 chunkc set window_float_center           1
 chunkc set window_region_locked          1
@@ -83,8 +86,6 @@ chunkc set window_fade_duration          0.5
 #
 
 chunkc set focused_border_color          0x00c0b18b
-# chunkc set focused_border_color          0xffc0b18b
-# chunkc set focused_border_color          0xffafafaf
 chunkc set focused_border_width          0
 chunkc set focused_border_radius         0
 chunkc set focused_border_skip_floating  0
@@ -103,9 +104,16 @@ chunkc core::load border.so
 #       to pass value containing a whitespace.
 #
 
-chunkc tiling::rule --owner \"System Preferences\" --subrole AXStandardWindow --state tile
-chunkc tiling::rule --owner Finder --name Copy --state float
-chunkc tiling::rule --owner Finder --state float
+# chunkc tiling::rule --owner \"System Preferences\" --subrole AXStandardWindow --state tile
+# chunkc tiling::rule --owner "iTerm2" --state float
+chunkc tiling::rule --owner "System Preferences" --state float
+chunkc tiling::rule --owner "Finder" --name Copy --state float
+chunkc tiling::rule --owner "Finder" --state float
 chunkc tiling::rule --owner "App Store" --state float
-chunkc tiling::rule --owner "Sequel Pro" --state float
-chunkc tiling::rule --owner "iTerm2" --state float
+chunkc tiling::rule --owner "Calculator" --state float
+# chunkc tiling::rule --owner "Sequel Pro" --state float
+chunkc tiling::rule --owner "KeePassX" --state float
+chunkc tiling::rule --owner "KeePassXC" --state float
+chunkc tiling::rule --owner "VMware Fusion" --state float
+chunkc tiling::rule --owner "VirtualBox" --state float
+
