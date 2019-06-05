@@ -47,6 +47,7 @@ alias ssh="TERM=xterm-color ssh"
 command -v nvim >/dev/null   && alias vim="TERM=screen-256color nvim"
 command -v rg >/dev/null     && alias ack="rg"
 command -v rustup >/dev/null && alias rup="rustup"
+command -v bat >/dev/null    && alias cat="bat"
 
 case "$(uname -s)" in
     Darwin)
