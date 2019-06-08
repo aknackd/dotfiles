@@ -2,15 +2,10 @@
 # Windows key on most keyboards
 set $mod Mod1
 
-font pango:DejaVu Sans Mono 9
-#gaps inner 20
-#gaps outer 15
+font pango:Noto Sans 9
 
-gaps outer 20
-gaps inner 10
-
-#gaps outer 30
-#gaps inner 20
+gaps outer 2
+gaps inner 2
 
 # Move window with mod+mouse drag
 floating_modifier $mod
@@ -71,8 +66,8 @@ bindsym $mod+Shift+0 move container to workspace 10
 #bindsym $mod+Shift+m move container to workspace mail
 
 # vim-style window splits and resizing after hitting mod+w
+bindsym $mod+w mode "window"
 mode "window" {
-    # TODO: Send a patch to i3 that lets me do mod+w, mod+v or whatever
     bindsym s split v; mode "default"
     bindsym v split h; mode "default"
     bindsym Shift+comma resize shrink width 10 px or 10 ppt
@@ -83,8 +78,8 @@ mode "window" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+w mode "window"
 
+bindsym $mod+r mode "resize"
 mode "resize" {
     bindsym $mod+Shift+h  resize shrink width 5 px or 5 ppt
     bindsym $mod+Shift+l  resize grow width 5 px or 5 ppt
@@ -99,7 +94,6 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
 
 # Change layouts with mod+,./
 bindsym $mod+comma layout stacking
@@ -143,11 +137,9 @@ bindsym $mod+e exec ${TERMINAL:~urxvt} -e ranger
 # Screenshot -> ~/screenshots with mod+shift+s
 #bindsym $mod+Shift+s exec sleep 0.1 && takeselection
 
-# dmenu with mod+d for arbituary programs
+# rofi with mod+d for arbituary programs
 bindsym $mod+d exec rofi -show run
-
-# dmenu with mod+shift+d for arbituary REMOTE programs on my work laptop
-bindsym $mod+shift+d exec remote_dmenu
+bindsym ctrl+space exec rofi -show run
 
 # passwords
 # bindsym $mod+p exec pass-dmenu
@@ -175,12 +167,12 @@ bindsym $mod+bracketright exec compton-trans -c +5
 # Status bar uses custom script
 bar {
     status_command ~/.config/i3/statusbar.sh
-    #tray_output primary
+    tray_output primary
     height 24
     position top
-    # font -misc-fixed-medium-r-normal--6-120-75-75-C-70-iso10646-1
-    font pango:ProFont for Powerline 8
-    #mode hide
+    font pango:Noto Sans, Ionicons 8
+
+    # mode hide
     colors {
         statusline #f0f0f0
         background #181818
@@ -192,7 +184,7 @@ bar {
 
 # Some simple personal preferences
 hide_edge_borders both
-new_window pixel 1
+default_border normal
 set $bg #1D1A18
 set $fg #9f9f9f
 set $hi #efef8f
