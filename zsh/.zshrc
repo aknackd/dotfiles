@@ -96,6 +96,7 @@ alias d="docker"
 alias dc="docker-compose"
 alias dm="docker-machine"
 
+alias gd="git diff"
 alias gs="git status"
 alias gh="git log --format=\"[%Cgreen %h %Creset] %aI %Cred %an %Creset %s\""
 alias gsup="git standup"
