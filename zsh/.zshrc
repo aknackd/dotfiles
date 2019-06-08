@@ -26,6 +26,12 @@ ___am_i_installed() {
 [ -s "$NVM_DIR/nvm.sh" ]          && source "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
+## Setup fzf
+if [ -d $HOME/.fzf ]; then
+    [[ $- == *i* ]] && source $HOME/.fzf/shell/completion.zsh 2> /dev/null
+    source $HOME/.fzf/shell/key-bindings.zsh
+fi
+
 ## Aliases
 
 alias hostname="echo $(hostname | sed s/\.local$//)"

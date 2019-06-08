@@ -18,6 +18,7 @@ ___paths=(
     ${HOME}/bin
     /usr/local/sbin
     /usr/local/bin
+    ${HOME}/.fzf/bin
     ${HOME}/.composer/vendor/bin
     ${HOME}/.config/composer/vendor/bin
     ${HOME}/.config/yarn/global/bin

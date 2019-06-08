@@ -36,6 +36,14 @@ install::dotfiles () {
     esac
 }
 
+setup::fzf () {
+    if [ ! -d $HOME/.fzf ]; then
+        echo ":: Setting up fzf..."
+        git clone --depth=1 https://github.com/junegunn/fzf.git $HOME/.fzf
+        $HOME/.fzf/install
+    fi
+}
+
 setup::neovim () {
     if [ ! -d $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim ]; then
         echo ":: Setting up neovim..."
@@ -50,4 +58,5 @@ setup::neovim () {
 
 install::homebrew
 install::dotfiles
+setup::fzf
 setup::neovim
