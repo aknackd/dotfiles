@@ -88,7 +88,7 @@ case "$(uname -s)" in
     Linux)
         # ls: Group directories if ls has the capability
         man ls | col -bx | grep '\-\-group\-directories\-first' >/dev/null
-        test $? && alias ls='ls --color=auto --group-directories-first'
+        test $? && alias ls='ls --color=auto --group-directories-first --quoting-style=literal'
         ;;
 esac
 
