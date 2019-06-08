@@ -5,17 +5,14 @@ install::homebrew () {
 
     brew --version 1>/dev/null 2>/dev/null
     if [ $? -ne 0 ]; then
-        printf ":: Installing homebrew...\n"
+        echo ":: Installing homebrew..."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew analytics off
     fi
-
-    printf ":: Installing formulae defined in Brewfile...\n"
-    brew bundle
 }
 
 install::dotfiles () {
-    printf ":: Linking dotfiles...\n"
+    echo ":: Linking dotfiles..."
     stow --target $HOME --verbose git neovim ssh tmux vim zsh
 
     mkdir -p $HOME/.ssh/sessions
@@ -25,14 +22,14 @@ install::dotfiles () {
 
     case "$(uname -s)" in
         Linux)
-            printf ":: Linking linux-specific dotfiles...\n"
+            echo ":: Linking linux-specific dotfiles..."
             stow --target $HOME --verbose xorg
             stow --target $HOME --verbose i3
             stow --target $HOME --verbose herbstluftwm
             stow --target $HOME --verbose termite
             ;;
         Darwin)
-            printf ":: Linking MacOS-specific dotfiles...\n"
+            echo ":: Linking MacOS-specific dotfiles..."
             stow --target $HOME --verbose macOS
             stow --target $HOME --verbose chunkwm
             ;;
@@ -40,16 +37,14 @@ install::dotfiles () {
 }
 
 setup::neovim () {
-    if which nvim 1>/dev/null 2>/dev/null -eq 0; then
-        if [ ! -d $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim ]; then
-            printf ":: Setting up neovim...\n"
-            git clone https://github.com/Shougo/dein.vim.git $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
-            printf "-->\n"
-            printf "--> Dein.vim plugin manager setup\n"
-            printf "--> To complete the installation, open nvim and install dein:\n"
-            printf "-->     :call dein#install()\n"
-            printf "-->\n"
-        fi
+    if [ ! -d $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim ]; then
+        echo ":: Setting up neovim..."
+        git clone https://github.com/Shougo/dein.vim.git $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+        echo "-->"
+        echo "--> Dein.vim plugin manager setup"
+        echo "--> To complete the installation, open nvim and install dein:"
+        echo "-->     :call dein#install()"
+        echo "-->"
     fi
 }
 
