@@ -50,11 +50,12 @@ alias art="php artisan"
 # have 256 color support installed
 alias ssh="TERM=xterm-color ssh"
 
-command -v nvim >/dev/null   && alias vim="TERM=screen-256color nvim"
-command -v rg >/dev/null     && alias ack="rg"
-command -v rustup >/dev/null && alias rup="rustup"
-command -v bat >/dev/null    && alias cat="bat"
-command -v dotnet >/dev/null && alias dotnet="TERM=xterm dotnet"
+command -v nvim >/dev/null        && alias vim="TERM=screen-256color nvim"
+command -v rg >/dev/null          && alias ack="rg"
+command -v rustup >/dev/null      && alias rup="rustup"
+command -v bat >/dev/null         && alias cat="bat"
+command -v dotnet >/dev/null      && alias dotnet="TERM=xterm dotnet"
+command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
 
 case "$(uname -s)" in
     Darwin)
@@ -129,7 +130,4 @@ gmo () {
 
     git merge origin/$1
 }
-
-# direnv hook
-command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
 
