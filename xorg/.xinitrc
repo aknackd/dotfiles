@@ -9,53 +9,14 @@ xset s off &
 xset -dpms &
 xrdb -merge ~/.Xresources &
 autocutsel -fork &
-autocutsel -fork -selection PRIMARY &
-#xmodmap ~/.keybindings &
+urxvtd &
+command -v VBoxClient-all 2>/dev/null && VBoxClient-all &
 
-# set resolution
-if command -v xrandr >/dev/null ; then
-    (
-        MAX_DISPLAYS=5
+xrandr --auto --output VGA-1 --mode 1920x1080 --left-of VGA-2
+xrandr --auto --output VGA-2 --mode 1920x1080 --right-of VGA-1
 
-        # only in VMs for now until we can parse xrandr properly instead of depending on VGA-* named displays
-        grep --color=none hypervisor /proc/cpuinfo >/dev/null
+xsetroot -solid '#181818'
 
-        if [ $? -eq 0 ]; then
-
-            for NUM in 1..$MAX_DISPLAYS; do
-
-                _display=$(xrandr | grep "VGA-${NUM} connected")
-
-                if [ $? -eq 0 ]; then
-
-                    _resolution=$(echo $_display \
-                        | awk '{print $3}' \
-                        | sed -n 's/\(\([0-9]*\)x\([0-9]*\)\).*/\1/p')
-
-                    _args="--output $_display --mode $_resolution"
-
-                    # (for now) assume display num > 1 is to the right of display num-1
-                    # we really should write a proper script to detect this better
-                    [[ $NUM -gt 1 ]] && _xrandr+=" --right-of VGA-$(expr $NUM - 1)"
-
-                    echo "xrandr $_args" >> /home/aknaack/xrandr.log
-
-                    xrandr $_args
-
-                else
-
-                    break  # no need to check for displays that don't exist
-
-                fi
-
-            done
-        fi
-    )
-fi
-
-# set background
-command -v feh >/dev/null -a -f ~/.background && feh --bg-fill ~/.background
-
-#exec i3
-#exec twm
-exec herbstluftwm
+exec i3
+# exec twm
+# exec herbstluftwm

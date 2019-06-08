@@ -48,7 +48,7 @@ Xcursor.size: 12
 URxvt.background: #181512
 URxvt.urgentOnBell: true
 URxvt.scrollBar: false
-URxvt*font: xft:Hack:size=11:hinting=true:monospaced
+URxvt*font: xft:Source Code Pro:size=11:hinting=true:monospaced, xft:Noto Emoji
 URxvt.depth: 24
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
@@ -59,3 +59,10 @@ URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 URxvt.clipboard.copycmd: xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
 URxvt.internalBorder: 5
+
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
