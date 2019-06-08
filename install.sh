@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+declare -a DEPENDENCIES=( stow git tmux )
+
+
+check::dependencies () {
+    for BIN in "${DEPENDENCIES[@]}"; do
+        command -v "$BIN" >/dev/null
+        if [ $? -ne 0 ]; then
+            >&2 echo "ERROR: Please install ${BIN} first before proceeding!"
+            exit 1
+        fi
+    done
+}
+
 install::homebrew () {
     [[ $(uname -s) != "Darwin" ]] && return
 
@@ -56,6 +69,7 @@ setup::neovim () {
     fi
 }
 
+check::dependencies
 install::homebrew
 install::dotfiles
 setup::fzf
