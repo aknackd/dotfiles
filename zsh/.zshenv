@@ -14,6 +14,7 @@ export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 
 ___paths=(
     /usr/local/share/npm/bin
+    ${HOME}/.local/bin
     ${HOME}/bin
     /usr/local/sbin
     /usr/local/bin

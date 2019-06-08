@@ -17,8 +17,8 @@ install::dotfiles () {
 
     mkdir -p $HOME/.ssh/sessions
 
-    mkdir -p $HOME/bin
-    stow --target $HOME/bin bin
+    mkdir -p $HOME/.local/bin
+    stow --target $HOME/.local/bin bin
 
     case "$(uname -s)" in
         Linux)
