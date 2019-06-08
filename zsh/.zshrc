@@ -54,6 +54,7 @@ command -v nvim >/dev/null   && alias vim="TERM=screen-256color nvim"
 command -v rg >/dev/null     && alias ack="rg"
 command -v rustup >/dev/null && alias rup="rustup"
 command -v bat >/dev/null    && alias cat="bat"
+command -v dotnet >/dev/null && alias dotnet="TERM=xterm dotnet"
 
 case "$(uname -s)" in
     Darwin)
@@ -118,7 +119,6 @@ alias gfo="git fetch origin"
 alias gpo="git push origin"
 alias gfu="git fetch upstream"
 alias gpu="git push upstream"
-alias dotnet="TERM=xterm dotnet"
 
 gmo () {
     if test $# -ne 1 ; then
