@@ -11,6 +11,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
+export BAT_STYLE="numbers,changes"
+export BAT_THEME="Monokai Extended Bright"
 
 ___paths=(
     /usr/local/share/npm/bin
