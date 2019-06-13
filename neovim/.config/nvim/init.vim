@@ -77,6 +77,7 @@ set inccommand=split                           " Show substitute changes immidia
 syntax on                                      " Turn on syntax highlighting
 
 silent! colorscheme hybrid_material
+hi Normal guibg=NONE ctermbg=NONE
 
 " ================ Turn Off Swap Files ==============
 
