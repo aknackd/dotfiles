@@ -9,3 +9,4 @@ Thumbs.db
 
 /ssh/.ssh/known_hosts
 /ssh/.ssh/authorized_keys*
+/ssh/.ssh/sessions
