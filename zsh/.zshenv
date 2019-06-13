@@ -36,6 +36,7 @@ export PATH
 unset ___paths
 
 export NVM_DIR="$HOME/.nvm"
+export ASDF_DIR="$HOME/.asdf"
 
 if [ "$(uname -s)" = "Darwin" ]; then
     export LSCOLORS=gxfxcxdxbxegedabagacad

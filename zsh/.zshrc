@@ -25,6 +25,7 @@ ___am_i_installed() {
 
 [ -s "$NVM_DIR/nvm.sh" ]          && source "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+[ -s "$ASDF_DIR/asdf.sh" ]        && source "$ASDF_DIR/asdf.sh"
 
 ## Setup fzf
 if [ -d $HOME/.fzf ]; then
