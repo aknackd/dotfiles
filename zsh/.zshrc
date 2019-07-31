@@ -12,7 +12,7 @@ antigen bundle gitfast
 antigen bundle git-extras
 antigen bundle tmux
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen theme aknackd/zsh-themes arael
+antigen theme aknackd/zsh-themes ramiel
 antigen apply
 
 ## Helper functions
