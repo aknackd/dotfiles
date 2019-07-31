@@ -132,3 +132,13 @@ gmo () {
     git merge origin/$1
 }
 
+gmu () {
+    if test $# -ne 1 ; then
+        printf "Merge a branch from the \`origin\` remote into the current branch\n"
+        printf "Usage: $0 BRANCH\n"
+        return 1
+    fi
+
+    git merge upstream/$1
+}
+
