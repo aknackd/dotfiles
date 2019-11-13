@@ -117,10 +117,12 @@ alias ga="git add"
 alias gm="git merge"
 alias gp="git push"
 alias gr="git reset"
+alias grm="git rm"
 alias gfo="git fetch origin"
 alias gpo="git push origin"
 alias gfu="git fetch upstream"
 alias gpu="git push upstream"
+alias grup="git remote update --prune"
 
 gmo () {
     if test $# -ne 1 ; then
