@@ -1,40 +1,42 @@
-set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 let s:bundle_dir = expand('~/.config/nvim/bundle')
 let s:plugin_dir = s:bundle_dir . '/repos/github.com'
 
-if dein#load_state(s:bundle_dir)
-    call dein#begin(s:bundle_dir)
+call plug#begin('~/.vim/plugged')
+    Plug 'christoomey/vim-tmux-navigator'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'vim-scripts/AnsiEsc.vim'
+    Plug 'w0rp/ale'
+    Plug 'nelstrom/vim-visual-star-search'
+    Plug 'mileszs/ack.vim'
+    Plug 'Raimondi/delimitMate'
+    Plug 'mattn/emmet-vim'
+    Plug 'editorconfig/editorconfig-vim'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-fugitive'
+    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+    Plug 'airblade/vim-gitgutter'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'duff/vim-bufonly'
+    Plug 'gregsexton/MatchTag'
+    Plug 'sheerun/vim-polyglot'
+    " Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/neosnippet'
+    Plug 'honza/vim-snippets'
+    Plug 'dyng/ctrlsf.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/gv.vim'
+    Plug 'nathanaelkane/vim-indent-guides'
 
-    call dein#add(s:plugin_dir . '/Shougo/dein.vim')
-    call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('ryanoasis/vim-devicons')
-    call dein#add('w0rp/ale')
-    call dein#add('nelstrom/vim-visual-star-search')
-    call dein#add('mileszs/ack.vim')
-    call dein#add('Raimondi/delimitMate')
-    call dein#add('mattn/emmet-vim')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('duff/vim-bufonly')
-    call dein#add('gregsexton/MatchTag')
-    call dein#add('sheerun/vim-polyglot')
-    call dein#add('kristijanhusak/vim-hybrid-material')
-    " call dein#add('Shougo/deoplete.nvim')
-    call dein#add('Shougo/neosnippet')
-    call dein#add('honza/vim-snippets')
-    call dein#add('dyng/ctrlsf.vim')
-    call dein#add('ctrlpvim/ctrlp.vim')
-    call dein#add('junegunn/goyo.vim')
-
-    call dein#end()
-    call dein#save_state()
-endif
+    " Plug 'dikiaap/minimalist'
+	" Plug 'nightsense/carbonized'
+	" Plug 'NLKNguyen/papercolor-theme'
+    Plug 'kristijanhusak/vim-hybrid-material'
+	" Plug 'rainglow/vim'
+call plug#end()
 
 filetype plugin indent on                                                       "Enable plugins and indents by filetype
 
@@ -88,7 +90,7 @@ set nowb
 " ================ Persistent Undo ==================
 
 " Keep undo history across sessions, by storing in file.
-silent !mkdir ~/.config/nvim/backups > /dev/null 2>&1
+" silent !mkdir ~/.config/nvim/backups > /dev/null 2>&1
 set undodir=~/.config/nvim/backups
 set undofile
 
@@ -129,6 +131,9 @@ set wildignore+=*sass-cache*
 set wildignore+=*cache*
 set wildignore+=*logs*
 set wildignore+=*node_modules/**
+set wildignore+=*public/css/**/*.css
+set wildignore+=*public/js/**/*.js
+set wildignore+=*vendor/**
 set wildignore+=*DS_Store*
 set wildignore+=*.gem
 set wildignore+=log/**
@@ -252,6 +257,9 @@ vnoremap K :m '<-2<CR>gv=gv
 " Clear search highlight
 nnoremap <Leader><space> :noh<CR>
 
+noremap <Leader>gv :GV<CR>
+noremap <Leader>gv! :GV<CR>
+
 " Toggle distraction free mode
 nnoremap <Leader>g :Goyo<CR>
 
@@ -300,8 +308,11 @@ nnoremap <Leader>r :call SearchAndReplace()<CR>
 
 " ================ plugins setups ========================
 
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:25'           " Ctrlp window setup
-let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       " Ignore .meteor folder
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:10'           " Ctrlp window setup
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ }
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         " Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           " Use ag for searching
 
@@ -313,6 +324,7 @@ let g:airline#extensions#tabline#enabled = 1                                    
 let g:airline#extensions#tabline#left_sep = ' '                                 " Left separator for tabline
 let g:airline#extensions#tabline#left_alt_sep = '│'                             " Right separator for tabline
 
+let g:gitgutter_enabled = 0
 let g:gitgutter_realtime = 0                                                    " Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       " Disable gitgutter to eager load on tab or buffer switch
 
@@ -322,18 +334,33 @@ let g:user_emmet_next_key = '<c-n>'                                             
 let g:NERDTreeChDirMode = 2                                                     " Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     " Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    " Show hidden files in NERDTree
-let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea', 'node_modules', 'vendor', 'composer\.lock', 'yarn\.lock']
+let g:NERDTreeIgnore=[
+    \ 'node_modules',
+    \ 'public\/js',
+    \ 'vendor',
+    \ '\.DS_Store',
+    \ '\.git$',
+    \ '\.php_cs.cache$',
+    \ '\.phpunit.result.cache$',
+    \ '\.sass-cache$',
+    \ '\.vagrant',
+    \ '\.idea',
+    \ 'composer\.lock',
+    \ 'yarn\.lock',
+    \ ]
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           " Snippets setup
 let g:neosnippet#snippets_directory = [
             \ s:plugin_dir . '/honza/vim-snippets/snippets',
             \ '~/.config/nvim/snippets']
 
-let g:deoplete#enable_at_startup = 1                                            " Enable deoplete autocompletion
+let g:deoplete#enable_at_startup = 0                                            " Enable deoplete autocompletion
 let g:deoplete#file#enable_buffer_path = 1                                      " Autocomplete files relative to current buffer
 
 let g:ackhighlight = 1                                                          " Highlight current search
-let g:ackprg = 'ag --vimgrep'                                                   " Use ag instead of ack for searching
+let g:ackprg = 'ripgrep --vimgrep'                                              " Use ripgrep instead of ack for searching
 
 let g:delimitMate_expand_cr = 1                                                 " auto indent on enter
 
@@ -349,7 +376,10 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                
 
 let g:jsx_ext_required = 1                                                      " Force jsx extension for jsx filetype
 
+let g:indent_guides_enable_on_vim_startup = 0
+
 " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 set nowrap
 nmap <leader>ne :NERDTreeToggle<cr>
+
