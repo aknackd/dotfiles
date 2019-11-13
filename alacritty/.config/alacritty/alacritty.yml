@@ -18,7 +18,7 @@ window:
   # (changes require restart)
   dimensions:
     columns: 120
-    lines: 80
+    lines: 30
 
   # Adds this many blank pixels of padding around the window
   # Units are physical pixels; this is not DPI aware.
@@ -78,24 +78,24 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: mononoki
     # Style can be specified to pick a specific face.
-    # style: Regular
+    family: mononoki Nerd Font Mono
+    style: Regular
 
   # The bold font face
   bold:
-    family: mononoki
+    family: mononoki Nerd Font Mono
     # Style can be specified to pick a specific face.
     # style: Bold
 
   # The italic font face
   italic:
-    family: mononoki
+    family: mononoki Nerd Font Mono
     # Style can be specified to pick a specific face.
     # style: Italic
 
   # Point size of the font
-  size: 14.0
+  size: 13.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -116,7 +116,7 @@ font:
   use_thin_strokes: true
 
 # Should display the render timer
-render_timer: false
+# render_timer: false
 
 # Use custom cursor colors. If true, display the cursor in the cursor.foreground
 # and cursor.background colors, otherwise invert the colors of the cursor.
@@ -420,3 +420,5 @@ key_bindings:
   - { key: F11,      mods: Command, chars: "\x1b[23;3~"                  }
   - { key: F12,      mods: Command, chars: "\x1b[24;3~"                  }
   - { key: NumpadEnter,             chars: "\n"                          }
+
+  - { key: N,        mods: Command|Shift, command: { program: "open", args: ["-nb", "io.alacritty"] } }
