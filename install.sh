@@ -26,7 +26,7 @@ install::homebrew () {
 
 install::dotfiles () {
     echo ":: Linking dotfiles..."
-    stow --target $HOME --verbose alacritty git neovim ssh tmux vim zsh
+    stow --target $HOME --verbose alacritty direnv git neovim ssh tmux vim zsh
 
     mkdir -p $HOME/.ssh/sessions
 
