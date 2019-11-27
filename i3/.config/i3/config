@@ -129,7 +129,7 @@ bindsym $mod+Shift+e exec bash -c "gdialog --yesno 'Are you sure you want to exi
 bindsym $mod+Return exec ${TERMINAL:-urxvt}
 
 # Ranger with mod+e
-bindsym $mod+e exec ${TERMINAL:~urxvt} -e ranger
+# bindsym $mod+e exec ${TERMINAL:~urxvt} -e ranger
 
 # Screenshot -> mediacrush with mod+s
 #bindsym $mod+s exec sleep 0.1 && scrush
@@ -164,23 +164,29 @@ bindsym $mod+Shift+Pause exec xmodmap ~/.keybindings
 bindsym $mod+bracketleft exec compton-trans -c -5
 bindsym $mod+bracketright exec compton-trans -c +5
 
-# Status bar uses custom script
-bar {
-    status_command ~/.config/i3/statusbar.sh
-    tray_output primary
-    height 24
-    position top
-    font pango:Noto Sans, Ionicons 8
+# Polybar handles our bar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-    # mode hide
-    colors {
-        statusline #f0f0f0
-        background #181818
-        focused_workspace #181818 #181818 #3a97de
-        inactive_workspace #181818 #181818 #F0F0F0
-        active_workspace #181818 #181818 #F0F0F0
-    }
-}
+# Status bar uses custom script
+# bar {
+#     status_command ~/.config/i3/statusbar.sh
+#     tray_output primary
+#     height 24
+#     position bottom
+#     workspace_buttons yes
+#
+#     # font pango:Noto Sans, Ionicons 8
+#     font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+#
+#     # mode hide
+#     colors {
+#         statusline #f0f0f0
+#         background #181818
+#         focused_workspace #181818 #181818 #3a97de
+#         inactive_workspace #181818 #181818 #F0F0F0
+#         active_workspace #181818 #181818 #F0F0F0
+#     }
+# }
 
 # Some simple personal preferences
 hide_edge_borders both
