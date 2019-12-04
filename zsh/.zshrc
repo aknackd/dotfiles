@@ -36,7 +36,6 @@ fi
 ## Aliases
 
 alias hostname="echo $(hostname | sed s/\.local$//)"
-alias whereami="echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)""
 alias df="df -hT"
 alias more="less -im"
 alias mv="mv -i"
@@ -144,3 +143,6 @@ gmu () {
     git merge upstream/$1
 }
 
+whereami () {
+    echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"
+}
