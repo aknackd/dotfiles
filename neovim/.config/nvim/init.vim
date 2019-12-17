@@ -74,7 +74,8 @@ set completeopt-=preview                       " Disable preview for autocomplet
 set background=dark                            " Set background to dark
 set hidden                                     " Hide buffers in background
 set conceallevel=2 concealcursor=i             " neosnippets conceal marker
-set splitright                                 " Set up new splits positions
+split below                                    " Set up new horozontal split below
+set splitright                                 " Set up new vertical splits to the right
 set path+=**                                   " Allow recursive search
 set inccommand=split                           " Show substitute changes immidiately in separate split
 
@@ -82,6 +83,7 @@ syntax on                                      " Turn on syntax highlighting
 
 silent! colorscheme hybrid_material
 hi Normal guibg=NONE ctermbg=NONE
+set notermguicolors
 
 set cmdheight=2
 set updatetime=300
@@ -202,10 +204,8 @@ endfunction
 
 " ================ Custom mappings ========================
 
-" Comment map
-nmap <Leader>c gcc
-" Line comment command
-xmap <Leader>c gc
+nmap <Leader>c gcc       " Comment map
+xmap <Leader>c gc        " Line comment command
 
 " Map save to Ctrl + S
 map <c-s> :w<CR>
