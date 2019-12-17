@@ -74,7 +74,7 @@ set completeopt-=preview                       " Disable preview for autocomplet
 set background=dark                            " Set background to dark
 set hidden                                     " Hide buffers in background
 set conceallevel=2 concealcursor=i             " neosnippets conceal marker
-split below                                    " Set up new horozontal split below
+set splitbelow                                 " Set up new horozontal split below
 set splitright                                 " Set up new vertical splits to the right
 set path+=**                                   " Allow recursive search
 set inccommand=split                           " Show substitute changes immidiately in separate split
