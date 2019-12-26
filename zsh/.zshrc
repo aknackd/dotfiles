@@ -21,6 +21,10 @@ ___am_i_installed() {
     command -v $1 >/dev/null 2>&1 && echo 1 || echo 0
 }
 
+___am_i_running() {
+    ps -ef | grep "$(echo "$1" | perl -lape 's/^(.)/\[$1\]/')" 2>&1 >/dev/null && echo 1 || echo 0
+}
+
 ## Setup environment
 
 [ -s "$NVM_DIR/nvm.sh" ]          && source "$NVM_DIR/nvm.sh"
@@ -49,6 +53,9 @@ alias art="php artisan"
 # Avoid wierd errors when ssh'ing into remote servers that don't
 # have 256 color support installed
 alias ssh="TERM=xterm-color ssh"
+
+# Startup ssh-agent if not already running
+[ $(___am_i_running ssh-agent) -eq 0 ] && eval "$(ssh-agent -s)"
 
 command -v nvim >/dev/null        && alias vim="TERM=screen-256color nvim"
 command -v rg >/dev/null          && alias ack="rg"
@@ -91,6 +98,9 @@ case "$(uname -s)" in
 
             unset ___HOMEBREW_PREFIX
         fi
+
+        # Use ssh keys added to our keychain when on macOS
+        ssh-add -A
         ;;
 
     Linux)
