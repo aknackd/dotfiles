@@ -37,9 +37,5 @@ unset ___paths
 
 export NVM_DIR="$HOME/.nvm"
 
-if [ "$(uname -s)" = "Darwin" ]; then
-    export LSCOLORS=gxfxcxdxbxegedabagacad
-    brew list | grep '^node$' >/dev/null
-    [ $? -eq 0 ] && export PATH="$PATH:$(brew --prefix node)/bin"
-fi
+export LSCOLORS=gxfxcxdxbxegedabagacad
 
