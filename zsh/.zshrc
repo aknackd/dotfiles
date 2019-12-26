@@ -60,6 +60,7 @@ command -v nvim >/dev/null        && alias vim="TERM=screen-256color nvim"
 command -v rg >/dev/null          && alias ack="rg"
 command -v rustup >/dev/null      && alias rup="rustup"
 command -v bat >/dev/null         && alias cat="bat"
+command -v batcat >/dev/null      && alias cat="batcat"
 command -v dotnet >/dev/null      && alias dotnet="TERM=xterm dotnet"
 command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
 
