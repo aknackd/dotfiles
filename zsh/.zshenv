@@ -1,18 +1,18 @@
-export EDITOR="nvim"
-export VISUAL="$EDITOR"
-export BROWSER="lynx"
-export PAGER="less"
-export TERM="xterm-256color"
-export TERMINAL="urxvt"
-export HISTCONTROL="ignoredups"
-export HISTSIZE="1000000"
-export HISTTIMEFORMAT="%F %T >> "
-export XDG_CONFIG_HOME="$HOME/.config"
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
-export BAT_STYLE="changes"
-export BAT_THEME="Monokai Extended Bright"
+ EDITOR="nvim"
+ VISUAL="$EDITOR"
+ BROWSER="lynx"
+ PAGER="less"
+ TERM="xterm-256color"
+ TERMINAL="urxvt"
+ HISTCONTROL="ignoredups"
+ HISTSIZE="1000000"
+ HISTTIMEFORMAT="%F %T >> "
+ XDG_CONFIG_HOME="$HOME/.config"
+ DOTNET_CLI_TELEMETRY_OPTOUT=1
+ ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+ MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
+ BAT_STYLE="changes"
+ BAT_THEME="Monokai Extended Bright"
 
 ___paths=(
     /usr/local/share/npm/bin
@@ -32,15 +32,15 @@ ___paths=(
 for ___path in ${___paths[@]}; do
     test -d $___path && PATH="${___path}:${PATH}"
 done
-export PATH
+ PATH
 unset ___paths
 
-export NVM_DIR="$HOME/.nvm"
-export ASDF_DIR="$HOME/.asdf"
+ NVM_DIR="$HOME/.nvm"
+ ASDF_DIR="$HOME/.asdf"
 
 if [ "$(uname -s)" = "Darwin" ]; then
-    export LSCOLORS=gxfxcxdxbxegedabagacad
+     LSCOLORS=gxfxcxdxbxegedabagacad
     brew list | grep '^node$' >/dev/null
-    [ $? -eq 0 ] && export PATH="$PATH:$(brew --prefix node)/bin"
+    [ $? -eq 0 ] &&  PATH="$PATH:$(brew --prefix node)/bin"
 fi
 
