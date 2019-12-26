@@ -58,13 +58,15 @@ setup::fzf () {
 }
 
 setup::neovim () {
-    if [ ! -d $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim ]; then
+    local vimplug="$HOME/.local/share/nvim/site/autoload/plug.vim"
+
+    if [ ! -f "$vimplug" ]; then
         echo ":: Setting up neovim..."
-        git clone https://github.com/Shougo/dein.vim.git $HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+        curl -fLo "$vimplug" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         echo "-->"
         echo "--> Dein.vim plugin manager setup"
-        echo "--> To complete the installation, open nvim and install dein:"
-        echo "-->     :call dein#install()"
+        echo "--> To complete the installation, open nvim and install plugins:"
+        echo "-->     :PlugInstall"
         echo "-->"
     fi
 }
