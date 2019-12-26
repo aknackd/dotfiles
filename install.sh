@@ -64,7 +64,7 @@ setup::neovim () {
         echo ":: Setting up neovim..."
         curl -fLo "$vimplug" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         echo "-->"
-        echo "--> Dein.vim plugin manager setup"
+        echo "--> vim-plug plugin manager setup"
         echo "--> To complete the installation, open nvim and install plugins:"
         echo "-->     :PlugInstall"
         echo "-->"
