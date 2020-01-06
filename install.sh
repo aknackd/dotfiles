@@ -16,7 +16,7 @@ check::dependencies () {
 install::homebrew () {
     [[ $(uname -s) != "Darwin" ]] && return
 
-    brew --version 1>/dev/null 2>/dev/null
+    command -v brew 2>&1 >/dev/null
     if [ $? -ne 0 ]; then
         echo ":: Installing homebrew..."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
