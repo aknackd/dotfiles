@@ -81,6 +81,9 @@ case "$(uname -s)" in
             alias 7z="$___HOMEBREW_PREFIX/bin/7za"
             alias git="$___HOMEBREW_PREFIX/bin/git"
 
+            # Use Homebrew emacs (if installed)
+            [ $(brew --cellar emacs) ] && alias emacs="$___HOMEBREW_PREFIX/bin/emacs"
+
             # prefer GNU versions
             alias ls="${___HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first --quoting-style=literal"
             alias seq="${___HOMEBREW_PREFIX}/bin/gseq"
@@ -100,7 +103,7 @@ case "$(uname -s)" in
         fi
 
         # Use ssh keys added to our keychain when on macOS
-        ssh-add -A
+        ssh-add -A 2>/dev/null
         ;;
 
     Linux)
