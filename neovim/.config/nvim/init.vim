@@ -67,7 +67,7 @@ set timeoutlen=1000 ttimeoutlen=200            " Reduce Command timeout for fast
 set fileencoding=utf-8                         " Set utf-8 encoding on write
 set wrap                                       " Enable word wrap
 set linebreak                                  " Wrap lines at convenient points
-set listchars=tab:\ \ ,trail:·                 " Set trails for tabs and spaces
+set listchars=space:·,tab:\ \ ,trail:·   " Set trails for tabs and spaces
 set list                                       " Enable listchars
 set lazyredraw                                 " Do not redraw on registers and macros
 set completeopt-=preview                       " Disable preview for autocomplete
@@ -312,7 +312,7 @@ let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           " Use ag for searching
 
 let g:airline_powerline_fonts = 1                                               " Enable powerline fonts
-let g:airline_theme = "hybrid"                                                  " Set theme to powerline default theme
+let g:airline_theme = "minimalist"                                              " Set theme to powerline default theme
 let g:airline_section_y = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  " Set relative path
 let g:airline#extensions#whitespace#enabled = 0                                 " Disable whitespace extension
 let g:airline#extensions#tabline#enabled = 1                                    " Enable tabline extension
