@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare -a DEPENDENCIES=( stow git tmux )
+declare -a DEPENDENCIES=( curl stow git tmux )
 
 
 check::dependencies () {
