@@ -40,7 +40,6 @@ install::dotfiles () {
             stow --target $HOME --verbose i3
             stow --target $HOME --verbose herbstluftwm
             stow --target $HOME --verbose polybar
-            stow --target $HOME --verbose termite
             ;;
         Darwin)
             echo ":: Linking MacOS-specific dotfiles..."
