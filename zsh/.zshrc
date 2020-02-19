@@ -159,3 +159,6 @@ gmu () {
 whereami () {
     echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"
 }
+
+[ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
+

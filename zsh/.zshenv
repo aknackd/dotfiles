@@ -39,3 +39,5 @@ export NVM_DIR="$HOME/.nvm"
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
+[ -f "$HOME/.zshenv.local" ] && . "$HOME/.zshenv.local"
+
