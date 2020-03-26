@@ -21,6 +21,7 @@ ___paths=(
     ${HOME}/bin
     /usr/local/sbin
     /usr/local/bin
+    ${N_PREFIX}/bin
     ${HOME}/.yarn/bin
     ${HOME}/.config/yarn/global/node_modules/.bin
     ${HOME}/.fzf/bin
