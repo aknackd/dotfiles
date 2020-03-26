@@ -7,7 +7,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-scripts/AnsiEsc.vim'
     Plug 'w0rp/ale'
     Plug 'nelstrom/vim-visual-star-search'
-    Plug 'mileszs/ack.vim'
+    Plug 'jremmen/vim-ripgrep'
     Plug 'Raimondi/delimitMate'
     Plug 'mattn/emmet-vim'
     Plug 'editorconfig/editorconfig-vim'
@@ -22,7 +22,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'duff/vim-bufonly'
     Plug 'gregsexton/MatchTag'
     Plug 'sheerun/vim-polyglot'
-    " Plug 'Shougo/deoplete.nvim'
     Plug 'Shougo/neosnippet'
     Plug 'honza/vim-snippets'
     Plug 'dyng/ctrlsf.vim'
@@ -31,12 +30,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/gv.vim'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    Plug 'terryma/vim-multiple-cursors'
+    Plug 'kristijanhusak/vim-hybrid-material'
 
+    " Plug 'terryma/vim-multiple-cursors'
     " Plug 'dikiaap/minimalist'
 	" Plug 'nightsense/carbonized'
 	" Plug 'NLKNguyen/papercolor-theme'
-    Plug 'kristijanhusak/vim-hybrid-material'
 	" Plug 'rainglow/vim'
 call plug#end()
 
@@ -386,8 +385,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 set nowrap
-nmap <leader>ne :NERDTreeToggle<cr>
-
+nnoremap <leader>pt :NERDTreeToggle<cr>
 " ================ coc.nvim setup ========================
 
 " Use tab for trigger completion with characters ahead and navigate.
