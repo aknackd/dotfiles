@@ -13,6 +13,7 @@ export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 export BAT_STYLE="changes"
 export BAT_THEME="Monokai Extended Bright"
+export N_PREFIX="$HOME/.n"
 
 ___paths=(
     /usr/local/share/npm/bin
@@ -20,6 +21,7 @@ ___paths=(
     ${HOME}/bin
     /usr/local/sbin
     /usr/local/bin
+    ${N_PREFIX}/bin
     ${HOME}/.fzf/bin
     ${HOME}/.composer/vendor/bin
     ${HOME}/.config/composer/vendor/bin
@@ -35,7 +37,7 @@ done
 export PATH
 unset ___paths
 
-export NVM_DIR="$HOME/.nvm"
+[ ! -d "$N_PREFIX" ] && mkdir -p
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
