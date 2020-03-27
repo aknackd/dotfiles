@@ -4,6 +4,8 @@ if ! test -d $HOME/.antigen ; then
     git clone https://github.com/zsh-users/antigen.git $HOME/.antigen
 fi
 
+[ ! -d "$N_PREFIX" ] && mkdir -p "$N_PREFIX"
+
 ## Setup antigen
 source $HOME/.antigen/antigen.zsh
 

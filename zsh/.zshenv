@@ -39,8 +39,6 @@ done
 export PATH
 unset ___paths
 
-[ ! -d "$N_PREFIX" ] && mkdir -p
-
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
 [ -f "$HOME/.zshenv.local" ] && . "$HOME/.zshenv.local"
