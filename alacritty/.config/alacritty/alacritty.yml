@@ -24,8 +24,8 @@ window:
   # Units are physical pixels; this is not DPI aware.
   # (change requires restart)
   padding:
-    x: 20
-    y: 20
+    x: 30
+    y: 30
 
   # Window decorations
   #
@@ -54,13 +54,6 @@ scrolling:
   # scrolled when scrollback is enabled (history > 0).
   multiplier: 3
 
-  # Automatically scroll to the bottom when new text is written
-  # to the terminal.
-  auto_scroll: false
-
-# Display tabs using this many cells (changes require restart)
-tabspaces: 8
-
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: true
 
@@ -69,23 +62,23 @@ font:
   # The normal (roman) font face to use.
   normal:
     # Style can be specified to pick a specific face.
-    family: mononoki Nerd Font Mono
-    style: Regular
+    family:  Ubuntu Mono
+    # style: Regular
 
   # The bold font face
   bold:
-    family: mononoki Nerd Font Mono
+    family:  Ubuntu Mono
     # Style can be specified to pick a specific face.
     # style: Bold
 
   # The italic font face
   italic:
-    family: mononoki Nerd Font Mono
+    family:  Ubuntu Mono
     # Style can be specified to pick a specific face.
     # style: Italic
 
   # Point size of the font
-  size: 13.0
+  size: 16.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
