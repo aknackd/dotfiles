@@ -25,11 +25,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'Shougo/neosnippet'
     Plug 'honza/vim-snippets'
     Plug 'dyng/ctrlsf.vim'
-    Plug 'ctrlpvim/ctrlp.vim'
     Plug 'junegunn/goyo.vim'
     Plug 'junegunn/gv.vim'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
     Plug 'kristijanhusak/vim-hybrid-material'
 
     " Plug 'terryma/vim-multiple-cursors'
@@ -276,10 +277,6 @@ nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 nnoremap <Leader>f :call Search()<CR>
 nnoremap <Leader>af :CtrlSF
 
-" Toggle buffer list
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPBufTag<CR>
-
 " Maps for indentation in normal mode
 nnoremap <tab> >>
 nnoremap <s-tab> <<
@@ -302,13 +299,9 @@ nnoremap <Leader>r :call SearchAndReplace()<CR>
 
 " ================ plugins setups ========================
 
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:10'           " Ctrlp window setup
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(exe|so|dll)$',
-    \ }
-let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         " Map delete buffer in ctrlp
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           " Use ag for searching
+let g:fzf_preview_window = ''
+autocmd! FileType fzf
+autocmd  FileType fzf set noshowmode noruler nonu
 
 let g:airline_powerline_fonts = 1                                               " Enable powerline fonts
 let g:airline_theme = "minimalist"                                              " Set theme to powerline default theme
@@ -404,6 +397,9 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
+" Use ctrl+p to trigger fzf for searching for files in the current directory
+nnoremap <C-P> :Files <CR>
+
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -483,18 +479,11 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Using CocList
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
 nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
 nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
