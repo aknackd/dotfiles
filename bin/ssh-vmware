@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+
+# SSH into a VMware Fusion guest
+#
+# Looks up the guest IP address by their hostname recorded in VMware Fusion's
+# DHCP leases file then attempts to open an SSH connection to the guest.
+
+# macOS only
+if [ "$(uname -s)" != "Darwin" ]; then
+   2>&1 printf "ERROR: This script only works on MacOS!\n"
+   exit 1
+fi
+
+# Check that VMware Fusion is installed
+if [ ! -d /Applications/VMware\ Fusion.app ]; then
+    2>&1 printf "ERROR: VMware Fusion is not installed!\n"
+    exit 1
+fi
+
+if [ $# -ne 1 ]; then
+    1>&2 printf "Usage: %s hostname\n" "$(basename $0)"
+    exit 1
+fi
+
+readonly VM="$1"
+readonly SSH_OPTIONS="-o UserKnownHostsFile /dev/null"
+readonly TIMEOUTS=(5 10 15 20)
+
+readonly COLOR_RED=$(echo -e "\033[0;31m")
+readonly COLOR_GREEN=$(echo -e "\033[0;32m")
+readonly COLOR_YELLOW=$(echo -e "\033[0;33m")
+readonly COLOR_RESET=$(echo -e "\033[0;0m")
+
+# Write a message in a particular color
+#
+# @param {string} color
+# @param {string} message
+chalk () {
+    readonly color="$(printf "COLOR_%s" "${1^^}")"
+    readonly message="$2"
+
+    if [ "$NOCOLOR" = "1" ]; then
+        echo "$message"
+    else
+        echo -e "${!color}${message}${COLOR_RESET}"
+    fi
+}
+
+# Prints the current timestamp
+now () {
+    echo -n "$(date +"%Y-%m-%dT%H:%M:%S%z")"
+}
+
+# Prints an informational log message
+log::info () {
+    1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk green "$1")"
+}
+
+# Prints an error message
+log::error () {
+    1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk red "$1")"
+}
+
+# Prints a warning message
+log::warning () {
+    1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk yellow "$1")"
+}
+
+# Go through the dhcpd leases file and print the hosts known to fusion
+#
+# Adapted from https://stackoverflow.com/a/2143661
+vmware::print_hosts () {
+   awk 'BEGIN{
+      RS="}"
+      FS="\n"
+  }
+  /lease/{
+      for (i = 1; i<= NF; i++) {
+          gsub(";", "", $i)
+          if ($i ~ /lease/) {
+              m = split($i, IP, " ")
+              ip = IP[2]
+          }
+          if ($i ~ /hardware/) {
+              m = split($i, hw, " ")
+              ether = hw[3]
+          }
+          if ($i ~ /client-hostname/) {
+              m = split($i, ch, " ")
+              hostname = ch[2]
+          }
+          if ($i ~ /uid/) {
+              m = split($i, ui, " ")
+              uid = ui[2]
+          }
+      }
+
+      print "hostname: "hostname " ip: "ip
+  } ' /var/db/vmware/vmnet-dhcpd-vmnet8.leases | sed 's/"//g' | sort | uniq
+}
+
+# Main entry point
+main () {
+    log::info "Attempting to find IP address of guest: $(chalk reset "${VM}")"
+
+    # Check if the hostname is in the dhcpd.leases file
+    readonly ENTRIES=$(vmware::print_hosts  | grep "$VM")
+    readonly NUM_ENTRIES="$(echo "$ENTRIES" | sed '/^\s*$/d' | wc -l)"
+
+    if [ $NUM_ENTRIES -eq 0 ]; then
+        log::error "ERROR: No dhcpd lease entry found for $(chalk green "${VM}")"
+        exit 1
+    elif [ $NUM_ENTRIES -gt 1 ]; then
+        log::error "ERROR: More than one dhcp entry found for ${VM}:\n\n"
+        log::error "$(echo "$ENTRIES" | sed 's/^/    /')\n"
+        exit 1
+    fi
+
+    # Grab the VM's IP address
+    readonly IPADDR=$(echo "$ENTRIES" | tail -1 | awk '{print $4 }')
+
+    log::info "Found IP address of guest ${VM}: $(chalk reset "${IPADDR}")"
+
+    # Continually try to ping the VM to ensure it's up yet before attempting to ssh into it
+    for TIMEOUT in "${TIMEOUTS[@]}"; do
+        log::info "Attempting to ssh to $(chalk reset "${VM}")"
+
+        ping -c 1 -t 1 "$IPADDR" >/dev/null
+        # We got a response, ssh to the VM
+        if [ $? -eq 0 ]; then
+            ssh "$SSH_OPTIONS" "$IPADDR"
+            exit $?
+        fi
+
+        log::warning "WARNING: Failed to ping ${VM}, trying again in ${TIMEOUT} second(s)"
+        sleep $TIMEOUT
+    done
+
+    # If we got here, the host is either not up or not fully booted with ssh running, so we must exit
+
+    log::error "ERROR: Couldn't connect to $(chalk reset "${VM}")"
+    log::error "Guest could be down, hasn't fully booted up yet, or ssh is not running"
+    log::error "Exiting"
+
+    exit 1
+}
+
+main
+
