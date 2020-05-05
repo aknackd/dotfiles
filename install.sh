@@ -66,8 +66,19 @@ setup::neovim () {
     fi
 }
 
+setup::tmux () {
+    local tpmdir="$HOME/.tmux/plugins/tpm"
+
+    if [ ! -d "$tpmdir" ]; then
+        echo ":: Setting up tmux..."
+        git clone https://github.com/tmux-plugins/tpm "$tpmdir"
+    fi
+}
+
 check::dependencies
 install::homebrew
 install::dotfiles
 setup::fzf
 setup::neovim
+setup::tmux
+
