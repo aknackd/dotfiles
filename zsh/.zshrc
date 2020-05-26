@@ -14,6 +14,7 @@ antigen bundle gitfast
 antigen bundle git-extras
 antigen bundle tmux
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
 antigen theme aknackd/zsh-themes ramiel
 antigen apply
 
