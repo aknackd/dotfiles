@@ -1,7 +1,7 @@
 let s:bundle_dir = expand('~/.config/nvim/bundle')
 let s:plugin_dir = s:bundle_dir . '/repos/github.com'
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'ryanoasis/vim-devicons'
     Plug 'vim-scripts/AnsiEsc.vim'
