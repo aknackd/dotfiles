@@ -83,8 +83,8 @@ bindsym $mod+r mode "resize"
 mode "resize" {
     bindsym $mod+Shift+h  resize shrink width 5 px or 5 ppt
     bindsym $mod+Shift+l  resize grow width 5 px or 5 ppt
-    bindsym $mod+Shift+j  resize grow width 5 px or 5 ppt
-    bindsym $mod+Shift+k  resize shrink width 5 px or 5 ppt
+    bindsym $mod+Shift+j  resize grow height 5 px or 5 ppt
+    bindsym $mod+Shift+k  resize shrink height 5 px or 5 ppt
 
     bindsym $mod+Shift+Left   resize shrink width 5 px or 5 ppt
     bindsym $mod+Shift+Right  resize grow width 5 px or 5 ppt
@@ -211,3 +211,4 @@ client.focused_inactive $bg     $bg         $ac     $id
 client.urgent           $rd     $rd         $tx     $id
 
 for_window [class="^.*"] border pixel 0
+
