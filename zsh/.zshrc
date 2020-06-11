@@ -39,6 +39,8 @@ if [ -d $HOME/.fzf ]; then
     source $HOME/.fzf/shell/key-bindings.zsh
 fi
 
+bindkey \^U backward-kill-line
+
 ## Aliases
 
 alias hostname="echo $(hostname | sed s/\.local$//)"
