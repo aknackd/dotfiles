@@ -202,6 +202,13 @@ function! SearchAndReplace(...) range
     endif
 endfunction
 
+" https://stackoverflow.com/questions/3878692/aliasing-a-command-in-vim/3879737#3879737
+function! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+
 " ================ Custom mappings ========================
 
 nmap <Leader>c gcc       " Comment map
@@ -296,6 +303,9 @@ nnoremap N Nzz
 " Search and replace in visual highlight
 vnoremap <Leader>r :call SearchAndReplace(1)<CR>
 nnoremap <Leader>r :call SearchAndReplace()<CR>
+
+" Alias Ag from fzf.vim to Rg
+call SetupCommandAlias("Ag", "Rg")
 
 " ================ plugins setups ========================
 
