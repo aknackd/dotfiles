@@ -15,6 +15,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-fugitive'
+    Plug 'rhysd/committia.vim'
+    Plug 'rhysd/git-messenger.vim'
     Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     Plug 'airblade/vim-gitgutter'
     Plug 'vim-airline/vim-airline'
