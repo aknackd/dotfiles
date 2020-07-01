@@ -165,5 +165,14 @@ whereami () {
     echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"
 }
 
+# crtl-w to delete a word backwards
+backward-kill-dir () {
+    local WORDCHARS=${WORDCHARS/\/}
+    zle backward-kill-word
+}
+
+zle -N backward-kill-dir
+bindkey '^[^?' backward-kill-dir
+
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
 
