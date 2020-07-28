@@ -15,9 +15,10 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-fugitive'
+    Plug 'godlygeek/tabular'
+    Plug 'sodapopcan/vim-twiggy'
     Plug 'rhysd/committia.vim'
     Plug 'rhysd/git-messenger.vim'
-    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     Plug 'airblade/vim-gitgutter'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -27,7 +28,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'Shougo/neosnippet'
     Plug 'honza/vim-snippets'
     Plug 'dyng/ctrlsf.vim'
-    Plug 'junegunn/goyo.vim'
     Plug 'junegunn/gv.vim'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -44,7 +44,7 @@ call plug#end()
 
 filetype plugin indent on                                                       "Enable plugins and indents by filetype
 
-let g:mapleader = ","                                                           "Change leader to a comma
+" let g:mapleader = ","                                                           "Change leader to a comma
 
 let g:enable_bold_font = 1                                                      "Enable bold font in colorscheme
 
@@ -85,7 +85,7 @@ syntax on                                      " Turn on syntax highlighting
 
 silent! colorscheme hybrid_material
 hi Normal guibg=NONE ctermbg=NONE
-set notermguicolors
+set termguicolors
 
 set cmdheight=2
 set updatetime=300
@@ -186,14 +186,6 @@ function! s:LoadLocalVimrc()
     endif
 endfunction
 
-function! Search()
-    let term = input('Search for: ', '')
-    if term != ''
-        let path = input('Path: ', '', 'file')
-        :execute 'Ack -Q "'.term.'" '.path
-    endif
-endfunction
-
 function! SearchAndReplace(...) range
     let search = input('Search: ', '')
     if search != ''
@@ -216,9 +208,12 @@ endfun
 nmap <Leader>c gcc       " Comment map
 xmap <Leader>c gc        " Line comment command
 
+map <c-\> :Tabularize /=>/<CR>
+
 " Map save to Ctrl + S
 map <c-s> :w<CR>
 imap <c-s> <C-o>:w<CR>
+
 " Also save with ,w
 nnoremap <Leader>w :w<CR>
 nmap <Leader>k <Plug>(ale_previous_wrap)
@@ -264,17 +259,9 @@ nnoremap <Leader><space> :noh<CR>
 noremap <Leader>gv :GV<CR>
 noremap <Leader>gv! :GV<CR>
 
-" Toggle distraction free mode
-nnoremap <Leader>g :Goyo<CR>
-
 " Handle syntastic error window
 nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>q :lclose<CR>
-
-" Find current file in NERDTree
-nnoremap <Leader>hf :NERDTreeFind<CR>
-" Open NERDTree
-nnoremap <Leader>n :NERDTreeToggle<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
@@ -283,7 +270,6 @@ nnoremap <leader><tab> <c-^>
 nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 
 " Filesearch plugin map for searching in whole folder
-nnoremap <Leader>f :call Search()<CR>
 nnoremap <Leader>af :CtrlSF
 
 " Maps for indentation in normal mode
@@ -330,24 +316,6 @@ let g:gitgutter_eager = 0                                                       
 let g:user_emmet_expandabbr_key = '<c-e>'                                       " Change trigger emmet key
 let g:user_emmet_next_key = '<c-n>'                                             " Change trigger jump to next for emmet
 
-let g:NERDTreeChDirMode = 2                                                     " Always change the root directory
-let g:NERDTreeMinimalUI = 1                                                     " Disable help text and bookmark title
-let g:NERDTreeShowHidden = 1                                                    " Show hidden files in NERDTree
-let g:NERDTreeIgnore=[
-    \ 'node_modules',
-    \ 'public\/js',
-    \ 'vendor',
-    \ '\.DS_Store',
-    \ '\.git$',
-    \ '\.php_cs.cache$',
-    \ '\.phpunit.result.cache$',
-    \ '\.sass-cache$',
-    \ '\.vagrant',
-    \ '\.idea',
-    \ 'composer\.lock',
-    \ 'yarn\.lock',
-    \ ]
-
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           " Snippets setup
@@ -368,9 +336,6 @@ let g:ale_lint_on_save = 1                                                      
 let g:ale_sign_error = '✖'                                                      " Lint error sign
 let g:ale_sign_warning = '⚠'                                                    " Lint warning sign
 
-let g:goyo_width = 100                                                          " 100 chars width
-let g:goyo_height = 100                                                         " 100% height
-
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                " Set up spacing for sidebar icons
 
 let g:jsx_ext_required = 1                                                      " Force jsx extension for jsx filetype
@@ -390,7 +355,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 set nowrap
-nnoremap <leader>pt :NERDTreeToggle<cr>
+
 " ================ coc.nvim setup ========================
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -428,6 +393,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Ctrl+R to open outline (requires ctags)
+map <c-r> :CocList outline<CR>
+
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -443,7 +411,7 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nmap <silent> gr <Plug>(coc-rename)
 
 " Remap for format selected region
 xmap <leader>f  <Plug>(coc-format-selected)
