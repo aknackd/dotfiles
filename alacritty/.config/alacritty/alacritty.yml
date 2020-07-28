@@ -62,7 +62,7 @@ font:
   # The normal (roman) font face to use.
   normal:
     # Style can be specified to pick a specific face.
-    family:  Ubuntu Mono
+    family: Ubuntu Mono
     # style: Regular
 
   # The bold font face
@@ -78,7 +78,7 @@ font:
     # style: Italic
 
   # Point size of the font
-  size: 20.0
+  size: 24.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -166,7 +166,7 @@ visual_bell:
   duration: 0
 
 # Background opacity
-background_opacity: 1.0
+background_opacity: 0.95
 
 # Mouse bindings
 #
@@ -384,3 +384,5 @@ key_bindings:
   - { key: NumpadEnter,             chars: "\n"                          }
 
   - { key: N,        mods: Command|Shift, command: { program: "open", args: ["-nb", "io.alacritty"] } }
+  - { key: V,        mods: Control|Shift, action: Paste                        }
+  - { key: C,        mods: Control|Shift, action: Copy                         }
