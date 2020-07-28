@@ -25,6 +25,7 @@ fi
 readonly VM="$1"
 readonly SSH_OPTIONS="-o UserKnownHostsFile /dev/null"
 readonly TIMEOUTS=(5 10 15 20)
+readonly LEASE_FILE=/var/db/vmware/vmnet-dhcpd-vmnet8.leases
 
 readonly COLOR_RED=$(echo -e "\033[0;31m")
 readonly COLOR_GREEN=$(echo -e "\033[0;32m")
@@ -96,7 +97,7 @@ vmware::print_hosts () {
       }
 
       print "hostname: "hostname " ip: "ip
-  } ' /var/db/vmware/vmnet-dhcpd-vmnet8.leases | sed 's/"//g' | sort | uniq
+  } ' "$LEASE_FILE" | sed 's/"//g' | sort | uniq
 }
 
 # Main entry point
