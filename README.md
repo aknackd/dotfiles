@@ -2,7 +2,7 @@
 
 Managed by [Stow](https://www.gnu.org/software/stow/)
 
-```bash
+```console
 git clone https://github.com/aknackd/dotfiles.git
 cd dotfiles
 ./install.sh
