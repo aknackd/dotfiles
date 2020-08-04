@@ -203,7 +203,27 @@ function! SetupCommandAlias(from, to)
   exec 'cnoreabbrev <expr> '.a:from
         \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-endfun
+endfunction
+
+" https://github.com/junegunn/fzf.vim/issues/664#issuecomment-476438294
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+
+  let height = &lines - 3
+  let width = float2nr(&columns - (&columns * 2 / 10))
+  let col = float2nr((&columns - width) / 2)
+
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': 1,
+        \ 'col': col,
+        \ 'width': width,
+        \ 'height': height
+        \ }
+
+  call nvim_open_win(buf, v:true, opts)
+endfunction
 
 " ================ Custom mappings ========================
 
@@ -300,6 +320,7 @@ call SetupCommandAlias("Ag", "Rg")
 " ================ plugins setups ========================
 
 let g:fzf_preview_window = ''
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 autocmd! FileType fzf
 autocmd  FileType fzf set noshowmode noruler nonu
 
