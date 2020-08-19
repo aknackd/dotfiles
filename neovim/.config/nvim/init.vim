@@ -31,6 +31,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'honza/vim-snippets'
     Plug 'dyng/ctrlsf.vim'
     Plug 'junegunn/gv.vim'
+    Plug 'junegunn/vim-easy-align'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
     Plug 'junegunn/fzf'
@@ -44,11 +45,9 @@ call plug#begin('~/.config/nvim/plugged')
 	" Plug 'rainglow/vim'
 call plug#end()
 
-filetype plugin indent on                                                       "Enable plugins and indents by filetype
+filetype plugin indent on  " Enable plugins and indents by filetype
 
-" let g:mapleader = ","                                                           "Change leader to a comma
-
-let g:enable_bold_font = 1                                                      "Enable bold font in colorscheme
+let g:enable_bold_font = 1 " Enable bold font in colorscheme
 
 " ================ General Config ====================
 
@@ -229,6 +228,9 @@ endfunction
 
 nmap <Leader>c gcc       " Comment map
 xmap <Leader>c gc        " Line comment command
+
+xmap ga <Plug>(EasyAlign)  " vim-easy-align
+nmap ga <Plug>(EasyAlign   " vim-easy-align
 
 map <c-\> :Tabularize /=>/<CR>
 
