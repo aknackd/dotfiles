@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+if test $(uname -s) != "Darwin" ; then
+    printf "Sorry, this can only be executed on macOS!\n" 1>&2
+    exit 1
+fi
+
+if ! command -v osx-cpu-temp 2>&1 1>/dev/null ; then
+    printf "osx-cpu-temp not found! Install via homebrew\n" 1>&2
+    exit 1
+fi
+
+WATCH=0
+DATE_FORMAT="%Y-%m-%dT%H:%M:%S"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -w|--watch)  WATCH=$2       ; shift ;;
+        -f|--format) DATE_FORMAT=$2 ; shift ;;
+        *)          shift ;;
+    esac
+done
+
+prevTemp=0.0
+
+print_cpu_temp () {
+    local outputFormat="%-25s  %s"
+    local currentTemp=$(osx-cpu-temp -F | cut -d '°' -f 1)
+
+    if [[ $WATCH -gt 0 ]]; then
+        if [[ "$currentTemp" > "$prevTemp" ]]; then
+            outputFormat+=" 🔺"
+        elif [[ "$currentTemp" < "$prevTemp" ]]; then
+            outputFormat+=" 🔻"
+        fi
+        prevTemp=$currentTemp
+    else
+        outputFormat+=" 🌡"
+    fi
+
+    printf "$outputFormat\n" "$(date +"$DATE_FORMAT")" "${currentTemp}°F"
+}
+
+if [[ $WATCH -gt 0 ]]; then
+    while true; do
+        print_cpu_temp
+        sleep $WATCH
+    done
+else
+    print_cpu_temp
+fi
