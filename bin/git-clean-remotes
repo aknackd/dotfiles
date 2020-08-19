@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-# Update and prune remotes
-# Useful for pruning merged branches
-
-git remote update --prune $@
