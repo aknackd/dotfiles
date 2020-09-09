@@ -41,6 +41,8 @@ call plug#end()
 
 filetype plugin indent on  " Enable plugins and indents by filetype
 
+let mapleader = " "
+
 let g:enable_bold_font = 1 " Enable bold font in colorscheme
 
 " ================ General Config ====================
