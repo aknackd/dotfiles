@@ -3,12 +3,10 @@ let s:plugin_dir = s:bundle_dir . '/repos/github.com'
 
 call plug#begin('~/.config/nvim/plugged')
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'ryanoasis/vim-devicons'
     Plug 'vim-scripts/AnsiEsc.vim'
     Plug 'w0rp/ale'
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'jremmen/vim-ripgrep'
-    Plug 'jceb/vim-orgmode'
     Plug 'Raimondi/delimitMate'
     Plug 'mattn/emmet-vim'
     Plug 'editorconfig/editorconfig-vim'
@@ -23,13 +21,9 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'vim-scripts/utl.vim'
     Plug 'duff/vim-bufonly'
     Plug 'gregsexton/MatchTag'
     Plug 'sheerun/vim-polyglot'
-    Plug 'Shougo/neosnippet'
-    Plug 'honza/vim-snippets'
-    Plug 'dyng/ctrlsf.vim'
     Plug 'junegunn/gv.vim'
     Plug 'junegunn/vim-easy-align'
     Plug 'nathanaelkane/vim-indent-guides'
@@ -292,9 +286,6 @@ nnoremap <leader><tab> <c-^>
 
 " Auto change directory to match current file
 nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
-
-" Filesearch plugin map for searching in whole folder
-nnoremap <Leader>af :CtrlSF
 
 " Maps for indentation in normal mode
 nnoremap <tab> >>
