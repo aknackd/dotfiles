@@ -72,7 +72,6 @@ set lazyredraw                                 " Do not redraw on registers and 
 set completeopt-=preview                       " Disable preview for autocomplete
 set background=dark                            " Set background to dark
 set hidden                                     " Hide buffers in background
-set conceallevel=2 concealcursor=i             " neosnippets conceal marker
 set splitbelow                                 " Set up new horozontal split below
 set splitright                                 " Set up new vertical splits to the right
 set path+=**                                   " Allow recursive search
@@ -117,7 +116,6 @@ augroup vimrc
 augroup END
 
 autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                  "Auto-remove trailing spaces
-autocmd vimrc InsertLeave * NeoSnippetClearMarkers                              "Remove unused markers for snippets
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul                                            "Add cursorline highlight in normal mode
 autocmd vimrc FileType html,javascript,coffee,cucumber setlocal sw=2 sts=2 ts=2 "Set 2 indent for html
@@ -335,14 +333,6 @@ let g:user_emmet_expandabbr_key = '<c-e>'                                       
 let g:user_emmet_next_key = '<c-n>'                                             " Change trigger jump to next for emmet
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*']
-
-let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           " Snippets setup
-let g:neosnippet#snippets_directory = [
-            \ s:plugin_dir . '/honza/vim-snippets/snippets',
-            \ '~/.config/nvim/snippets']
-
-let g:deoplete#enable_at_startup = 0                                            " Enable deoplete autocompletion
-let g:deoplete#file#enable_buffer_path = 1                                      " Autocomplete files relative to current buffer
 
 let g:ackhighlight = 1                                                          " Highlight current search
 let g:ackprg = 'rg --vimgrep'                                                   " Use ripgrep instead of ack for searching
