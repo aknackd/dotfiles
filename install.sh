@@ -2,7 +2,6 @@
 
 declare -a DEPENDENCIES=( curl stow git tmux )
 
-
 check::dependencies () {
     for BIN in "${DEPENDENCIES[@]}"; do
         command -v "$BIN" >/dev/null
@@ -75,10 +74,20 @@ setup::tmux () {
     fi
 }
 
+setup::vim () {
+    local confDir="$HOME/.config/vim"
+
+    if [ ! -d "$confDir" ]; then
+        echo ":: Setting up vim..."
+        mkdir -p "$confDir"
+    fi
+}
+
 check::dependencies
 install::homebrew
 install::dotfiles
 setup::fzf
 setup::neovim
 setup::tmux
+setup::vim
 

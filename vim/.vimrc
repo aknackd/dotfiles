@@ -9,7 +9,6 @@ else
     set background=dark
 endif
 
-colorscheme wombat256
 syntax on
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -25,14 +24,14 @@ set nosol            " leave my cursor where it was
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files/Backups
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set backup                       " make backup file
-set backupdir=~/.vim/backup      " where to put backup files
-set directory=~/.vim/temp        " directory for temp files
-set makeef=error.err             " When using make, where should it dump the file
-set sessionoptions+=globals      " What should be saved during sessions being saved
-set sessionoptions+=localoptions " What should be saved during sessions being saved
-set sessionoptions+=resize       " What should be saved during sessions being saved
-set sessionoptions+=winpos       " What should be saved during sessions being saved
+set backup                          " make backup file
+set backupdir=~/.config/vim/backup  " where to put backup files
+set directory=~/.config/vim/temp    " directory for temp files
+set makeef=error.err                " When using make, where should it dump the file
+set sessionoptions+=globals         " What should be saved during sessions being saved
+set sessionoptions+=localoptions    " What should be saved during sessions being saved
+set sessionoptions+=resize          " What should be saved during sessions being saved
+set sessionoptions+=winpos          " What should be saved during sessions being saved
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim UI
@@ -91,7 +90,6 @@ set preserveindent                   " but above all -- follow the conventions l
 set ignorecase                       " case insensitive by default
 set smartcase                        " if there are caps, go case-sensitive
 set completeopt=menu,longest,preview " improve the way autocomplete works
-set cursorcolumn                     " show the current column
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -107,95 +105,10 @@ set foldopen-=search   " don't open folds when you search into them
 set foldopen-=undo     " don't open folds when you undo stuff
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CTags
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let Tlist_Ctags_Cmd = 'ctags'      " Location of ctags
-let Tlist_Sort_Type = "name"       " order by
-let Tlist_Use_Right_Window = 1     " split to the right side of the screen
-let Tlist_Compact_Format = 1       " show small meny
-let Tlist_Exist_OnlyWindow = 1     " if you are the last, kill yourself
-let Tlist_File_Fold_Auto_Close = 0 " Do not close tags for other files
-let Tlist_Enable_Fold_Column = 1   " Do show folding tree
-let Tlist_WinWidth = 50            " 50 cols wide, so I can (almost always) read my functions
-let tlist_php_settings = 'php;c:class;d:constant;f:function' " don't show variables in php
-let tlist_aspvbs_settings = 'asp;f:function;s:sub' " just functions and subs
-let tlist_aspjscript_settings = 'asp;f:function;c:class' " just functions and classes
-let tlist_vb_settings = 'asp;f:function;c:class' " just functions and classes
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Matchit
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let b:match_ignorecase = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Perl
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let perl_extended_vars=1 " highlight advanced perl vars inside strings
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pathogen
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call pathogen#infect()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Custom Functions
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Select range, then hit :SuperRetab($width) - by p0g and FallingCow
-function! SuperRetab(width) range
-    silent! exe a:firstline . ',' . a:lastline . 's/\v%(^ *)@<= {'. a:width .'}/\t/g'
-endfunction
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <up> <ESC>:bp<RETURN> " left arrow (normal mode) switches buffers
-" map <down> <ESC>:bn<RETURN> " right arrow (normal mode) switches buffers
-" map <right> <ESC>:Tlist<RETURN> " show taglist
-" map <left> <ESC>:NERDTreeToggle<RETURN>  " moves left fa split
-" map <F2> <ESC>ggVG:call SuperRetab()<left>
-" map <F12> ggVGg? " apply rot13 for people snooping over shoulder, good fun
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Useful abbrevs
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autocommands
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.zcml set filetype=xml
-au BufRead,BufNewFile *.rb,*.rhtml,*.pp,*.cap,*.erb set filetype=ruby
-au BufRead,BufNewFile *.otl set syntax=blockhl
-au BufRead,BufNewFile Vagrantfile,Rakefile,Gemfile,Capfile set filetype=ruby
-au BufRead,BufNewFile *.gradle set filetype=groovy
-au FileType python set omnifunc=pythoncomplete#Complete
-au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-au FileType html set omnifunc=htmlcomplete#CompleteTags
-au FileType css set omnifunc=csscomplete#CompleteCSS
-au FileType xml set omnifunc=xmlcomplete#CompleteTags
-au FileType c set omnifunc=ccomplete#Complete
-au FileType ruby set tabstop=2
-au FileType ruby set softtabstop=2
-au FileType ruby set shiftwidth=2
-au FileType yaml set tabstop=2
-au FileType yaml set softtabstop=2
-au FileType yaml set shiftwidth=2
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Change paging overlap amount from 2 to 5 (+3)
 " if you swapped C-y and C-e, and set them to 2, it would
 " remove any overlap between pages
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <C-f> <C-f>3<C-y> "  Make overlap 3 extra on control-f
+nnoremap <C-f> <C-f>3<C-y> " Make overlap 3 extra on control-f
 nnoremap <C-b> <C-b>3<C-e> "  Make overlap 3 extra on control-b
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable powerline fonts via airline
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline_powerline_fonts = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Key mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = ","
-nmap <leader>ne :NERDTreeToggle<cr>
