@@ -322,8 +322,8 @@ let g:airline_theme = "minimalist"                                              
 let g:airline_section_y = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  " Set relative path
 let g:airline#extensions#whitespace#enabled = 0                                 " Disable whitespace extension
 let g:airline#extensions#tabline#enabled = 1                                    " Enable tabline extension
-let g:airline#extensions#tabline#left_sep = ' '                                 " Left separator for tabline
-let g:airline#extensions#tabline#left_alt_sep = '│'                             " Right separator for tabline
+" let g:airline#extensions#tabline#left_sep = ' '                                 " Left separator for tabline
+" let g:airline#extensions#tabline#left_alt_sep = '│'                             " Right separator for tabline
 
 let g:gitgutter_enabled = 0
 let g:gitgutter_realtime = 0                                                    " Disable gitgutter in realtime
