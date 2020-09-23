@@ -34,9 +34,9 @@ call plug#begin('~/.config/nvim/plugged')
 
     " Plug 'terryma/vim-multiple-cursors'
     " Plug 'dikiaap/minimalist'
-	" Plug 'nightsense/carbonized'
-	" Plug 'NLKNguyen/papercolor-theme'
-	" Plug 'rainglow/vim'
+    " Plug 'nightsense/carbonized'
+    " Plug 'NLKNguyen/papercolor-theme'
+    " Plug 'rainglow/vim'
 call plug#end()
 
 filetype plugin indent on  " Enable plugins and indents by filetype
@@ -59,14 +59,14 @@ set gcr=a:blinkon500-blinkwait500-blinkoff500  " Set cursor blinking rate
 set cursorline                                 " Highlight current line
 set smartcase                                  " Smart case search if there is uppercase
 set ignorecase                                 " Case insensitive search
-set mouse=a                                    " Enable mouse usage
+set mouse=c                                    " Enable mouse usage
 set showmatch                                  " Highlight matching bracket
 set nostartofline                              " Jump to first non-blank character
 set timeoutlen=1000 ttimeoutlen=200            " Reduce Command timeout for faster escape and O
 set fileencoding=utf-8                         " Set utf-8 encoding on write
 set wrap                                       " Enable word wrap
 set linebreak                                  " Wrap lines at convenient points
-set listchars=space:·,tab:\ \ ,trail:·   " Set trails for tabs and spaces
+set listchars=space:·,tab:\ \ ,trail:·         " Set trails for tabs and spaces
 set list                                       " Enable listchars
 set lazyredraw                                 " Do not redraw on registers and macros
 set completeopt-=preview                       " Disable preview for autocomplete
