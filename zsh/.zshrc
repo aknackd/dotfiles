@@ -140,6 +140,8 @@ alias gpo="git push origin"
 alias gfu="git fetch upstream"
 alias gpu="git push upstream"
 alias grup="git remote update --prune"
+alias grs="git restore --staged"
+alias gap="git add --patch"
 
 gmo () {
     if test $# -ne 1 ; then
