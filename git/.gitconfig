@@ -35,4 +35,4 @@
 
 [pager]
     log = less -iXFR
-    diff = bat --number
+    diff = cat --number
