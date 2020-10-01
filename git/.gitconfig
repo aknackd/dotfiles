@@ -36,3 +36,6 @@
 [pager]
     log = less -iXFR
     diff = cat --number
+
+[include]
+    path = .gitconfig.local
