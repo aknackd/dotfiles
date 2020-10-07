@@ -124,7 +124,7 @@ alias dm="docker-machine"
 
 alias gb="git branch"
 alias gd="git diff"
-alias gs="git status"
+alias gs="git status --short --branch --untracked-files --renames"
 alias gh="git log --format=\"[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset\""
 alias gsup="git standup"
 alias gl="git log"
