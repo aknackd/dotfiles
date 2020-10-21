@@ -312,7 +312,7 @@ call SetupCommandAlias("Ag", "Rg")
 
 " ================ plugins setups ========================
 
-let g:fzf_preview_window = ''
+let g:fzf_preview_window = 'right:50%'
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 autocmd! FileType fzf
 autocmd  FileType fzf set noshowmode noruler nonu
