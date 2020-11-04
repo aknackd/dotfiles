@@ -124,9 +124,6 @@ autocmd vimrc VimEnter,BufNewFile,BufReadPost * call s:LoadLocalVimrc()         
 
 autocmd vimrc VimEnter * set vb t_vb=
 
-autocmd vimrc FileType nerdtree syntax match hideBracketsInNerdTree
-            \ "\]" contained conceal containedin=ALL
-
 " ================ Completion =======================
 
 set wildmode=list:full
@@ -343,8 +340,6 @@ let g:ale_linters = {'javascript': ['eslint']}                                  
 let g:ale_lint_on_save = 1                                                      " Lint when saving a file
 let g:ale_sign_error = '✖'                                                      " Lint error sign
 let g:ale_sign_warning = '⚠'                                                    " Lint warning sign
-
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                " Set up spacing for sidebar icons
 
 let g:jsx_ext_required = 1                                                      " Force jsx extension for jsx filetype
 
