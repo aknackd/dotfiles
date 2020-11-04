@@ -383,7 +383,7 @@ endfunction
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use ctrl+p to trigger fzf for searching for files in the current directory
-nnoremap <C-P> :Files <CR>
+nnoremap <C-P> :GitFiles <CR>
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
