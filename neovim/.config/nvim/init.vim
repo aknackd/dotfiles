@@ -217,6 +217,10 @@ endfunction
 
 " ================ Custom mappings ========================
 
+" Jump between splits with <Leader>w
+nmap <Leader>w :wincmd w<CR>
+xmap <Leader>w :wincmd w<CR>
+
 nmap <Leader>c gcc       " Comment map
 xmap <Leader>c gc        " Line comment command
 
@@ -229,8 +233,6 @@ map <c-\> :Tabularize /=>/<CR>
 map <c-s> :w<CR>
 imap <c-s> <C-o>:w<CR>
 
-" Also save with ,w
-nnoremap <Leader>w :w<CR>
 nmap <Leader>k <Plug>(ale_previous_wrap)
 nmap <Leader>j <Plug>(ale_next_wrap)
 
