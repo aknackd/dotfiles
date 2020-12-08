@@ -32,12 +32,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'kristijanhusak/vim-hybrid-material'
     Plug 'jparise/vim-graphql', { 'on': 'graphql' }
-
-    " Plug 'terryma/vim-multiple-cursors'
-    " Plug 'dikiaap/minimalist'
-    " Plug 'nightsense/carbonized'
-    " Plug 'NLKNguyen/papercolor-theme'
-    " Plug 'rainglow/vim'
 call plug#end()
 
 filetype plugin indent on  " Enable plugins and indents by filetype
