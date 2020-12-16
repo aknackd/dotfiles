@@ -143,6 +143,7 @@ alias gpu="git push upstream"
 alias grup="git remote update --prune"
 alias grs="git restore --staged"
 alias gap="git add --patch"
+alias gsp="git show --patch"
 
 gmo () {
     if test $# -ne 1 ; then
