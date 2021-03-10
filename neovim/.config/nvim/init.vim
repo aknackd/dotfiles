@@ -42,6 +42,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'morhetz/gruvbox'
 call plug#end()
 
+lua require('aknackd')
+
 set t_Co=256                                   " Set 256 colors
 set title                                      " Change the terminal's title
 set number                                     " Display line numbers
@@ -139,8 +141,6 @@ augroup END
 autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()   " Auto-remove trailing spaces
 autocmd vimrc InsertEnter * :set nocul                           " Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul                             " Add cursorline highlight in normal mode
-
-lua require('aknackd')
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"     " Move to next tab completion item
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"   " Move to previous tab completion item"
