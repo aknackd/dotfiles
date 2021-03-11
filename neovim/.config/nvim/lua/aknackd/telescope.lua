@@ -1,6 +1,5 @@
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
-local themes = require('telescope.themes')
 
 require('telescope').setup{
     defaults = {
