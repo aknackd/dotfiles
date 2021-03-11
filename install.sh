@@ -68,7 +68,7 @@ setup::tmux () {
 
     if [ ! -d "$tpmdir" ]; then
         echo ":: Setting up tmux..."
-        git clone https://github.com/tmux-plugins/tpm "$tpmdir"
+        git clone https://github.com/tmux-plugins/tpm.git "$tpmdir"
     fi
 }
 
