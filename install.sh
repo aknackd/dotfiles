@@ -4,8 +4,7 @@ declare -a DEPENDENCIES=( curl stow git tmux )
 
 check::dependencies () {
     for BIN in "${DEPENDENCIES[@]}"; do
-        command -v "$BIN" >/dev/null
-        if [ $? -ne 0 ]; then
+        if ! command -v "$BIN" >/dev/null ; then
             >&2 echo "ERROR: Please install ${BIN} first before proceeding!"
             exit 1
         fi
@@ -15,8 +14,7 @@ check::dependencies () {
 install::homebrew () {
     [[ $(uname -s) != "Darwin" ]] && return
 
-    command -v brew 2>&1 >/dev/null
-    if [ $? -ne 0 ]; then
+    if ! command -v brew >/dev/null 2>&1 ; then
         echo ":: Installing homebrew..."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew analytics off
@@ -25,33 +23,33 @@ install::homebrew () {
 
 install::dotfiles () {
     echo ":: Linking dotfiles..."
-    stow --target $HOME --verbose alacritty direnv git neovim ssh tmux vim zsh
+    stow --target "$HOME" --verbose alacritty direnv git neovim ssh tmux vim zsh
 
-    mkdir -p $HOME/.ssh/sessions
+    mkdir -p "$HOME/.ssh/sessions"
 
-    mkdir -p $HOME/.local/bin
-    stow --target $HOME/.local/bin --verbose bin
+    mkdir -p "$HOME/.local/bin"
+    stow --target "$HOME/.local/bin" --verbose bin
 
     case "$(uname -s)" in
         Linux)
             echo ":: Linking linux-specific dotfiles..."
-            stow --target $HOME --verbose xorg
-            stow --target $HOME --verbose i3
-            stow --target $HOME --verbose herbstluftwm
-            stow --target $HOME --verbose polybar
+            stow --target "$HOME" --verbose xorg
+            stow --target "$HOME" --verbose i3
+            stow --target "$HOME" --verbose herbstluftwm
+            stow --target "$HOME" --verbose polybar
             ;;
         Darwin)
             echo ":: Linking MacOS-specific dotfiles..."
-            stow --target $HOME --verbose macOS
+            stow --target "$HOME" --verbose macOS
             ;;
     esac
 }
 
 setup::fzf () {
-    if [ ! -d $HOME/.fzf ]; then
+    if [ ! -d "$HOME/.fzf" ]; then
         echo ":: Setting up fzf..."
-        git clone --depth=1 https://github.com/junegunn/fzf.git $HOME/.fzf
-        $HOME/.fzf/install
+        git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+        "$HOME/.fzf/install"
     fi
 }
 
