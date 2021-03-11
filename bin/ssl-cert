@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Displays SSL cert for a host
+
+if [ $# -lt 1 ]; then
+    printf "Usage: %s host[:port]" "$0"
+    exit 1
+fi
+
+HOST="$1"
+PORT="${2:-443}"
+
+echo -n | \
+    openssl s_client -connect $HOST:$PORT 2>/dev/null | \
+    sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
+
