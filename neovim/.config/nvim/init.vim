@@ -8,6 +8,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'editorconfig/editorconfig-vim'
     Plug 'godlygeek/tabular'
     Plug 'gregsexton/MatchTag'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
     Plug 'jremmen/vim-ripgrep'
     Plug 'junegunn/gv.vim'
     Plug 'junegunn/vim-easy-align'
