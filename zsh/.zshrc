@@ -81,30 +81,14 @@ case "$(uname -s)" in
         test -f /usr/local/share/dotnet/dotnet && alias dotnet=/usr/local/share/dotnet/dotnet
 
         if [ $(___am_i_installed brew) -eq 1 ]; then
-            ___HOMEBREW_PREFIX=$(brew --prefix)
-
-            alias 7z="$___HOMEBREW_PREFIX/bin/7za"
-            alias git="$___HOMEBREW_PREFIX/bin/git"
-
-            # Use Homebrew emacs (if installed)
-            [ $(brew --cellar emacs) ] && alias emacs="$___HOMEBREW_PREFIX/bin/emacs"
-
-            # prefer GNU versions
-            alias ls="${___HOMEBREW_PREFIX}/bin/gls --color=auto --group-directories-first --quoting-style=literal"
-            alias seq="${___HOMEBREW_PREFIX}/bin/gseq"
-            alias wc="${___HOMEBREW_PREFIX}/bin/gwc"
-            alias du="${___HOMEBREW_PREFIX}/bin/gdu"
-            alias df="${___HOMEBREW_PREFIX}/bin/gdf"
-            alias sha1sum="${___HOMEBREW_PREFIX}/bin/gsha1sum"
-            alias sha244sum="${___HOMEBREW_PREFIX}/bin/gsha244sum"
-            alias sha256sum="${___HOMEBREW_PREFIX}/bin/gsha256sum"
-            alias sha384sum="${___HOMEBREW_PREFIX}/bin/gsha384sum"
-            alias sha512sum="${___HOMEBREW_PREFIX}/bin/gsha512sum"
-            alias cal="$___HOMEBREW_PREFIX/bin/gcal"
-            alias sed="$___HOMEBREW_PREFIX/bin/gsed"
-            alias tar="$___HOMEBREW_PREFIX/bin/gtar"
-
-            unset ___HOMEBREW_PREFIX
+            # Prefer GNU versions of coreutuils and other utilities
+            alias ls="gls --color=auto --group-directories-first --quoting-style=literal"
+            alias seq="gseq"
+            alias wc="gwc"
+            alias du="gdu"
+            alias df="gdf"
+            alias sed="gsed"
+            alias tar="gtar"
         fi
 
         # Use ssh keys added to our keychain when on macOS
