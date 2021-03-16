@@ -34,8 +34,6 @@ if [ -d $HOME/.fzf ]; then
     source $HOME/.fzf/shell/key-bindings.zsh
 fi
 
-bindkey \^U backward-kill-line
-
 ## Aliases
 
 alias hostname="echo $(hostname | sed s/\.local$//)"
@@ -58,7 +56,6 @@ alias ssh="TERM=xterm-color ssh"
 
 command -v nvim >/dev/null        && alias vim="TERM=screen-256color nvim"
 command -v rg >/dev/null          && alias ack="rg"
-command -v rustup >/dev/null      && alias rup="rustup"
 command -v bat >/dev/null         && alias cat="bat"
 command -v batcat >/dev/null      && alias cat="batcat"
 command -v dotnet >/dev/null      && alias dotnet="TERM=xterm dotnet"
@@ -91,9 +88,7 @@ case "$(uname -s)" in
         ;;
 
     Linux)
-        # ls: Group directories if ls has the capability
-        man ls | col -bx | grep '\-\-group\-directories\-first' >/dev/null
-        test $? && alias ls='ls --color=auto --group-directories-first --quoting-style=literal'
+        alias ls='ls --color=auto --group-directories-first --quoting-style=literal'
         ;;
 esac
 
@@ -156,6 +151,7 @@ backward-kill-dir () {
 
 zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
+bindkey \^U backward-kill-line
 
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
 
