@@ -16,7 +16,6 @@ export BAT_THEME="Monokai Extended Bright"
 export N_PREFIX="$HOME/.n"
 
 ___paths=(
-    /usr/local/share/npm/bin
     ${HOME}/.local/bin
     ${HOME}/bin
     /usr/local/sbin
