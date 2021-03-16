@@ -28,11 +28,6 @@ ___am_i_running() {
     ps -ef | grep "$(echo "$1" | perl -lape 's/^(.)/\[$1\]/')" 2>&1 >/dev/null && echo 1 || echo 0
 }
 
-## Setup environment
-
-[ -s "$NVM_DIR/nvm.sh" ]          && source "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-
 ## Setup fzf
 if [ -d $HOME/.fzf ]; then
     [[ $- == *i* ]] && source $HOME/.fzf/shell/completion.zsh 2> /dev/null
