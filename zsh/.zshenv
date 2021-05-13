@@ -14,10 +14,12 @@ export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 export BAT_STYLE="changes"
 export BAT_THEME="Monokai Extended Bright"
 export N_PREFIX="$HOME/.n"
+export GOPATH="$HOME/go"
 
 ___paths=(
     ${HOME}/.local/bin
     ${HOME}/bin
+    ${GOPATH}/bin
     /usr/local/sbin
     /usr/local/bin
     ${N_PREFIX}/bin
