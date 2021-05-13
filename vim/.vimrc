@@ -43,6 +43,7 @@ set wildignore=*.dll,*.o,*.so,*.obj,*.bak,*.exe,*.pyc,*.swp,*.jpg,*.gif,*.png,*.
 set ruler                            " Always show current positions along the bottom
 set cmdheight=1                      " the command bar is 1 high
 set number                           " turn on line numbers
+set relativenumber                   " ...and show line numbers relative to the current line
 set lz                               " do not redraw while running macros (much faster) (LazyRedraw)
 set hid                              " you can change buffer without saving
 set backspace=2                      " make backspace work normal
