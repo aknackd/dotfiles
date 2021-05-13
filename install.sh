@@ -77,7 +77,7 @@ setup::vim () {
 
     if [ ! -d "$confDir" ]; then
         echo ":: Setting up vim..."
-        mkdir -p "$confDir"
+        mkdir -p "$confDir" "$confDir/backup" "$confDir/temp"
     fi
 }
 
