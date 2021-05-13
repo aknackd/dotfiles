@@ -2,7 +2,7 @@ nmap <leader>c gcc                          " Comment map
 xmap <leader>c gc                           " Line comment command
 nmap ga <Plug>(EasyAlign)                   " vim-easy-align
 xmap ga <Plug>(EasyAlign)                   " vim-easy-align
-nnoremap <leader><space> :noh<CR>           " Clear search highlight
+nnoremap <leader><space> :nohls<CR>         " Clear search highlight
 nnoremap <tab> >>                           " Tab to indent in normal mode
 nnoremap <s-tab> <<                         " Shift+Tab to de-indent in normal mode
 xnoremap <tab> >gv                          " Tab to indent in visual mode

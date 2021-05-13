@@ -44,6 +44,5 @@ call plug#end()
 
 lua require('aknackd')
 
-
 let mapleader = ' '
 

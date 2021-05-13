@@ -8,6 +8,8 @@ set noshowmode                                 " Hide showmode because of powerl
 set gdefault                                   " Set global flag for search and replace
 set gcr=a:blinkon500-blinkwait500-blinkoff500  " Set cursor blink rate
 set cursorline                                 " Highlight current line
+set hlsearch                                   " Highlight search results
+set incsearch
 set smartcase                                  " Smart case search if there is uppercase
 set ignorecase                                 " Case insensitive search
 set mouse=c                                    " Enable mouse usage
