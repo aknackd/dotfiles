@@ -1,54 +1,56 @@
-#!/usr/bin/env python
+#!/usr/bin/env bash
 
-"""
-Prints the amount of free and used memory.
+free::linux () {
+    free -m
+}
 
-Darwin (Mac OSX) portion taken from:
-    http://apple.stackexchange.com/a/4296
-    (c) 2010 drfrogsplat
-"""
+free::macos () {
+    # local total_rss_in_bytes
+    local total_physical_memory_in_bytes
+    local vm_stats_pattern
+    local vm_stats
 
-import platform
-import subprocess
-import sys
-import re
+    declare -A vm_stats
 
-if __name__ == '__main__':
-    osname = platform.system()
-    if 'Linux' in osname:
-        free = subprocess.Popen(['/usr/bin/free', '-m'], stdout=subprocess.PIPE).communicate()[0]
-        print(free.decode(encoding='UTF-8'))
-    elif 'Darwin' in osname:
-        # Get process info
-        ps = subprocess.Popen(['ps', '-caxm', '-orss,comm'], stdout=subprocess.PIPE).communicate()[0]
-        vm = subprocess.Popen(['vm_stat'], stdout=subprocess.PIPE).communicate()[0]
+    # total_rss_in_bytes=$(($(
+    #     ps -caxm -orss | tail -n +2 | awk '{ sum += $1 }; { print sum }' | tail -n 1
+    # ) * 1024))
 
-        # Iterate processes
-        processLines = ps.split('\n')
-        sep = re.compile('[\s]+')
-        rssTotal = 0 # kB
-        for row in range(1,len(processLines)):
-            rowText = processLines[row].strip()
-            rowElements = sep.split(rowText)
-            try:
-                rss = float(rowElements[0]) * 1024
-            except:
-                rss = 0 # ignore...
-            rssTotal += rss
+    total_physical_memory_in_bytes=$(sysctl -n 'hw.memsize')
 
-        # Process vm_stat
-        vmLines = vm.split('\n')
-        sep = re.compile(':[\s]+')
-        vmStats = {}
-        for row in range(1,len(vmLines)-2):
-            rowText = vmLines[row].strip()
-            rowElements = sep.split(rowText)
-            vmStats[(rowElements[0])] = int(rowElements[1].strip('\.')) * 4096
+    printf "Total Physical Memory:  %8s MB\n" "$(( ${total_physical_memory_in_bytes} / 1024 / 1024 ))"
+    # printf "Real Memory Total (ps): %14s MB\n" "$(( ${total_rss_in_bytes} / 1024 / 1024 ))"
 
-        print('Wired Memory:               {0} MB'.format(vmStats['Pages wired down'] / 1024 / 1024))
-        print('Active Memory:              {0} MB'.format(vmStats['Pages active'] / 1024 / 1024))
-        print('Inactive Memory:            {0} MB'.format(vmStats['Pages inactive'] / 1024 / 1024))
-        print('Free Memory:                {0} MB'.format(vmStats['Pages free'] / 1024 / 1024))
-        print('Real Memory Total (ps):     {0:.2f} MB'.format(rssTotal/1024/1024))
-    else:
-        print('Unable to get free memory; OS = {0}'.format(osname))
+    vm_stats_pattern="^(.+):.*\.$"
+
+    (vm_stat | while read -r line ; do
+        if [[ "$line" =~ $vm_stats_pattern ]]; then
+            key="$(echo "${BASH_REMATCH[1]}" | sed 's|\"||g; s| |_|g; s|-|_|g;' | tr '[:upper:]' '[:lower:]')"
+            value="$(echo "$line" | rev | cut -d ' ' -f 1 | rev | sed 's/\.$//')"
+
+            size_in_mb="$(( "${value}" * 4096 / 1024 / 1024 ))"
+
+            case "$key" in
+                pages_wired_down) printf "1|Wired Memory:           %8s MB\n" "$size_in_mb" ;;
+                pages_active)     printf "2|Active Memory:          %8s MB\n" "$size_in_mb" ;;
+                pages_inactive)   printf "3|Inactive Memory:        %8s MB\n" "$size_in_mb" ;;
+                pages_free)       printf "4|Free Memory:            %8s MB\n" "$size_in_mb" ;;
+            esac
+
+            vm_stats[$key]="$value"
+        fi
+    done) | sort | cut -d '|' -f 2-
+}
+
+free::unsupported () {
+    printf "ERROR: Unsupported platform\n" >&2
+    printf "Only Linux and macOS (Darwin) supported\n" >&2
+    exit 1
+}
+
+case $(uname -s) in
+    Linux)  free::linux ;;
+    Darwin) free::macos ;;
+    *)      free::unsupported ;;
+esac
+
