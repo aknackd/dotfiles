@@ -42,15 +42,46 @@ free::macos () {
     done) | sort | cut -d '|' -f 2-
 }
 
+free::freebsd () {
+    local pagesize
+    local total
+    local wired
+    local active
+    local inactive
+    local cached
+    local free
+    local available
+    local used
+
+    pagesize="$(sysctl -n hw.pagesize)"
+    total="$(( $(sysctl -n hw.physmem) / 1024 / 1024 ))"
+    wired="$(( $(sysctl -n vm.stats.vm.v_page_count) * $pagesize / 1024 / 1024 ))"
+    active="$(( $(sysctl -n vm.stats.vm.v_active_count) * $pagesize / 1024 / 1024 ))"
+    inactive="$(( $(sysctl -n vm.stats.vm.v_inactive_count) * $pagesize / 1024 / 1024 ))"
+    cached="$(( $(sysctl -n vm.stats.vm.v_cache_count) * $pagesize / 1024 / 1024 ))"
+    free="$(( $(sysctl -n vm.stats.vm.v_free_count) * $pagesize / 1024 / 1024 ))"
+
+    available="$(( $inactive + $cached + $free ))"
+    used="$(( $total - $available ))"
+
+    printf "Total Physical Memory:  %8s MB\n" "$total"
+    printf "Wired Memory:           %8s MB\n" "$wired"
+    printf "Active Memory:          %8s MB\n" "$active"
+    printf "Inactive Memory:        %8s MB\n" "$inactive"
+    printf "Used Memory:            %8s MB\n" "$used"
+    printf "Free Memory:            %8s MB\n" "$free"
+}
+
 free::unsupported () {
     printf "ERROR: Unsupported platform\n" >&2
-    printf "Only Linux and macOS (Darwin) supported\n" >&2
+    printf "Only Linux, macOS, and FreeBSD are supported\n" >&2
     exit 1
 }
 
 case $(uname -s) in
-    Linux)  free::linux ;;
-    Darwin) free::macos ;;
-    *)      free::unsupported ;;
+    Linux)   free::linux ;;
+    Darwin)  free::macos ;;
+    FreeBSD) free::freebsd ;;
+    *)       free::unsupported ;;
 esac
 
