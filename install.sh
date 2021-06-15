@@ -23,24 +23,21 @@ install::homebrew () {
 
 install::dotfiles () {
     echo ":: Linking dotfiles..."
-    stow --target "$HOME" --verbose alacritty direnv git neovim ssh tmux vim zsh
+    stow alacritty direnv git neovim ssh tmux vim zsh --target "$HOME" --verbose
 
     mkdir -p "$HOME/.ssh/sessions"
-
     mkdir -p "$HOME/.local/bin"
-    stow --target "$HOME/.local/bin" --verbose bin
+
+    stow bin --target "$HOME/.local/bin" --verbose
 
     case "$(uname -s)" in
         Linux)
             echo ":: Linking linux-specific dotfiles..."
-            stow --target "$HOME" --verbose xorg
-            stow --target "$HOME" --verbose i3
-            stow --target "$HOME" --verbose herbstluftwm
-            stow --target "$HOME" --verbose polybar
+            stow herbsluftwm i3 polybar xorg --target "$HOME" --verbose
             ;;
         Darwin)
             echo ":: Linking MacOS-specific dotfiles..."
-            stow --target "$HOME" --verbose macOS
+            stow macOS --target "$HOME" --verbose
             ;;
     esac
 }
