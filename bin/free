@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 free::linux () {
-    free -m
+    /usr/bin/free -m
 }
 
 free::macos () {
