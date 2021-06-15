@@ -2,10 +2,15 @@
 
 declare -a DEPENDENCIES=( curl stow git tmux )
 
+readonly COLOR_RED="$(echo -e "\033[0;31m")"
+readonly COLOR_GREEN="$(echo -e "\033[0;32m")"
+readonly COLOR_BLUE="$(echo -e "\033[0;34m")"
+readonly COLOR_RESET="$(echo -e "\033[0;0m")"
+
 check::dependencies () {
     for BIN in "${DEPENDENCIES[@]}"; do
         if ! command -v "$BIN" >/dev/null ; then
-            >&2 echo "ERROR: Please install ${BIN} first before proceeding!"
+            >&2 echo "${COLOR_RED}ERROR${COLOR_RESET}: Please install ${COLOR_BLUE}${BIN}${COLOR_RESET} first before proceeding!"
             exit 1
         fi
     done
@@ -15,14 +20,14 @@ install::homebrew () {
     [[ $(uname -s) != "Darwin" ]] && return
 
     if ! command -v brew >/dev/null 2>&1 ; then
-        echo ":: Installing homebrew..."
+        echo "${COLOR_GREEN}:: Installing homebrew ...${COLOR_RESET}"
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew analytics off
     fi
 }
 
 install::dotfiles () {
-    echo ":: Linking dotfiles..."
+    echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
     stow alacritty direnv git neovim ssh tmux vim zsh --target "$HOME" --verbose
 
     mkdir -p "$HOME/.ssh/sessions"
@@ -32,11 +37,11 @@ install::dotfiles () {
 
     case "$(uname -s)" in
         Linux)
-            echo ":: Linking linux-specific dotfiles..."
+            echo "${COLOR_GREEN}:: Linking linux-specific dotfiles ...${COLOR_RESET}"
             stow herbsluftwm i3 polybar xorg --target "$HOME" --verbose
             ;;
         Darwin)
-            echo ":: Linking MacOS-specific dotfiles..."
+            echo "${COLOR_GREEN}:: Linking macOS-specific dotfiles ...${COLOR_RESET}"
             stow macOS --target "$HOME" --verbose
             ;;
     esac
@@ -44,7 +49,7 @@ install::dotfiles () {
 
 setup::fzf () {
     if [ ! -d "$HOME/.fzf" ]; then
-        echo ":: Setting up fzf..."
+        echo "${COLOR_GREEN}:: Setting up fzf ...${COLOR_RESET}"
         git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
         "$HOME/.fzf/install"
     fi
@@ -54,7 +59,7 @@ setup::neovim () {
     local vimplug="$HOME/.local/share/nvim/site/autoload/plug.vim"
 
     if [ ! -f "$vimplug" ]; then
-        echo ":: Setting up neovim..."
+        echo "${COLOR_GREEN}:: Setting up neovim ...${COLOR_RESET}"
         curl -fLso "$vimplug" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         nvim +PlugInstall +qall!
     fi
@@ -64,7 +69,7 @@ setup::tmux () {
     local tpmdir="$HOME/.tmux/plugins/tpm"
 
     if [ ! -d "$tpmdir" ]; then
-        echo ":: Setting up tmux..."
+        echo "${COLOR_GREEN}:: Setting up tmux ...${COLOR_RESET}"
         git clone https://github.com/tmux-plugins/tpm.git "$tpmdir"
     fi
 }
@@ -73,7 +78,7 @@ setup::vim () {
     local confDir="$HOME/.config/vim"
 
     if [ ! -d "$confDir" ]; then
-        echo ":: Setting up vim..."
+        echo "${COLOR_GREEN}:: Setting up vim ...${COLOR_RESET}"
         mkdir -p "$confDir" "$confDir/backup" "$confDir/temp"
     fi
 }
