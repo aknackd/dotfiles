@@ -64,6 +64,23 @@ let g:gitgutter_eager = 0        " Disable gitgutter eager load on tab
 let g:ackhighlight = 1
 let g:ackprg = 'rg --vimgrep'
 
+" -- Use pbcopy.exe/pbpaste.exe from pasteboard on Windows when we're using WSL
+" -- Install pasteboard via [scoop](https://scoop.sh)
+if system('uname -r') =~ 'Microsoft'
+    let g:clipboard = {
+    \   'name': 'WSLClipboard',
+    \   'copy': {
+    \       '+': 'pbcopy.exe',
+    \       '*': 'pbcopy.exe',
+    \   },
+    \   'paste': {
+    \       '+': 'pbpaste.exe --lf',
+    \       '*': 'pbpaste.exe --lf',
+    \   },
+    \   'cache_enabled': 1
+    \ }
+endif
+
 " -- Abbreviations
 cnoreabbrev wrap set wrap
 cnoreabbrev nowrap set nowrap
