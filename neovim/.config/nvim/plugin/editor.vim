@@ -10,6 +10,8 @@ xnoremap <s-tab> <gv                        " Shift+Tab to de-indent in visual m
 vnoremap <C-s-c> "+y                        " Copy to system clipboard
 vnoremap J :m '>+1<CR>gv=gv                 " Move selected line(s) down
 vnoremap K :m '<-2<CR>gv=gv                 " Move selected line(s) up
+nnoremap <leader>s vip:sort u<CR>           " Sort paragraph in normal mode
+vnoremap <leader>s :sort u<CR>              " Sort selection in visual mode
 
 " -- Autocommands
 augroup vimrc
