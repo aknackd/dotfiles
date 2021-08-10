@@ -11,6 +11,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'jremmen/vim-ripgrep'
     Plug 'junegunn/gv.vim'
     Plug 'junegunn/vim-easy-align'
+    Plug 'kyazdani42/nvim-web-devicons'
     Plug 'mattn/emmet-vim', { 'for': 'blade,html,vue' }
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'nelstrom/vim-visual-star-search'
