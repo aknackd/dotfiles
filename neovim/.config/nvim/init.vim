@@ -14,6 +14,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'mattn/emmet-vim', { 'for': 'blade,html,vue' }
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'nelstrom/vim-visual-star-search'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'rhysd/committia.vim'
     Plug 'rhysd/git-messenger.vim'
     Plug 'sheerun/vim-polyglot'
