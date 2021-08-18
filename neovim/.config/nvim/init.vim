@@ -2,6 +2,7 @@ let s:bundle_dir = expand('~/.config/nvim/bundle')
 let s:plugin_dir = s:bundle_dir . '/repos/github.com'
 
 call plug#begin('~/.config/nvim/plugged')
+    Plug 'simrat39/symbols-outline.nvim'
     Plug 'Raimondi/delimitMate'
     Plug 'airblade/vim-gitgutter'
     Plug 'editorconfig/editorconfig-vim'

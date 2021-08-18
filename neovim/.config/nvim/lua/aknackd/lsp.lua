@@ -59,3 +59,8 @@ local function goto_definition(split_cmd)
 end
 
 vim.lsp.handlers["textDocument/definition"] = goto_definition('tabnew')
+
+require('symbols-outline').setup({
+    highlight_hovered_item = true,
+    show_guides = true,
+})
