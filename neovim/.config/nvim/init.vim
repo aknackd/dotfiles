@@ -2,7 +2,6 @@ let s:bundle_dir = expand('~/.config/nvim/bundle')
 let s:plugin_dir = s:bundle_dir . '/repos/github.com'
 
 call plug#begin('~/.config/nvim/plugged')
-    Plug 'simrat39/symbols-outline.nvim'
     Plug 'Raimondi/delimitMate'
     Plug 'airblade/vim-gitgutter'
     Plug 'editorconfig/editorconfig-vim'
@@ -12,6 +11,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'jremmen/vim-ripgrep'
     Plug 'junegunn/gv.vim'
     Plug 'junegunn/vim-easy-align'
+    Plug 'lbrayner/vim-rzip'
     Plug 'mattn/emmet-vim', { 'for': 'blade,html,vue' }
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'nelstrom/vim-visual-star-search'
@@ -19,6 +19,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'rhysd/committia.vim'
     Plug 'rhysd/git-messenger.vim'
     Plug 'sheerun/vim-polyglot'
+    Plug 'simrat39/symbols-outline.nvim'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-repeat'
