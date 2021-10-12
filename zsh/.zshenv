@@ -16,6 +16,9 @@ export BAT_THEME="Monokai Extended Bright"
 export N_PREFIX="$HOME/.n"
 export GOPATH="$HOME/go"
 
+# https://stackoverflow.com/a/17841619
+implode () { local IFS="$1";  shift ; echo "$*" }
+
 ___paths=(
     ${HOME}/.local/bin
     ${HOME}/bin
@@ -34,10 +37,8 @@ ___paths=(
     ${ANDROID_SDK_ROOT}/tools/bin
 )
 
-for ___path in ${___paths[@]}; do
-    test -d $___path && PATH="${___path}:${PATH}"
-done
-export PATH
+export PATH="$(implode ":" ${__paths[@]}):$PATH"
+
 unset ___paths
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
