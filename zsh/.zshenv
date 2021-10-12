@@ -37,7 +37,7 @@ ___paths=(
     ${ANDROID_SDK_ROOT}/tools/bin
 )
 
-export PATH="$(implode ":" ${__paths[@]}):$PATH"
+export PATH="$(implode ":" ${___paths[@]}):$PATH"
 
 unset ___paths
 
