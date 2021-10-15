@@ -28,12 +28,25 @@ install::homebrew () {
 
 install::dotfiles () {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
-    stow alacritty direnv git neovim ssh tmux vim zsh --target "$HOME" --verbose
+    stow alacritty direnv git neovim tmux vim zsh --target "$HOME" --verbose
 
-    mkdir -p "$HOME/.ssh/sessions"
     mkdir -p "$HOME/.local/bin"
-
     stow bin --target "$HOME/.local/bin" --verbose
+
+    # Setup ssh in home directory with the correct permissions to use
+    # authorized_keys
+    mkdir -p "$HOME/.ssh/sessions" "$HOME/.ssh/conf.d/home" "$HOME/.ssh/conf.d/work"
+    # @@@ Don't update the timestamp if the file already exists
+    touch "$HOME/.ssh/authorized_keys"
+    chmod 0700 "$HOME/.ssh"
+    chmod 0600 "$HOME/.ssh/authorized_keys"
+
+    # And copy over the ssh config file(s) since some systems can have strict
+    # permissions that won't allow symlinks to work
+    cp -p ssh/.ssh/config "$HOME/.ssh/config"
+    # @@@ Don't update the timestamp if the files already exist
+    touch "$HOME/.ssh/conf.d/home/config" "$HOME/.ssh/conf.d/work/config"
+    chmod 0600 "$HOME/.ssh/config" "$HOME/.ssh/conf.d/home/config" "$HOME/.ssh/conf.d/work/config"
 
     case "$(uname -s)" in
         Linux)
