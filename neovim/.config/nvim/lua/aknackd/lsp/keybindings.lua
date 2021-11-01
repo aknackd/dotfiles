@@ -1,0 +1,9 @@
+map { "n", "<Leader>vd", ":lua vim.lsp.buf.definition()<CR>", noremap = true }
+map { "n", "<Leader>vi", ":lua vim.lsp.buf.implementation()<CR>", noremap = true }
+map { "n", "<Leader>vsh", ":lua vim.lsp.buf.signature_help()<CR>", noremap = true }
+map { "n", "<Leader>vrr", ":lua vim.lsp.buf.references()<CR>", noremap = true }
+map { "n", "<Leader>vrn", ":lua vim.lsp.buf.rename()<CR>", noremap = true }
+map { "n", "<Leader>vh", ":lua vim.lsp.buf.hover()<CR>", noremap = true }
+map { "n", "<Leader>vca", ":lua vim.lsp.buf.code_action()<CR>", noremap = true }
+map { "n", "<Leader>vn", ":lua vim.lsp.buf.diagnostic.goto_next()<CR>", noremap = true }
+map { "n", "<Leader>vp", ":lua vim.lsp.buf.diagnostic.goto_previous()<CR>", noremap = true }
