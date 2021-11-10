@@ -27,6 +27,8 @@ vim.opt.listchars = {
 	eol = "↴",
 }
 vim.opt.lazyredraw = true                              -- Do not redraw on registers and macros
+vim.opt.completeopt:append("menuone")
+vim.opt.completeopt:append("noselect")
 vim.opt.completeopt:remove("preview")                  -- Disable preview for autocomplate
 vim.opt.hidden = true                                  -- Hide buffers in background
 vim.opt.splitbelow = true                              -- Setup new horizontal splits below
@@ -48,3 +50,4 @@ vim.opt.tabstop = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.foldenable = false
+vim.opt.wrap = false
