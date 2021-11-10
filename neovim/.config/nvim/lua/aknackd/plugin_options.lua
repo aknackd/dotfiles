@@ -13,6 +13,8 @@ vim.g["EditorConfig_exclude_patterns"] = {"fugitive:.*", "scp:.*"}
 -- emmet configuration
 vim.g["user_emmet_expandabbr_key"] = "<C-e>"
 vim.g["user_emmet_next_key"] = "<C-n>"
+vim.g["user_emmet_install_global"] = 0
+vim.cmd([[autocmd FileType html,css,blade,vue EmmetInstall]])
 
 -- airline/vim-gitgutter configuration
 vim.g["gitgutter_enabled"] = 1

@@ -24,7 +24,7 @@ return require("packer").startup(function ()
     use "junegunn/vim-easy-align"
     use "lbrayner/vim-rzip"
     use { "lukas-reineke/indent-blankline.nvim", buftype_exclude = { "terminal" }, show_end_of_line = true }
-    use { "mattn/emmet-vim", ft = { "blade", "html", "vue" } }
+    use "mattn/emmet-vim"
     use "nathanaelkane/vim-indent-guides"
     use "nelstrom/vim-visual-star-search"
     use "ntpeters/vim-better-whitespace"
