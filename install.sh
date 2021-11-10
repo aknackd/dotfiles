@@ -69,13 +69,8 @@ setup::fzf () {
 }
 
 setup::neovim () {
-    local vimplug="$HOME/.local/share/nvim/site/autoload/plug.vim"
-
-    if [ ! -f "$vimplug" ]; then
-        echo "${COLOR_GREEN}:: Setting up neovim ...${COLOR_RESET}"
-        curl -fLso "$vimplug" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        nvim +PlugInstall +qall!
-    fi
+    echo "${COLOR_GREEN}:: Setting up neovim ...${COLOR_RESET}"
+    nvim +PackerCompile +PackerInstall +qall!
 }
 
 setup::tmux () {
