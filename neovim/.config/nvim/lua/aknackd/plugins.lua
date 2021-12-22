@@ -28,12 +28,12 @@ return require("packer").startup(function ()
     use "nathanaelkane/vim-indent-guides"
     use "nelstrom/vim-visual-star-search"
     use "ntpeters/vim-better-whitespace"
+    use "numToStr/Comment.nvim"
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
     use "rhysd/committia.vim"
     use "rhysd/git-messenger.vim"
     use "sheerun/vim-polyglot"
     use "simrat39/symbols-outline.nvim"
-    use "tpope/vim-commentary"
     use "tpope/vim-fugitive"
     use "tpope/vim-repeat"
     use "tpope/vim-surround"
