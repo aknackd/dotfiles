@@ -28,7 +28,7 @@ install::homebrew () {
 
 install::dotfiles () {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
-    stow alacritty direnv git neovim tmux vim zsh --target "$HOME" --verbose
+    stow alacritty direnv git kitty neovim tmux vim zsh --target "$HOME" --verbose
 
     mkdir -p "$HOME/.local/bin"
     stow bin --target "$HOME/.local/bin" --verbose
@@ -91,6 +91,15 @@ setup::vim () {
     fi
 }
 
+setup::kitty () {
+    local confDir="$HOME/.config/kitty/kitty-themes"
+
+    if [ ! -d "$confDir" ]; then
+        echo "${COLOR_GREEN}:: Setting up kitty ...${COLOR_RESET}"
+        git clone https://github.com/kovidgoyal/kitty-themes.git "$confDir"
+    fi
+}
+
 check::dependencies
 install::homebrew
 install::dotfiles
@@ -98,4 +107,4 @@ setup::fzf
 setup::neovim
 setup::tmux
 setup::vim
-
+setup::kitty
