@@ -18,7 +18,7 @@ return require("packer").startup(function ()
     use "editorconfig/editorconfig-vim"
     use "godlygeek/tabular"
     use "gregsexton/MatchTag"
-    use { "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function () vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" } }
+    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", setup = function () vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" } }
     use "jremmen/vim-ripgrep"
     use "junegunn/gv.vim"
     use "junegunn/vim-easy-align"
