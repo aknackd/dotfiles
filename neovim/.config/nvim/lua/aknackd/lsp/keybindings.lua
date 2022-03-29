@@ -1,3 +1,4 @@
+map { "n", "<Leader>e",  ":lua vim.diagnostic.open_float()<CR>", noremap = true }
 map { "n", "<Leader>vd", ":lua vim.lsp.buf.definition()<CR>", noremap = true }
 map { "n", "<Leader>vi", ":lua vim.lsp.buf.implementation()<CR>", noremap = true }
 map { "n", "<Leader>vsh", ":lua vim.lsp.buf.signature_help()<CR>", noremap = true }
