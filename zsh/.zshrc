@@ -69,6 +69,7 @@ case "$(uname -s)" in
         alias rmmod=kextunload
         alias crontab="VIM_CRONTAB=true crontab"
         alias zcat=gzcat
+        alias lsregister="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"
 
         test -f /usr/local/share/dotnet/dotnet && alias dotnet=/usr/local/share/dotnet/dotnet
 
