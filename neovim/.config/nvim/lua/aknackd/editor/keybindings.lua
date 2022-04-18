@@ -1,4 +1,4 @@
-map { "n", "<Leader>w", ":wincmd w<CR>" }                -- Jump between windows
+map { "n", "<Leader>w", ":wincmd w<CR>" }                -- Jump to the below/right window of the current window - same as <CTRL-W w>
 map { "n", "<C-J>", ":cnext<CR>", noremap = true }       -- Navigate to next item in error list
 map { "n", "<C-k>", ":cprev<CR>", noremap = true }       -- Navigate to previous item in error list
 map { "n", "<C-t>", ":tabe<CR>", noremap = true }        -- Open new tab
