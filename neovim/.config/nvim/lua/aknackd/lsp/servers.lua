@@ -12,6 +12,7 @@ local servers = {
     'bashls',        -- Install via `yarn global add bash-language-server`
     'intelephense',  -- Install via `yarn global add intelephense`
     'tsserver',      -- Install via `yarn global add typescript typescript-language-server`
+    'volar',         -- Install via `yarn global add @volar/vue-language-server`
  }
 
  -- Setup lspconfig
