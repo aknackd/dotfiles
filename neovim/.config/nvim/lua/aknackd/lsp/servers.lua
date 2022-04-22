@@ -1,8 +1,6 @@
 local nvim_lsp = require('lspconfig')
 local on_attach = function (client, bufnr)
     require("aknackd.lsp.completion")
-
-    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 end
 
 -- Use a loop to conveniently both setup defined servers
