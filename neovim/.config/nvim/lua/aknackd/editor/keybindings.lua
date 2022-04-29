@@ -15,6 +15,14 @@ map { "n", "<Leader><Space>", ":nohlsearch<CR>", noremap = true, silent = true }
 map { "n", "<Leader>s", ":sort u<CR>", noremap = true }
 map { "v", "<Leader>s", ":sort u<CR>", noremap = true }
 
+-- Keymaps for folke/trouble.nvim
+map { "n", "<leader>xx", "<cmd>Trouble<cr>", silent = true, noremap = true }
+map { "n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", silent = true, noremap = true }
+map { "n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", silent = true, noremap = true }
+map { "n", "<leader>xl", "<cmd>Trouble loclist<cr>",  silent = true, noremap = true }
+map { "n", "<leader>xq", "<cmd>Trouble quickfix<cr>", silent = true, noremap = true }
+map { "n", "gR", "<cmd>Trouble lsp_references<cr>", silent = true, noremap = true }
+
 vim.cmd [[
 	nmap ga <Plug>(EasyAlign)                   " vim-easy-align
 	xmap ga <Plug>(EasyAlign)                   " vim-easy-align
