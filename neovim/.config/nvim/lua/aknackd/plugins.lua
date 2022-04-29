@@ -53,6 +53,7 @@ return require("packer").startup(function ()
     use "tjdevries/lsp_extensions.nvim"
     use "tjdevries/nlua.nvim"
 
+    use "folke/lsp-colors.nvim"
     use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }
 
     -- telescope.nvim
