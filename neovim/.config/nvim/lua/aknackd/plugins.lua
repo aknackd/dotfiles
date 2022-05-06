@@ -27,7 +27,6 @@ return require("packer").startup(function ()
     use "mattn/emmet-vim"
     use "nathanaelkane/vim-indent-guides"
     use "nelstrom/vim-visual-star-search"
-    use "ntpeters/vim-better-whitespace"
     use "numToStr/Comment.nvim"
     use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
     use "rhysd/committia.vim"
