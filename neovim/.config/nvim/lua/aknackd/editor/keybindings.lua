@@ -1,22 +1,31 @@
-map { "n", "<Leader>w", ":wincmd w<CR>" }                -- Jump to the below/right window of the current window - same as <CTRL-W w>
 map { "n", "<C-J>", ":cnext<CR>", noremap = true }       -- Navigate to next item in error list
 map { "n", "<C-k>", ":cprev<CR>", noremap = true }       -- Navigate to previous item in error list
-map { "n", "<C-t>", ":tabe<CR>", noremap = true }        -- Open new tab
-map { "n", "+", "<c-w>5>", noremap = true }              -- Increase window width
-map { "n", "-", "<c-w>5<", noremap = true }              -- Decrease window width
-map { "n", "<Leader>v", "<C-W>v<CR>", noremap = true }   -- Open vertical split
 map { "t", "<Esc>", "<C-\\><C-n><CR>", noremap = true }  -- Escape from terminal mode
-map { "n", "gl", ":tabnext<CR>", noremap = true }        -- Jump to next tab
-map { "n", "gh", ":tabprevious<CR>", noremap = true }    -- Jump to previous tab
-map { "n", "<Leader>c", "gcc" }                          -- Comment map
-map { "x", "<leader>c", "gc" }                           -- Line comment
-
 map { "n", "<Leader><Space>", ":nohlsearch<CR>", noremap = true, silent = true }
 map { "n", "<Leader>s", ":sort u<CR>", noremap = true }
 map { "v", "<Leader>s", ":sort u<CR>", noremap = true }
 
 map { "n", "<tab>", "%", noremap = true }
 map { "v", "<tab>", "%", noremap = true }
+
+-- Tab management
+map { "n", "<C-t>", ":tabe<CR>", noremap = true }           -- Open new tab
+map { "n", "gl", ":tabnext<CR>", noremap = true }           -- Jump to next tab
+map { "n", "gh", ":tabprevious<CR>", noremap = true }       -- Jump to previous tab
+map { "n", "<Leader>c", ":tabclose<CR>" }                   -- Close tab
+
+-- Window management
+map { "n", "th", "<C-W>h" }                                 -- Move to window on the left
+map { "n", "tl", "<C-W>l" }                                 -- Move to window on the right
+map { "n", "tj", "<C-W>j" }                                 -- Move to window below
+map { "n", "tk", "<C-W>k" }                                 -- Move to window above
+map { "n", "tc", "<C-W>c" }                                 -- Close window
+map { "n", "<Leader>w", ":wincmd w<CR>" }                   -- Jump to the below/right window of the current window - same as <CTRL-W w>
+map { "n", "ts", ":split<SPACE>" }                          -- Open horizontal split
+map { "n", "tv", ":vsplit<SPACE>" }                         -- Open vertical split
+map { "n", "<Leader>v", "<C-W>v<SPACE>", noremap = true }   -- Open vertical split
+map { "n", "+", "<c-w>5>", noremap = true }                 -- Increase window width
+map { "n", "-", "<c-w>5<", noremap = true }                 -- Decrease window width
 
 -- Keymaps for folke/trouble.nvim
 map { "n", "<leader>xx", "<cmd>Trouble<cr>", silent = true, noremap = true }
