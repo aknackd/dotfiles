@@ -36,16 +36,16 @@ fi
 
 ## Aliases
 
-alias hostname="echo $(hostname | sed s/\.local$//)"
+alias art="php artisan"
 alias df="df -hT"
+alias grep="grep -E --color=auto"
+alias hostname="echo $(hostname | sed s/\.local$//)"
 alias more="less -im"
 alias mv="mv -i"
 alias rm="rm -i"
 alias rmdir="rm -r"
-alias grep="grep -E --color=auto"
-alias tmux="TERM=xterm-256color tmux"
 alias screen="tmux"
-alias art="php artisan"
+alias tmux="TERM=xterm-256color tmux"
 
 # Avoid wierd errors when ssh'ing into remote servers that don't
 # have 256 color support installed
@@ -54,34 +54,34 @@ alias ssh="TERM=xterm-color ssh"
 # Startup ssh-agent if not already running
 [ $(___am_i_running ssh-agent) -eq 0 ] && eval "$(ssh-agent -s)"
 
-command -v nvim >/dev/null        && alias vim="TERM=screen-256color nvim"
-command -v rg >/dev/null          && alias ack="rg"
 command -v bat >/dev/null         && alias cat="bat"
 command -v batcat >/dev/null      && alias cat="batcat"
-command -v dotnet >/dev/null      && alias dotnet="TERM=xterm dotnet"
 command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
+command -v dotnet >/dev/null      && alias dotnet="TERM=xterm dotnet"
+command -v nvim >/dev/null        && alias vim="TERM=screen-256color nvim"
+command -v rg >/dev/null          && alias ack="rg"
 
 case "$(uname -s)" in
     Darwin)
-        alias top='top -s 1 -ca -o cpu'
+        alias crontab="VIM_CRONTAB=true crontab"
         alias lsmod=kextstat
+        alias lsregister="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"
         alias modprobe=kextload
         alias rmmod=kextunload
-        alias crontab="VIM_CRONTAB=true crontab"
+        alias top='top -s 1 -ca -o cpu'
         alias zcat=gzcat
-        alias lsregister="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"
 
         test -f /usr/local/share/dotnet/dotnet && alias dotnet=/usr/local/share/dotnet/dotnet
 
         if [ $(___am_i_installed brew) -eq 1 ]; then
             # Prefer GNU versions of coreutuils and other utilities
-            alias ls="gls --color=auto --group-directories-first --quoting-style=literal"
-            alias seq="gseq"
-            alias wc="gwc"
-            alias du="gdu"
             alias df="gdf"
+            alias du="gdu"
+            alias ls="gls --color=auto --group-directories-first --quoting-style=literal"
             alias sed="gsed"
+            alias seq="gseq"
             alias tar="gtar"
+            alias wc="gwc"
         fi
 
         # Use ssh keys added to our keychain when on macOS
@@ -93,27 +93,29 @@ case "$(uname -s)" in
         ;;
 esac
 
+alias ga="git add"
+alias gap="git add --patch"
+alias gar="git add --all ."
 alias gb="git branch"
-alias gd="git diff"
-alias gh="git log --format=\"[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset\""
-alias gs="git status --short --branch --untracked-files --renames"
-alias gsup="git standup"
-alias gl="git log"
 alias gc="git commit"
 alias gco="git checkout"
-alias ga="git add"
+alias gd="git diff"
+alias gfo="git fetch origin"
+alias gfu="git fetch upstream"
+alias gh="git log --format=\"[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset\""
+alias gl="git log"
 alias gm="git merge"
 alias gp="git push"
-alias gr="git rebase"
-alias grm="git rm"
-alias gfo="git fetch origin"
 alias gpo="git push origin"
-alias gfu="git fetch upstream"
 alias gpu="git push upstream"
-alias grup="git remote update --prune"
+alias gr="git rebase"
+alias grc="git rebase --continue"
+alias grm="git rm"
 alias grs="git restore --staged"
-alias gap="git add --patch"
+alias grup="git remote update --prune"
+alias gs="git status --short --branch --untracked-files --renames"
 alias gsp="git show --patch"
+alias gsup="git standup"
 
 gmo () {
     if test $# -ne 1 ; then
@@ -127,7 +129,7 @@ gmo () {
 
 gmu () {
     if test $# -ne 1 ; then
-        printf "Merge a branch from the \`origin\` remote into the current branch\n"
+        printf "Merge a branch from the \`upstream\` remote into the current branch\n"
         printf "Usage: $0 BRANCH\n"
         return 1
     fi
@@ -150,4 +152,3 @@ bindkey '^[^?' backward-kill-dir
 bindkey \^U backward-kill-line
 
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
-
