@@ -18,48 +18,48 @@ return require("packer").startup(function ()
     use "editorconfig/editorconfig-vim"
     use "godlygeek/tabular"
     use "gregsexton/MatchTag"
-    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", setup = function () vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" } }
     use "jremmen/vim-ripgrep"
     use "junegunn/gv.vim"
     use "junegunn/vim-easy-align"
     use "lbrayner/vim-rzip"
-    use { "lukas-reineke/indent-blankline.nvim", buftype_exclude = { "terminal" }, show_end_of_line = true }
     use "mattn/emmet-vim"
     use "nathanaelkane/vim-indent-guides"
     use "nelstrom/vim-visual-star-search"
     use "numToStr/Comment.nvim"
-    use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
     use "rhysd/committia.vim"
     use "rhysd/git-messenger.vim"
     use "sheerun/vim-polyglot"
     use "simrat39/symbols-outline.nvim"
+    use "tpope/vim-eunuch"
     use "tpope/vim-fugitive"
     use "tpope/vim-repeat"
     use "tpope/vim-surround"
-    use "tpope/vim-eunuch"
     use "vim-airline/vim-airline"
     use "vim-airline/vim-airline-themes"
     use "vim-scripts/AnsiEsc.vim"
+    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", setup = function () vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" } }
+    use { "lukas-reineke/indent-blankline.nvim", buftype_exclude = { "terminal" }, show_end_of_line = true }
+    use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
 
     -- LSP Plugins
-    use "neovim/nvim-lspconfig"
-    use "hrsh7th/cmp-nvim-lsp"
     use "hrsh7th/cmp-buffer"
+    use "hrsh7th/cmp-nvim-lsp"
+    use "hrsh7th/nvim-cmp"
+    use "neovim/nvim-lspconfig"
+    use "tjdevries/lsp_extensions.nvim"
+    use "tjdevries/nlua.nvim"
     use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/vim-vsnip'
     use 'hrsh7th/vim-vsnip-integ'
-    use "hrsh7th/nvim-cmp"
-    use "tjdevries/lsp_extensions.nvim"
-    use "tjdevries/nlua.nvim"
 
     use "folke/lsp-colors.nvim"
     use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }
 
     -- telescope.nvim
-    use "nvim-lua/popup.nvim"
     use "nvim-lua/plenary.nvim"
-    use "nvim-telescope/telescope.nvim"
+    use "nvim-lua/popup.nvim"
     use "nvim-telescope/telescope-fzy-native.nvim"
+    use "nvim-telescope/telescope.nvim"
 
     -- Themes
     use "kristijanhusak/vim-hybrid-material"
