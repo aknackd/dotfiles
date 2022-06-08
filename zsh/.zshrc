@@ -47,8 +47,8 @@ alias rmdir="rm -r"
 alias screen="tmux"
 alias tmux="TERM=xterm-256color tmux"
 
-# Avoid wierd errors when ssh'ing into remote servers that don't
-# have 256 color support installed
+# Avoid weird errors when ssh'ing into remote servers that don't have 256 color
+# support installed
 alias ssh="TERM=xterm-color ssh"
 
 # Startup ssh-agent if not already running
