@@ -10,16 +10,16 @@ map { "v", "<tab>", "%", noremap = true }
 
 -- Tab management
 map { "n", "<C-t>", ":tabe<CR>", noremap = true }           -- Open new tab
-map { "n", "gl", ":tabnext<CR>", noremap = true }           -- Jump to next tab
-map { "n", "gh", ":tabprevious<CR>", noremap = true }       -- Jump to previous tab
+map { "n", "tl", ":tabnext<CR>", noremap = true }           -- Jump to next tab
+map { "n", "th", ":tabprevious<CR>", noremap = true }       -- Jump to previous tab
 map { "n", "<Leader>c", ":tabclose<CR>" }                   -- Close tab
 
 -- Window management
-map { "n", "th", "<C-W>h" }                                 -- Move to window on the left
-map { "n", "tl", "<C-W>l" }                                 -- Move to window on the right
-map { "n", "tj", "<C-W>j" }                                 -- Move to window below
-map { "n", "tk", "<C-W>k" }                                 -- Move to window above
-map { "n", "tc", "<C-W>c" }                                 -- Close window
+map { "n", "gh", "<C-W>h" }                                 -- Move to window on the left
+map { "n", "gl", "<C-W>l" }                                 -- Move to window on the right
+map { "n", "gj", "<C-W>j" }                                 -- Move to window below
+map { "n", "gk", "<C-W>k" }                                 -- Move to window above
+map { "n", "gc", "<C-W>c" }                                 -- Close window
 map { "n", "<Leader>w", ":wincmd w<CR>" }                   -- Jump to the below/right window of the current window - same as <CTRL-W w>
 map { "n", "ts", ":split<SPACE>" }                          -- Open horizontal split
 map { "n", "tv", ":vsplit<SPACE>" }                         -- Open vertical split
