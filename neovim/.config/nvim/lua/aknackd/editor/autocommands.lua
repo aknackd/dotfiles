@@ -31,21 +31,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	command = "%s/\\s\\+$//e",
 })
 
--- Enable spell checking on certain filetypes
+-- Enable spell checking on certain filenames
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-	pattern = {
-		"CONTRIBUTORS",
-		"COPYING",
-		"HACKING",
-		"INSTALL",
-		"LICENSE",
-		"NEWS",
-		"README",
-		"UPGRADING",
-		"*.txt",
-		"*.TXT",
-		"*.md",
-		"*.markdown",
-	},
-	command = "setlocal spell",
+	pattern = { "CONTRIBUTORS", "COPYING", "HACKING", "INSTALL", "LICENSE", "NEWS", "README", "UPGRADING" },
+	callback = aknackd_enable_spellcheck,
+})
+
+-- Enable spell checking on certain filetypes
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "asciidoc", "markdown", "text", "rst" },
+	callback = aknackd_enable_spellcheck,
 })

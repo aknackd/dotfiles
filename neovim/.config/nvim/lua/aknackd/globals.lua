@@ -42,3 +42,7 @@ create_augroup = function (name, autocmds)
     end
     vim.cmd('augroup END')
 end
+
+aknackd_enable_spellcheck = function ()
+	vim.api.nvim_win_set_option(0, "spell", true)
+end
