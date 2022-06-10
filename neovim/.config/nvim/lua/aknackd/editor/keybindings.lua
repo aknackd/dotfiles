@@ -19,7 +19,6 @@ map { "n", "gh", "<C-W>h" }                                 -- Move to window on
 map { "n", "gl", "<C-W>l" }                                 -- Move to window on the right
 map { "n", "gj", "<C-W>j" }                                 -- Move to window below
 map { "n", "gk", "<C-W>k" }                                 -- Move to window above
-map { "n", "gc", "<C-W>c" }                                 -- Close window
 map { "n", "<Leader>w", ":wincmd w<CR>" }                   -- Jump to the below/right window of the current window - same as <CTRL-W w>
 map { "n", "ts", ":split<SPACE>" }                          -- Open horizontal split
 map { "n", "tv", ":vsplit<SPACE>" }                         -- Open vertical split
