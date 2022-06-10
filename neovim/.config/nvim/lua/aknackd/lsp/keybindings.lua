@@ -1,6 +1,6 @@
 map { "n", "<Leader>e",  ":lua vim.diagnostic.open_float()<CR>", noremap = true }
-map { "n", "<Leader>vd", ":lua vim.lsp.buf.definition()<CR>", noremap = true }
-map { "n", "<Leader>vi", ":lua vim.lsp.buf.implementation()<CR>", noremap = true }
+map { "n", "<Leader>vd", ":lua require('telescope.builtin').lsp_definitions()<CR>", noremap = true }
+map { "n", "<Leader>vi", ":lua require('telescope.builtin').lsp_implementations()<CR>", noremap = true }
 map { "n", "<Leader>vsh", ":lua vim.lsp.buf.signature_help()<CR>", noremap = true }
 map { "n", "<Leader>vrr", ":lua vim.lsp.buf.references()<CR>", noremap = true }
 map { "n", "<Leader>vrn", ":lua vim.lsp.buf.rename()<CR>", noremap = true }
