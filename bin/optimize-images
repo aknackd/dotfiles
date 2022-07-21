@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+# Optimizes images in a given directory
+
+if [ $# -ne 1 ]; then
+    printf 1>&2 "Usage: %s /path/to/images\n" "$(basename "$0")"
+    exit 1
+fi
+
+declare -A REQUIREMENTS
+readonly REQUIREMENTS=(
+    [pngquant]="https://pngquant.org"
+    [optipng]="http://optipng.sourceforge.net"
+)
+
+readonly DIR="$1"
+
+# Check requirements for the script to execute successfully
+function check_requirements () {
+    for dep in "${!REQUIREMENTS[@]}"; do
+        if ! command -v "$dep" >/dev/null; then
+            printf 1>&2 "%s not installed\n" "$dep"
+            printf 1>&2 "See installation instructions at %s\n" "${REQUIREMENTS[$dep]}"
+            return 1
+        fi
+    done
+}
+
+# Prints an image filesize in KiB
+function get_image_filesize () {
+    local image="$1"
+
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        filesize=$(stat -f '%z' "$image")
+    else
+        filesize=$(stat -c '%s' "$image")
+    fi
+
+    printf "%.2f KiB" "$(echo "scale=2; ${filesize}/1024" | bc -l)"
+}
+
+# Optimize images - currently only handles PNGs
+function optimize_images () {
+    cd "$DIR" || return
+
+    # Loop through all PNG images and optimize them using pngquant and optipng
+
+    {
+        echo "Filename,Before,After"
+        while IFS= read -r -d '' FILE; do
+            sizeBefore="$(get_image_filesize "$FILE")"
+
+            pngquant --ext .png.pngquant "$FILE"
+            optipng -i0 -o2 -quiet "${FILE}.pngquant"
+            mv -f "${FILE}.pngquant" "$FILE"
+
+            sizeAfter="$(get_image_filesize "$FILE")"
+
+            printf "%s,%s,%s\n" "${DIR}/$(basename "$FILE")" "$sizeBefore" "$sizeAfter"
+        done < <(find . -name '*.png' -type f -print0)
+    } | column -s ',' -t
+}
+
+check_requirements || ( printf 1>&2 "ERROR: Requirement check failed; exiting" ; exit 1 )
+optimize_images
