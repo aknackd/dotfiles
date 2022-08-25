@@ -23,7 +23,7 @@ done
 
 prevTemp=0.0
 
-print_cpu_temp () {
+function print_cpu_temp () {
     local outputFormat="%-25s  %s"
     local currentTemp=$(osx-cpu-temp -F | cut -d '°' -f 1)
 

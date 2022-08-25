@@ -25,7 +25,7 @@ readonly COLOR_RESET=$(echo -e "\033[0;0m")
 #
 # @param {string} color
 # @param {string} message
-chalk () {
+function chalk () {
     local color="$(printf "COLOR_%s" "${1^^}")"
     local message="$2"
 
@@ -33,7 +33,7 @@ chalk () {
 }
 
 # Simple check to see if a virtual machine exists.
-vm::check_if_exists () {
+function vm::check_if_exists () {
     if [ ! -d "$vmPath" ]; then
         2>&1 printf "%s: Virtual machine not found: %s\n" "$(chalk red "ERROR")" "$(chalk green "$vmPath")"
         exit 1
@@ -41,13 +41,13 @@ vm::check_if_exists () {
 }
 
 # Lists currently running virtual machines.
-vm::list_running () {
+function vm::list_running () {
     vmrun list | tail -n +2
 }
 
 # Starts a virtual machine.
 # Also enables shared folders if any are configured.
-vm::start () {
+function vm::start () {
     local vmPath="$1"
 
     vm::check_if_exists "$vmPath"
@@ -65,7 +65,7 @@ vm::start () {
 #   2. vmtoolsd is running on the guest so we can find its IP address
 #   3. OpenSSH is running on the guest
 #   4. sudo is installed on the guest
-vm::stop () {
+function vm::stop () {
     local vmPath="$1"
 
     vm::check_if_exists "$vmPath"

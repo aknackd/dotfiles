@@ -15,15 +15,15 @@ readonly DATE_FORMAT="%Y-%m-%d %H:%M:%S%z"
 readonly COMPOSER=${COMPOSER:-1}
 readonly YARN=${YARN:-1}
 
-log::info () {
+function log::info () {
     date +"${COLOR_YELLOW}[${DATE_FORMAT}]${COLOR_RESET} ${COLOR_GREEN}${1}${COLOR_RESET}"
 }
 
-log::error () {
+function log::error () {
     date +"${COLOR_YELLOW}[${DATE_FORMAT}]${COLOR_RESET} ${COLOR_RED}${1}${COLOR_RESET}"
 }
 
-is_installed () {
+function is_installed () {
     if ! command -v "$1" >/dev/null ; then
         log::error "Command ${COLOR_BLUE}${1}${COLOR_RED} not found in \$PATH, exiting"
         return 0
@@ -33,7 +33,7 @@ is_installed () {
 }
 
 # Check for outdated composer dependencies
-check::composer () {
+function check::composer () {
     log::info "Checking for local outdated composer dependencies..."
 
     if [ ! -f composer.lock ]; then
@@ -49,7 +49,7 @@ check::composer () {
 }
 
 # Check for outdated Node.js packages via yarn
-check::yarn () {
+function check::yarn () {
     log::info "Checking for local outdated yarn dependencies..."
 
     if [ ! -f yarn.lock ]; then
@@ -67,4 +67,3 @@ check::yarn () {
 
 [ "$COMPOSER" = 1 ] && check::composer
 [ "$YARN" = 1 ]     && check::yarn
-

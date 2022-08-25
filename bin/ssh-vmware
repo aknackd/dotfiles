@@ -36,7 +36,7 @@ readonly COLOR_RESET=$(echo -e "\033[0;0m")
 #
 # @param {string} color
 # @param {string} message
-chalk () {
+function chalk () {
     readonly color="$(printf "COLOR_%s" "${1^^}")"
     readonly message="$2"
 
@@ -48,29 +48,29 @@ chalk () {
 }
 
 # Prints the current timestamp
-now () {
+function now () {
     echo -n "$(date +"%Y-%m-%dT%H:%M:%S%z")"
 }
 
 # Prints an informational log message
-log::info () {
+function log::info () {
     1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk green "$1")"
 }
 
 # Prints an error message
-log::error () {
+function log::error () {
     1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk red "$1")"
 }
 
 # Prints a warning message
-log::warning () {
+function log::warning () {
     1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk yellow "$1")"
 }
 
 # Go through the dhcpd leases file and print the hosts known to fusion
 #
 # Adapted from https://stackoverflow.com/a/2143661
-vmware::print_hosts () {
+function vmware::print_hosts () {
    awk 'BEGIN{
       RS="}"
       FS="\n"
@@ -101,7 +101,7 @@ vmware::print_hosts () {
 }
 
 # Main entry point
-main () {
+function main () {
     log::info "Attempting to find IP address of guest: $(chalk reset "${VM}")"
 
     # Check if the hostname is in the dhcpd.leases file
@@ -147,4 +147,3 @@ main () {
 }
 
 main
-

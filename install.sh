@@ -7,7 +7,7 @@ readonly COLOR_GREEN="$(echo -e "\033[0;32m")"
 readonly COLOR_BLUE="$(echo -e "\033[0;34m")"
 readonly COLOR_RESET="$(echo -e "\033[0;0m")"
 
-check::dependencies () {
+function check::dependencies () {
     for BIN in "${DEPENDENCIES[@]}"; do
         if ! command -v "$BIN" >/dev/null ; then
             >&2 echo "${COLOR_RED}ERROR${COLOR_RESET}: Please install ${COLOR_BLUE}${BIN}${COLOR_RESET} first before proceeding!"
@@ -16,7 +16,7 @@ check::dependencies () {
     done
 }
 
-install::homebrew () {
+function install::homebrew () {
     [[ $(uname -s) != "Darwin" ]] && return
 
     if ! command -v brew >/dev/null 2>&1 ; then
@@ -26,7 +26,7 @@ install::homebrew () {
     fi
 }
 
-install::dotfiles () {
+function install::dotfiles () {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
     stow alacritty direnv git kitty neovim tmux vim zsh --target "$HOME" --verbose
 
@@ -60,7 +60,7 @@ install::dotfiles () {
     esac
 }
 
-setup::fzf () {
+function setup::fzf () {
     if [ ! -d "$HOME/.fzf" ]; then
         echo "${COLOR_GREEN}:: Setting up fzf ...${COLOR_RESET}"
         git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
@@ -68,12 +68,12 @@ setup::fzf () {
     fi
 }
 
-setup::neovim () {
+function setup::neovim () {
     echo "${COLOR_GREEN}:: Setting up neovim ...${COLOR_RESET}"
     nvim +PackerCompile +PackerInstall +qall!
 }
 
-setup::tmux () {
+function setup::tmux () {
     local tpmdir="$HOME/.tmux/plugins/tpm"
 
     if [ ! -d "$tpmdir" ]; then
@@ -82,7 +82,7 @@ setup::tmux () {
     fi
 }
 
-setup::vim () {
+function setup::vim () {
     local confDir="$HOME/.config/vim"
 
     if [ ! -d "$confDir" ]; then
@@ -91,7 +91,7 @@ setup::vim () {
     fi
 }
 
-setup::kitty () {
+function setup::kitty () {
     local confDir="$HOME/.config/kitty/kitty-themes"
 
     if [ ! -d "$confDir" ]; then

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-free::linux () {
+function free::linux () {
     /usr/bin/free -m
 }
 
-free::macos () {
+function free::macos () {
     # local total_rss_in_bytes
     local total_physical_memory_in_bytes
     local vm_stats_pattern
@@ -42,7 +42,7 @@ free::macos () {
     done) | sort | cut -d '|' -f 2-
 }
 
-free::freebsd () {
+function free::freebsd () {
     local pagesize
     local total
     local wired
@@ -72,7 +72,7 @@ free::freebsd () {
     printf "Free Memory:            %8s MB\n" "$free"
 }
 
-free::unsupported () {
+function free::unsupported () {
     printf "ERROR: Unsupported platform\n" >&2
     printf "Only Linux, macOS, and FreeBSD are supported\n" >&2
     exit 1
@@ -84,4 +84,3 @@ case $(uname -s) in
     FreeBSD) free::freebsd ;;
     *)       free::unsupported ;;
 esac
-
