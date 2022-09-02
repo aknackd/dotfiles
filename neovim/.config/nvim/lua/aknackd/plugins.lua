@@ -21,6 +21,7 @@ return require("packer").startup(function ()
     use "jremmen/vim-ripgrep"
     use "junegunn/gv.vim"
     use "junegunn/vim-easy-align"
+    use "laytan/cloak.nvim"
     use "lbrayner/vim-rzip"
     use "mattn/emmet-vim"
     use "nathanaelkane/vim-indent-guides"
