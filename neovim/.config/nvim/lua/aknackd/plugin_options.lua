@@ -19,14 +19,3 @@ vim.g["user_emmet_install_global"] = 0
 vim.g["gitgutter_enabled"] = 1
 vim.g["gitgutter_realtime"] = 0
 vim.g["gitgutter_eager"] = 0
-
--- laytan/cloak.nvim configuration
-require('cloak').setup({
-  enabled = true,
-  patterns = {
-    {
-      file_pattern = '.env*',
-      cloak_pattern = '=.+',
-    },
-  },
-})
