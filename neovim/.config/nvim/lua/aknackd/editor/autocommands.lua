@@ -11,11 +11,11 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	command = "silent source %",
 })
 
--- Start :term in INSERT mode
+-- Start :term in INSERT mode and disable line numbers
 vim.api.nvim_create_autocmd("TermOpen", {
 	group   = "bufcheck",
 	pattern = "*",
-	command = "startinsert | set winfixheight",
+	command = "startinsert | set winfixheight | setlocal nonumber norelativenumber",
 })
 
 -- Setup emmet on specific filetypes
