@@ -42,3 +42,20 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "asciidoc", "markdown", "text", "rst" },
 	callback = aknackd_enable_spellcheck,
 })
+
+-- Copies yanked text into the system clipboard over SSH
+-- Does not require x11 on linux
+--
+-- https://www.sobyte.net/post/2022-01/vim-copy-over-ssh/
+--
+-- @@@ Convert to lua
+vim.cmd [[
+	function CopyTextToClipboard()
+		let c = join(v:event.regcontents, "\n")
+        let c64 = system("base64", c)
+        let s = "\e]52;c;" . trim(c64) . "\x07"
+        call chansend(v:stderr, s)
+	endfunction
+
+	autocmd TextYankPost * call CopyTextToClipboard()
+]]
