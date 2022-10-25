@@ -75,6 +75,7 @@ case "$(uname -s)" in
 
         if [ $(___am_i_installed brew) -eq 1 ]; then
             # Prefer GNU versions of coreutuils and other utilities
+            alias date="gdate"
             alias df="gdf"
             alias du="gdu"
             alias ls="gls --color=auto --group-directories-first --quoting-style=literal"
