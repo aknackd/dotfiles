@@ -101,10 +101,10 @@ function setup::kitty () {
 }
 
 check::dependencies
-install::homebrew
 install::dotfiles
-setup::fzf
-setup::neovim
-setup::tmux
-setup::vim
-setup::kitty
+[[ "${SKIP_HOMEBREW:-n}" == "y" ]] || install::homebrew
+[[ "${SKIP_FZF:-n}" == "y" ]]      || setup::fzf
+[[ "${SKIP_NEOVIM:-n}" == "y" ]]   || setup::neovim
+[[ "${SKIP_TMUX:-n}" == "y" ]]     || setup::tmux
+[[ "${SKIP_VIM:-n}" == "y" ]]      || setup::vim
+[[ "${SKIP_KITTY:-n}" == "y" ]]    || setup::kitty
