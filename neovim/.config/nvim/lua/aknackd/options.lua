@@ -33,6 +33,8 @@ vim.opt.completeopt:remove("preview")                  -- Disable preview for au
 vim.opt.hidden = true                                  -- Hide buffers in background
 vim.opt.splitbelow = true                              -- Setup new horizontal splits below
 vim.opt.splitright = true                              -- Setup new vertical splits to the right
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff=8
 vim.opt.path:append("**")                              -- Allow recursive search
 vim.opt.inccommand = "split"                           -- Show substitute changes immediately
 vim.opt.cmdheight = 1
