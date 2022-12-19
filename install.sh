@@ -64,7 +64,7 @@ function setup::fzf () {
     if [ ! -d "$HOME/.fzf" ]; then
         echo "${COLOR_GREEN}:: Setting up fzf ...${COLOR_RESET}"
         git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
-        "$HOME/.fzf/install"
+        "$HOME/.fzf/install" --bin --key-bindings --completion --no-update-rc
     fi
 }
 
