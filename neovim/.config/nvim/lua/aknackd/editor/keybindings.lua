@@ -14,6 +14,22 @@ map { "n", "tl", ":tabnext<CR>", noremap = true }           -- Jump to next tab
 map { "n", "th", ":tabprevious<CR>", noremap = true }       -- Jump to previous tab
 map { "n", "<Leader>c", ":tabclose<CR>" }                   -- Close tab
 
+-- Stay on the same column with j/k when going up and down within wrapped text
+map { "n", "j", "v:count == 0 ? 'gj' : 'j'", expr = true }
+map { "n", "k", "v:count == 0 ? 'gk' : 'k'", expr = true }
+
+-- Reselect visual mode selection after indenting
+map { "v", "<", "<gv" }
+map { "v", ">", ">gv" }
+
+map { "v", "y", "myy`y" }                                   -- Maintain cursor position when yanking a visual selection
+map { "n", "q:", ":q" }                                     -- Remap "q:" typos to ":q"
+map { "v", "p", '"_dP' }                                    -- Don't yank selected text when pasting in visual mode
+map { "i", ";;", "<Esc>A;" }                                -- Insert a semicolon at the end of the line when semicolon is pressed twice in insert mode
+map { "n", ";;", "<Esc>A;<Esc>" }                           -- Same as above but when in normal mode
+map { "i", ",,", "<Esc>A," }                                -- Insert a comma at the end of the
+map { "n", ",,", "<Esc>A,<Esc>" }                           -- Same as above but when in normal mode;
+
 -- Window management
 map { "n", "gh", "<C-W>h" }                                 -- Move to window on the left
 map { "n", "gl", "<C-W>l" }                                 -- Move to window on the right
