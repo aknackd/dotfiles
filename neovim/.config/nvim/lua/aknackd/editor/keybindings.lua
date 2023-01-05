@@ -22,7 +22,6 @@ map { "n", "k", "v:count == 0 ? 'gk' : 'k'", expr = true }
 map { "v", "<", "<gv" }
 map { "v", ">", ">gv" }
 
-map { "v", "y", "myy`y" }                                   -- Maintain cursor position when yanking a visual selection
 map { "n", "q:", ":q" }                                     -- Remap "q:" typos to ":q"
 map { "v", "p", '"_dP' }                                    -- Don't yank selected text when pasting in visual mode
 map { "i", ";;", "<Esc>A;" }                                -- Insert a semicolon at the end of the line when semicolon is pressed twice in insert mode
