@@ -18,6 +18,10 @@ export BAT_THEME="Monokai Extended Bright"
 export N_PREFIX="$HOME/.n"
 export GOPATH="$HOME/go"
 
+export NVIM_COLORSCHEME='kristijanhusak/vim-hybrid-material:hybrid_reverse'
+export NVIM_FEATURE_LSP=true
+export NVIM_LSP_SERVERS='tsserver,lua_ls,bashls,html,jsonls,volar,yamlls'
+
 # https://stackoverflow.com/a/17841619
 implode () { local IFS="$1";  shift ; echo "$*" }
 
