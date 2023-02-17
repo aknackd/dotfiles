@@ -1,3 +1,7 @@
+local user_enable_spellcheck = function ()
+	vim.api.nvim_win_set_option(0, "spell", true)
+end
+
 -- Mostly taken from
 -- https://www.reddit.com/r/neovim/comments/u9ihdt/comment/i5v41e6
 -- https://www.reddit.com/r/neovim/comments/u9ihdt/comment/i5sk5ug
@@ -34,13 +38,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Enable spell checking on certain filenames
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = { "CONTRIBUTORS", "COPYING", "HACKING", "INSTALL", "LICENSE", "NEWS", "README", "UPGRADING" },
-	callback = aknackd_enable_spellcheck,
+	callback = user_enable_spellcheck,
 })
 
 -- Enable spell checking on certain filetypes
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "asciidoc", "markdown", "text", "rst" },
-	callback = aknackd_enable_spellcheck,
+	callback = user_enable_spellcheck,
 })
 
 -- Copies yanked text into the system clipboard over SSH
