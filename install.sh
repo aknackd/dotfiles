@@ -70,7 +70,7 @@ function setup::fzf () {
 
 function setup::neovim () {
     echo "${COLOR_GREEN}:: Setting up neovim ...${COLOR_RESET}"
-    nvim +PackerCompile +PackerInstall +qall!
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 }
 
 function setup::tmux () {
