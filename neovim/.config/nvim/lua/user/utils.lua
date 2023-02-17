@@ -9,7 +9,7 @@ end
 -- Returns LSP servers that Mason will always install by default
 -- @return table
 function M.get_lsp_servers()
-	local servers = { 'sumneko_lua' }
+	local servers = { 'lua_ls' }
 	M.mergetable(servers, M.split(',', os.getenv('NVIM_LSP_SERVERS') or ''))
 
 	return M.remove_duplicates(servers)

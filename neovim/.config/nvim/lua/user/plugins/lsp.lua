@@ -34,7 +34,7 @@ lsp.set_preferences({
 lsp.ensure_installed(utils.get_lsp_servers())
 
 -- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua', {
+lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
