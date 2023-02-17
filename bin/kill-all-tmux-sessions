@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+set -x
+tmux list-sessions | cut -d':' -f1 | xargs -n 1 tmux kill-session -t
