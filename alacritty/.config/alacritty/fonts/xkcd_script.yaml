@@ -1,0 +1,17 @@
+font:
+  size: 20.0
+  normal:
+    family: xkcd Script
+    style: Regular
+  bold:
+    family: xkcd Script
+    style: Regular
+  italic:
+    family: xkcd Script
+    style: Regular
+    style: Regular
+  bold_italic:
+    family: xkcd Script
+    style: Regular
+  offset:
+    y: 20

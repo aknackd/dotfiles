@@ -1,0 +1,16 @@
+font:
+  size: 20.0
+  normal:
+    family: Hurmit Nerd Font Mono
+    style: light
+  bold:
+    family: Hurmit Nerd Font Mono
+    style: bold
+  # italic:
+  #   family: Hurmit Nerd Font Mono
+  #   style: Italic
+  # bold_italic:
+  #   family: Hurmit Nerd Font Mono
+  #   style: Bold Italic
+  offset:
+    y: 20
