@@ -1,4 +1,3 @@
-local packer = require('packer')
 
 local utils = require('user.utils')
 local use_colorscheme_plugin = utils.use_colorscheme_plugin
@@ -20,6 +19,8 @@ local ensure_packer = function ()
 end
 
 local packer_bootstrap = ensure_packer()
+
+local packer = require('packer')
 
 -- Initialize packer
 packer.init({
