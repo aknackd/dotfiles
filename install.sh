@@ -28,7 +28,7 @@ function install::homebrew () {
 
 function install::dotfiles () {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
-    stow alacritty direnv git kitty neovim sqlite tmux vim zsh --target "$HOME" --verbose
+    stow alacritty direnv git kitty neovim sqlite tmux vim wezterm zsh --target "$HOME" --verbose
 
     mkdir -p "$HOME/.local/bin"
     stow bin --target "$HOME/.local/bin" --verbose
