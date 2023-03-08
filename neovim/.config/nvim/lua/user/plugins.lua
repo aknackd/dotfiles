@@ -123,6 +123,12 @@ return packer.startup(function (use)
         config = function() require('user.plugins.gitsigns') end,
     })
 
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+        config = function() require('user.plugins.markdown-preview') end,
+    })
+
     use({ 'AndrewRadev/splitjoin.vim', config = function() require('user.plugins.splitjoin') end })
     -- use({ 'airblade/vim-gitgutter', config = function() require('user.plugins.gitgutter') end })
     use({ 'famiu/bufdelete.nvim', config = function() require('user.plugins.bufdelete') end })
