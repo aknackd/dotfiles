@@ -78,4 +78,4 @@ log "Printing newly built neovim version ..."
 nvim --version | head -n 1
 
 log "Done!"
-log "Be sure to setup a symlink somewhere in your PATH that links to "${PREFIX}/latest"
+log "Be sure to setup a symlink somewhere in your PATH that links to "${PREFIX}/latest""
