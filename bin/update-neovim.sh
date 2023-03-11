@@ -26,7 +26,7 @@
 #     | SOURCE_DIR  | Path to source directory                                 | $HOME/Workspace/neovim/neovim |
 #     | PREFIX      | Directory prefix where neovim will be installed          | /usr/local/Cellar/neovim      |
 #     | NUM_COMMITS | The last x commits to show after fetching latest commits | 15                            |
-#     | NUM_JOBS    | The number of jobs (commands) to run simultaneously      | `nprocs`                      |
+#     | NUM_JOBS    | The number of jobs (commands) to run simultaneously      | `nproc`                       |
 #
 
 readonly GREEN="$(echo -e "\033[0;32m")"
