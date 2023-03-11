@@ -63,7 +63,7 @@ if [[ -d "${PREFIX}/${COMMIT}" ]]; then
 fi
 
 log "Building from commit ${COMMIT} ..."
-/usr/bin/nice -n +15 make -j $NUM_JOBS install
+nice -n +15 make -j $NUM_JOBS install
 
 cd "$PREFIX"
 
