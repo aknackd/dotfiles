@@ -41,8 +41,7 @@ readonly BRANCH="${BRANCH:-master}"
 readonly SOURCE_DIR="${SOURCE_DIR:-${HOME}/Workspace/neovim/neovim}"
 readonly PREFIX="${PREFIX:-/usr/local/Cellar/neovim}"
 readonly NUM_COMMITS="${NUM_COMMITS:-15}"
-# @@@ nproc won't work on systems that don't have nproc (macOS, FreeBSD, etc.)
-readonly NUM_JOBS="${NUM_JOBS:-$(nproc)}"
+readonly NUM_JOBS="${NUM_JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu)}"
 
 cd "$SOURCE_DIR"
 
