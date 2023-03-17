@@ -157,7 +157,7 @@ gmu () {
 }
 
 whereami () {
-    echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"
+    echo "${USER}@$(hostname):$(pwd)"
 }
 
 # crtl-w to delete a word backwards
