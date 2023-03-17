@@ -43,10 +43,15 @@ readonly PREFIX="${PREFIX:-/usr/local/Cellar/neovim}"
 readonly NUM_COMMITS="${NUM_COMMITS:-15}"
 readonly NUM_JOBS="${NUM_JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu)}"
 
+make_cmd=make
+if [[ "$(uname -s)" == "FreeBSD" ]]; then
+    make_cmd="gmake"
+fi
+
 cd "$SOURCE_DIR"
 
 log "Cleaning build directory ..."
-make clean distclean
+"$make_cmd" dist clean
 
 log "Fetching the latest changes from the ${BRANCH} branch ..."
 git fetch origin
@@ -63,7 +68,7 @@ if [[ -d "${PREFIX}/${COMMIT}" ]]; then
 fi
 
 log "Building from commit ${COMMIT} ..."
-nice -n +15 make -j $NUM_JOBS install
+nice -n +15 "$make_cmd" -j $NUM_JOBS install
 
 cd "$PREFIX"
 
