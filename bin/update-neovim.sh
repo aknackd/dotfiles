@@ -6,7 +6,7 @@
 # builds and installs neovim, and removes all older neovim installs, leaving
 # only the newly built version.
 #
-# Builds are installed in a directory (specified by $PREFIX, defaults
+# Builds are installed in a directory (specified by $NVIM_PREFIX, defaults
 # to /usr/local/Cellar/neovim) along with a symlink to the build named "latest"
 # in the same build directory (similar to how Homebrew works).
 #
@@ -16,17 +16,17 @@
 #     2. The neovim git repo has already been cloned
 #     3. A local.mk file already exists in the source directory
 #     4. The install directory has r/w access for the user running the script
-#     5. A symlink to "$PREFIX/latest" exists somewhere in your PATH (ex: /usr/local/bin/nvim)
+#     5. A symlink to "$NVIM_PREFIX/latest" exists somewhere in your PATH (ex: /usr/local/bin/nvim)
 #
 # Environment variables for customization:
 #
-#     | Name        | Description                                              | Default                       |
-#     |:------------|:---------------------------------------------------------|:------------------------------|
-#     | BRANCH      | Branch to build                                          | master                        |
-#     | SOURCE_DIR  | Path to source directory                                 | $HOME/Workspace/neovim/neovim |
-#     | PREFIX      | Directory prefix where neovim will be installed          | /usr/local/Cellar/neovim      |
-#     | NUM_COMMITS | The last x commits to show after fetching latest commits | 15                            |
-#     | NUM_JOBS    | The number of jobs (commands) to run simultaneously      | `nproc`                       |
+#     | Name             | Description                                              | Default                       |
+#     |:-----------------|:---------------------------------------------------------|:------------------------------|
+#     | NVIM_BRANCH      | Branch to build                                          | master                        |
+#     | NVIM_SOURCE_DIR  | Path to source directory                                 | $HOME/Workspace/neovim/neovim |
+#     | NVIM_PREFIX      | Directory prefix where neovim will be installed          | /usr/local/Cellar/neovim      |
+#     | NVIM_NUM_COMMITS | The last x commits to show after fetching latest commits | 15                            |
+#     | NVIM_NUM_JOBS    | The number of jobs (commands) to run simultaneously      | `nproc`                       |
 #
 
 readonly GREEN="$(echo -e "\033[0;32m")"
@@ -37,35 +37,40 @@ function log() {
     printf "[%s%s%s] %s%s%s\n" $YELLOW $(date +'%Y-%m-%dT%H:%M:%S') $RESET $GREEN "$1" $RESET
 }
 
-readonly BRANCH="${BRANCH:-master}"
-readonly SOURCE_DIR="${SOURCE_DIR:-${HOME}/Workspace/neovim/neovim}"
-readonly PREFIX="${PREFIX:-/usr/local/Cellar/neovim}"
-readonly NUM_COMMITS="${NUM_COMMITS:-15}"
-readonly NUM_JOBS="${NUM_JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu)}"
+readonly NVIM_BRANCH="${NVIM_BRANCH:-master}"
+readonly NVIM_SOURCE_DIR="${NVIM_SOURCE_DIR:-${HOME}/Workspace/neovim/neovim}"
+readonly NVIM_PREFIX="${NVIM_PREFIX:-/usr/local/Cellar/neovim}"
+readonly NVIM_NUM_COMMITS="${NVIM_NUM_COMMITS:-15}"
+readonly NVIM_NUM_JOBS="${NVIM_NUM_JOBS:-$(nproc 2>/dev/null || sysctl -n hw.ncpu)}"
 
-cd "$SOURCE_DIR"
+make_cmd=make
+if [[ "$(uname -s)" == "FreeBSD" ]]; then
+    make_cmd="gmake"
+fi
+
+cd "$NVIM_SOURCE_DIR"
 
 log "Cleaning build directory ..."
-make clean distclean
+"$make_cmd" dist clean
 
-log "Fetching the latest changes from the ${BRANCH} branch ..."
+log "Fetching the latest changes from the ${NVIM_BRANCH} branch ..."
 git fetch origin
-git merge origin/$BRANCH
+git merge origin/$NVIM_BRANCH
 
-log "Showing the last ${NUM_COMMITS} commits ..."
-git --git-dir="${SOURCE_DIR}/.git" log --format="[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset" --max-count=$NUM_COMMITS
+log "Showing the last ${NVIM_NUM_COMMITS} commits ..."
+git --git-dir="${NVIM_SOURCE_DIR}/.git" log --format="[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset" --max-count=$NVIM_NUM_COMMITS
 
 readonly COMMIT=$(git rev-parse HEAD)
 
-if [[ -d "${PREFIX}/${COMMIT}" ]]; then
+if [[ -d "${NVIM_PREFIX}/${COMMIT}" ]]; then
     log "Commit ${COMMIT} has already been built, exiting"
     exit 0
 fi
 
 log "Building from commit ${COMMIT} ..."
-nice -n +15 make -j $NUM_JOBS install
+nice -n +15 "$make_cmd" -j $NVIM_NUM_JOBS install
 
-cd "$PREFIX"
+cd "$NVIM_PREFIX"
 
 log "Creating symlink to point to latest ..."
 ln -nfs $COMMIT latest
@@ -77,4 +82,4 @@ log "Printing newly built neovim version ..."
 nvim --version | head -n 1
 
 log "Done!"
-log "Be sure to setup a symlink somewhere in your PATH that links to "${PREFIX}/latest""
+log "Be sure to setup a symlink somewhere in your PATH that links to "${NVIM_PREFIX}/latest""

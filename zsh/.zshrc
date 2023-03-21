@@ -89,6 +89,24 @@ case "$(uname -s)" in
         ssh-add -A 2>/dev/null
         ;;
 
+    FreeBSD)
+        alias top='top -s 1 -o cpu'
+        alias zcat=gzcat
+
+        # Prefer GNU versions of coreutuils and other utilities
+        if [ $(pkg query %n coreutils 2>/dev/null) ]; then
+            alias date="gdate"
+            alias df="gdf"
+            alias du="gdu"
+            alias ls="gls --color=auto --group-directories-first --quoting-style=literal"
+            alias seq="gseq"
+            alias wc="gwc"
+        fi
+
+        command -v gsed >/dev/null && alias sed="gsed"
+        command -v gtar >/dev/null && alias tar="gtar"
+        ;;
+
     Linux)
         alias ls='ls --color=auto --group-directories-first --quoting-style=literal'
         ;;
@@ -139,7 +157,7 @@ gmu () {
 }
 
 whereami () {
-    echo "${USER}@$(hostname | sed s/\.local$//):$(pwd)"
+    echo "${USER}@$(hostname):$(pwd)"
 }
 
 # crtl-w to delete a word backwards
