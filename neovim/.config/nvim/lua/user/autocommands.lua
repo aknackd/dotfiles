@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Setup emmet on specific filetypes
 vim.api.nvim_create_autocmd("FileType", {
 	group   = "bufcheck",
-	pattern = { "html", "css", "blade", "vue" },
+	pattern = { "blade", "css", "html", "javascriptreact", "typescriptreact", "vue" },
 	command = "EmmetInstall"
 })
 
