@@ -37,9 +37,6 @@
     log = less -iXFR
     diff = cat --number
 
-[include]
-    path = .gitconfig.local
-
 [init]
     defaultBranch = main
 
@@ -48,3 +45,6 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+
+[include]
+    path = config.local
