@@ -35,7 +35,6 @@ require('nvim-treesitter.configs').setup({
 		'phpdoc',
 		'python',
 		'regex',
-		'ruby',
 		'rust',
 		'scss',
 		'svelte',
