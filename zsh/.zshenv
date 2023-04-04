@@ -15,7 +15,7 @@ export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 export BAT_STYLE="changes"
 export BAT_THEME="Monokai Extended Bright"
-export N_PREFIX="$HOME/.n"
+export N_PREFIX="$HOME/.config/n"
 export GOPATH="$HOME/go"
 
 export NVIM_COLORSCHEME='kristijanhusak/vim-hybrid-material:hybrid_reverse'
