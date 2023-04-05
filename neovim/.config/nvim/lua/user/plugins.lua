@@ -69,6 +69,7 @@ return packer.startup(function (use)
         run = ':TSUpdate',
         requires = {
             'JoosepAlviste/nvim-ts-context-commentstring',
+            'nvim-treesitter/nvim-treesitter-context',
             'nvim-treesitter/nvim-treesitter-textobjects',
             'nvim-treesitter/playground',
         },
