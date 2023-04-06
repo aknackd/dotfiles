@@ -17,6 +17,9 @@ export BAT_STYLE="changes"
 export BAT_THEME="Monokai Extended Bright"
 export N_PREFIX="$HOME/.config/n"
 export GOPATH="$HOME/go"
+export ASDF_DIR="$HOME/.config/asdf"
+export ASDF_DATA_DIR="$ASDF_DIR"
+export SDKMAN_DIR="$HOME/.config/sdkman"
 
 export NVIM_COLORSCHEME='kristijanhusak/vim-hybrid-material:hybrid_reverse'
 export NVIM_FEATURE_LSP=true
