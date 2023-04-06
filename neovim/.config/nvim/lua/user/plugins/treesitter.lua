@@ -37,7 +37,13 @@ require('nvim-treesitter.configs').setup({
 	},
 	highlight = {
 		enable = true,
-		disable = { 'NvimTree' },
+		disable = function(lang, buf)
+			local max_filesize = 512 * 1024 -- 512 KB
+			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+			if ok and stats and stats.size > max_filesize then
+				return true
+			end
+		end,
 		additional_vim_regex_highlighting = true,
 	},
 	textobjects = {
