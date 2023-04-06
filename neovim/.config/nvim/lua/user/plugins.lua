@@ -1,171 +1,194 @@
-
 local utils = require('user.utils')
-local use_colorscheme_plugin = utils.use_colorscheme_plugin
 
-local ensure_packer = function ()
-	local directory = vim.fn.stdpath('data')..'/site/pack/packer/start'
-	local install_path = directory..'/packer.nvim'
+local lazy_install_path = vim.fn.stdpath('data')..'/lazy/lazy.nvim'
 
-    if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-        print('Installing packer.nvim ...')
-        vim.fn.mkdir(directory, 'p')
-        vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-        print('Done')
-        vim.cmd.packadd('packer.nvim')
-        return true
-    end
-
-    return false
+-- Install lazy.nvim if it isn't already installed
+if not vim.loop.fs_stat(lazy_install_path) then
+    print('Installing lazy.nvim ...')
+    vim.fn.system({
+        'git', 'clone', '--filter=blob:none', '--branch=stable',
+        'https://github.com/folke/lazy.nvim.git',
+        lazy_install_path,
+    })
+    print('Done')
 end
 
-local packer_bootstrap = ensure_packer()
+vim.opt.rtp:prepend(lazy_install_path)
 
-local packer = require('packer')
-
--- Initialize packer
-packer.init({
-	compile_path = vim.fn.stdpath('data')..'/site/plugin/packer_compiled.lua',
-    config = {
-        profile = {
-            enable = true,
+require('lazy').setup {
+    {
+        'nvim-telescope/telescope.nvim',
+        tag          = '0.1.0',
+        config       = function() require('user.plugins.telescope') end,
+        dependencies = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-tree/nvim-web-devicons', lazy = true },
+            { 'nvim-telescope/telescope-live-grep-args.nvim' },
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
         },
     },
-	display = {
-		open_fn = function()
-			return require('packer.util').float({ border = 'rounded' })
-		end,
-	},
-})
 
--- Automatically install plugins on first run
-if packer_bootstrap then
-	packer.sync()
-end
+    {
+        'nvim-treesitter/nvim-treesitter',
+        cmd          = 'TSUpdate',
+        config       = function() require('user.plugins.treesitter') end,
+        dependencies = {
+            { 'JoosepAlviste/nvim-ts-context-commentstring' },
+            -- { 'nvim-treesitter/nvim-treesitter-context' },
+            { 'nvim-treesitter/nvim-treesitter-textobjects' },
+            { 'nvim-treesitter/playground' },
+         },
+    },
 
--- Automatically regenerate compiled loader file on save
--- @@@ Convert to lua
-vim.cmd([[
-	augroup packer_user_config
-		autocmd!
-		autocmd BufWritePost plugins.lua source <afile>
-	augroup end
-]])
-
-return packer.startup(function (use)
-    use('wbthomason/packer.nvim')
-
-    use({ 'nvim-telescope/telescope.nvim',
-        tag = '0.1.0',
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'kyazdani42/nvim-web-devicons',
-            'nvim-telescope/telescope-live-grep-args.nvim',
-            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-        },
-        config = function() require('user.plugins.telescope') end,
-    })
-
-    use({ 'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        requires = {
-            'JoosepAlviste/nvim-ts-context-commentstring',
-            'nvim-treesitter/nvim-treesitter-context',
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            'nvim-treesitter/playground',
-        },
-        config = function() require('user.plugins.treesitter') end,
-    })
-
-    use({ 'VonHeikemen/lsp-zero.nvim',
-        requires = {
+    {
+        'VonHeikemen/lsp-zero.nvim',
+        config       = function() require('user.plugins.lsp') end,
+        dependencies = {
             -- LSP Support
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-            'neovim/nvim-lspconfig',
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
+            { 'neovim/nvim-lspconfig' },
 
             -- Autocompletion
-            'hrsh7th/nvim-cmp',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'saadparwaiz1/cmp_luasnip',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lua',
+            { 'hrsh7th/nvim-cmp' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'saadparwaiz1/cmp_luasnip' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/cmp-nvim-lua' },
 
             -- Snippets
-            'L3MON4D3/LuaSnip',
-            'rafamadriz/friendly-snippets',
+            { 'L3MON4D3/LuaSnip' },
+            { 'rafamadriz/friendly-snippets' },
 
             -- Miscellaneous
-            'simrat39/symbols-outline.nvim',
+            { 'simrat39/symbols-outline.nvim' },
         },
-        config = function() require('user.plugins.lsp') end,
-    })
+    },
 
-    use({ 'glepnir/lspsaga.nvim',
-        branch = "main",
+    {
+        'glepnir/lspsaga.nvim',
+        branch = 'main',
         config = function() require('user.plugins.lspsaga') end,
-    })
+    },
 
-    -- use({ 'vim-airline/vim-airline',
-    --     requires = { { 'vim-airline/vim-airline-themes' } },
-    --     config = function() require('user.plugins.airline') end,
-    -- })
+    -- {
+    --     'vim-airline/vim-airline',
+    --     config       = function() require('user.plugins.airline') end,
+    --     dependencies = {
+    --         { 'vim-airline/vim-airline-themes' },
+    --     },
+    -- },
 
-    use({ 'akinsho/bufferline.nvim',
-        requires = {
-            'nvim-lualine/lualine.nvim',
-            { 'kyazdani42/nvim-web-devicons', opt = true },
+    {
+        'akinsho/bufferline.nvim',
+        config       = function() require('user.plugins.bufferline') end,
+        dependencies = {
+            { 'nvim-tree/nvim-web-devicons', lazy = true },
         },
-        config = function() require('user.plugins.bufferline') end,
-    })
+    },
 
-    use({ 'lewis6991/gitsigns.nvim',
-        requires = { 'nvim-lua/plenary.nvim' },
-        config = function() require('user.plugins.gitsigns') end,
-    })
+    {
+        'nvim-lualine/lualine.nvim',
+        config       = function() require('user.plugins.lualine') end,
+        dependencies = {
+            { 'nvim-tree/nvim-web-devicons', lazy = true },
+        },
+    },
 
-    use({
-        "iamcco/markdown-preview.nvim",
-        run = function() vim.fn["mkdp#util#install"]() end,
+    {
+        'lewis6991/gitsigns.nvim',
+        config       = function() require('user.plugins.gitsigns') end,
+        dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+
+    {
+        'iamcco/markdown-preview.nvim',
+        build  = function() vim.fn['mkdp#util#install']() end,
         config = function() require('user.plugins.markdown-preview') end,
-    })
+    },
 
-    use({ 'AndrewRadev/splitjoin.vim', config = function() require('user.plugins.splitjoin') end })
-    -- use({ 'airblade/vim-gitgutter', config = function() require('user.plugins.gitgutter') end })
-    use({ 'famiu/bufdelete.nvim', config = function() require('user.plugins.bufdelete') end })
-    use({ 'folke/trouble.nvim', config = function() require('user.plugins.trouble') end })
-    use({ 'junegunn/gv.vim', requires = { 'tpope/vim-fugitive' } })
-    use({ 'junegunn/vim-easy-align', config = function() require('user.plugins.easy-align') end })
-    use({ 'lukas-reineke/indent-blankline.nvim', config = function () require('user.plugins.indent-blankline') end })
-    use({ 'mattn/emmet-vim', config = function() require('user.plugins.emmet') end })
-    use({ 'numToStr/Comment.nvim', config = function() require('user.plugins.comment') end })
-    use({ 'rcarriga/nvim-notify', config = function() require('user.plugins.notify') end })
-    use({ 'tpope/vim-eunuch', config = function() require('user.plugins.eunuch') end })
-    use({ 'whatyouhide/vim-textobj-xmlattr', requires = { { 'kana/vim-textobj-user' } } })
+    {
+        'AndrewRadev/splitjoin.vim',
+        config = function() require('user.plugins.splitjoin') end,
+    },
 
-    use('Raimondi/delimitMate')
-    use('editorconfig/editorconfig-vim')
-    use('godlygeek/tabular')
-    use('gregsexton/MatchTag')
-    use('jessarcher/vim-heritage')          -- Automatically create parent directories when saving
-    use('jremmen/vim-ripgrep')
-    use('mbbill/undotree')
-    use('nathanaelkane/vim-indent-guides')
-    use('nelstrom/vim-visual-star-search')
-    use('rhysd/committia.vim')
-    use('rhysd/git-messenger.vim')
-    use('sheerun/vim-polyglot')
-    use('tpope/vim-repeat')
-    use('tpope/vim-surround')
-    use('vim-scripts/AnsiEsc.vim')
+    {
+        'airblade/vim-gitgutter',
+        config = function() require('user.plugins.gitgutter') end,
+    },
 
-    -- Colorschemes
+    {
+        'famiu/bufdelete.nvim',
+        config = function() require('user.plugins.bufdelete') end,
+    },
 
-    use_colorscheme_plugin(use, 'kristijanhusak/vim-hybrid-material', {})
-    use_colorscheme_plugin(use, 'jessarcher/onedark.nvim', {})
-    use_colorscheme_plugin(use, 'romainl/apprentice', {})
-    use_colorscheme_plugin(use, 'yazeed1s/minimal.nvim', {})
-    use_colorscheme_plugin(use, 'rebelot/kanagawa.nvim', {})
-    use_colorscheme_plugin(use, 'luisiacc/gruvbox-baby', {})
-    use_colorscheme_plugin(use, 'morhetz/gruvbox', {})
-end)
+    {
+        'folke/trouble.nvim',
+        config = function() require('user.plugins.trouble') end,
+    },
+
+    {
+        'junegunn/gv.vim',
+        dependencies = { 'tpope/vim-fugitive' },
+    },
+
+    {
+        'junegunn/vim-easy-align',
+        config = function() require('user.plugins.easy-align') end,
+    },
+
+    {
+        'lukas-reineke/indent-blankline.nvim',
+        config = function () require('user.plugins.indent-blankline') end,
+    },
+
+    {
+        'mattn/emmet-vim',
+        config = function() require('user.plugins.emmet') end,
+    },
+
+    {
+        'numToStr/Comment.nvim',
+        config = function() require('user.plugins.comment') end,
+    },
+
+    {
+        'rcarriga/nvim-notify',
+        config = function() require('user.plugins.notify') end,
+    },
+
+    {
+        'tpope/vim-eunuch',
+        config = function() require('user.plugins.eunuch') end,
+    },
+
+    {
+        'kana/vim-textobj-user',
+        dependencies = { { 'whatyouhide/vim-textobj-xmlattr' } },
+    },
+
+    { 'Raimondi/delimitMate' },
+    { 'editorconfig/editorconfig-vim' },
+    { 'godlygeek/tabular' },
+    { 'gregsexton/MatchTag' },
+    { 'jessarcher/vim-heritage' },
+    { 'jremmen/vim-ripgrep' },
+    { 'mbbill/undotree' },
+    { 'nathanaelkane/vim-indent-guides' },
+    { 'nelstrom/vim-visual-star-search' },
+    { 'rhysd/committia.vim' },
+    { 'rhysd/git-messenger.vim' },
+    { 'sheerun/vim-polyglot' },
+    { 'tpope/vim-repeat' },
+    { 'tpope/vim-surround' },
+    { 'vim-scripts/AnsiEsc.vim' },
+
+    utils.use_colorscheme_plugin('kristijanhusak/vim-hybrid-material'),
+    utils.use_colorscheme_plugin('jessarcher/onedark.nvim'),
+    utils.use_colorscheme_plugin('romainl/apprentice'),
+    utils.use_colorscheme_plugin('yazeed1s/minimal.nvim'),
+    utils.use_colorscheme_plugin('rebelot/kanagawa.nvim'),
+    utils.use_colorscheme_plugin('luisiacc/gruvbox-baby'),
+    utils.use_colorscheme_plugin('morhetz/gruvbox'),
+}

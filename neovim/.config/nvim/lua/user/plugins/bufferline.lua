@@ -1,5 +1,3 @@
-require('user.plugins.lualine')
-
 local bufferline = require('bufferline')
 local constants = require('bufferline.constants')
 

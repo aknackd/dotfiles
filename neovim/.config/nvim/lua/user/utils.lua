@@ -70,31 +70,25 @@ function M.split(delimiter, input)
     return fields
 end
 
--- @param use_fn function Use function from packer.nvim
 -- @param plugin_name string Name of packer plugins
--- @param options table Plugin options
-function M.use_colorscheme_plugin(use_fn, plugin_name, options)
-	local opts = options
-	M.mergetable(opts, { config = function()
-		-- Get the specified colorscheme, which needs to be in the format "{plugin}:{colorscheme}"
-		-- Example: rebelot/kanagawa.nvim:kanagawa
-		local colorscheme = M.get_colorscheme()
-		-- Grab the actual colorscheme name and if it's a part of this plugin, then
-		-- load the color plugin's module which contains settings and other configuration
-		-- specific to that colorscheme, then call the config function on that module if it
-		-- exists
-		local parts = M.split(':', colorscheme)
-		if #parts == 2  and parts[1] == plugin_name then
-			local module = 'user.plugins.colors.'..parts[2]
-			if module['config'] ~= nil then require(module).config() end
-		end
-	end })
-
-	-- Finally call Packer's use() function so it can be installed if neede$.d
-	-- We still want to do this, otherwise we end up uninstalling the plugin
-	-- whenever we do :PackerSync or :PackerClean when we don't to.
-	use_fn({ plugin_name, opts })
-	opts = nil
+function M.use_colorscheme_plugin(plugin_name)
+	return {
+		plugin_name,
+		config = function()
+			-- Get the specified colorscheme, which needs to be in the format "{plugin}:{colorscheme}"
+			-- Example: rebelot/kanagawa.nvim:kanagawa
+			local colorscheme = M.get_colorscheme()
+			-- Grab the actual colorscheme name and if it's a part of this
+			-- plugin, then load the color plugin's module which contains
+			-- settings and other configuration specific to that colorscheme,
+			-- then call the config function on that module if it exists
+			local parts = M.split(':', colorscheme)
+			if #parts == 2  and parts[1] == plugin_name then
+				local module = 'user.plugins.colors.'..parts[2]
+				if module['config'] ~= nil then require(module).config() end
+			end
+		end,
+	}
 end
 
 return M

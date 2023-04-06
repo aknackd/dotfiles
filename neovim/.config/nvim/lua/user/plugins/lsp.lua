@@ -9,7 +9,6 @@ local telescope = require('telescope.builtin')
 local lsp_cache_dir = vim.fn.stdpath('cache')..'/lsp'
 vim.fn.mkdir(lsp_cache_dir, 'p')
 
-
 -- lsp.preset('recommended')
 lsp.set_preferences({
     suggest_lsp_servers = true,
@@ -33,18 +32,7 @@ lsp.set_preferences({
 -- Ensure that some LSPs are always required via NVIM_LSP_SERVERS
 lsp.ensure_installed(utils.get_lsp_servers())
 
--- Fix Undefined global 'vim'
-lsp.configure('lua_ls', {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' },
-            },
-        },
-    },
-})
-
-lsp.configure('intelephense', {
+require('lspconfig').intelephense.setup({
     init_options = {
         globalStoragePath = lsp_cache_dir..'/intelephense',
         telemetry = {
@@ -59,6 +47,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-p>']     = cmp.mapping.select_prev_item(cmp_select),
   ['<C-n>']     = cmp.mapping.select_next_item(cmp_select),
   ['<C-y>']     = cmp.mapping.confirm({ select = true }),
+  ['<CR>']      = cmp.mapping.confirm({ select = true }),
   ['<C-Space>'] = cmp.mapping.complete(),
 })
 
