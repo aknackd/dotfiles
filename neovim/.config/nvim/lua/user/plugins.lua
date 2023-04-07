@@ -131,6 +131,18 @@ require('lazy').setup {
     {
         'folke/trouble.nvim',
         config = function() require('user.plugins.trouble') end,
+        dependencies = {
+            { 'nvim-tree/nvim-web-devicons', lazy = true },
+        },
+    },
+
+    {
+        'folke/noice.nvim',
+        config = function() require('user.plugins.noice') end,
+        dependencies = {
+            { 'MunifTanjim/nui.nvim' },
+            { 'rcarriga/nvim-notify', config = function() require ('user.plugins.notify') end },
+        },
     },
 
     {

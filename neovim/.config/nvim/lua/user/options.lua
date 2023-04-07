@@ -39,7 +39,6 @@ vim.opt.listchars = {
 	trail = '·',
 	eol = '↴',
 }
-vim.opt.lazyredraw = true                              -- Do not redraw on registers and macros
 vim.opt.completeopt:append('menuone')
 vim.opt.completeopt:append('noselect')
 vim.opt.completeopt:remove('preview')                  -- Disable preview for autocomplate

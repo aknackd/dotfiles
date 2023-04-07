@@ -90,10 +90,8 @@ require('lspsaga').setup({
 		folder_level = 2,
 	},
 	ui = {
-		-- currently only round theme
-		theme = 'round',
-		-- border type can be single,double,rounded,solid,shadow.
-		border = 'shadow',
+		title = false,
+		border = 'rounded',
 		winblend = 0,
 		expand = '',
 		collapse = '',
@@ -103,9 +101,7 @@ require('lspsaga').setup({
 		incoming = ' ',
 		outgoing = ' ',
 		colors = {
-			--float window normal background color
 			normal_bg = '#1d1536',
-			--title background color
 			title_bg = '#afd700',
 			red = '#e95678',
 			magenta = '#b33076',
