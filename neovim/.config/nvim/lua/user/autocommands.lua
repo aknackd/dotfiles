@@ -41,12 +41,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	callback = user_enable_spellcheck,
 })
 
--- Enable spell checking on certain filetypes
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "asciidoc", "markdown", "text", "rst" },
-	callback = user_enable_spellcheck,
-})
-
 -- Copies yanked text into the system clipboard over SSH
 -- Does not require x11 on linux
 --
