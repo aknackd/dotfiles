@@ -1,5 +1,41 @@
 local M = {}
 
+-- Creates the cache directory to use for language servers if it doesn't exist
+function M.create_lsp_cache_dir()
+	local dir = M.get_lsp_cache_dir()
+
+	if not M.is_dir(dir) then
+		vim.fn.mkdir(dir, 'p')
+	end
+end
+
+-- Returns the cache directory to use for language servers
+-- @return string Cache directory path
+function M.get_lsp_cache_dir()
+	return vim.fn.stdpath('cache')..'/lsp'
+end
+
+-- Checks if a directory exists
+-- @param path string Directory path
+-- @return boolean
+function M.dir_exists(path)
+	local ok, _, code = os.rename(path, path)
+
+	-- Permission was denied but the directory exists
+	if not ok and code == 13 then
+		return true
+	end
+
+	return ok
+end
+
+-- Checks if a file cists
+-- @return boolean True if the file exists, otherwise false
+function M.file_exists(path)
+	local f = io.open(path, 'r')
+	return f ~= nil and io.close(f)
+end
+
 -- Gets the specified colorscheme from NVIM_COLORSCHEME
 -- @return string Colorscheme name
 function M.get_colorscheme()
@@ -30,6 +66,13 @@ end
 -- @return boolean
 function M.has_key(t, s)
 	return t[s] ~= nil
+end
+
+-- Returns whether or not a path is a directory
+-- @param path string Filesystem path
+-- @return boolean
+function M.is_dir(path)
+	return M.dir_exists(path..'/')
 end
 
 -- Merges two tables

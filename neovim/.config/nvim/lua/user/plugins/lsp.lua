@@ -5,10 +5,6 @@ if utils.has_feature('lsp') == false then return end
 local lsp = require('lsp-zero')
 local telescope = require('telescope.builtin')
 
--- Create cache directory for language servers
-local lsp_cache_dir = vim.fn.stdpath('cache')..'/lsp'
-vim.fn.mkdir(lsp_cache_dir, 'p')
-
 -- lsp.preset('recommended')
 lsp.set_preferences({
     suggest_lsp_servers = true,
@@ -32,14 +28,10 @@ lsp.set_preferences({
 -- Ensure that some LSPs are always required via NVIM_LSP_SERVERS
 lsp.ensure_installed(utils.get_lsp_servers())
 
-require('lspconfig').intelephense.setup({
-    init_options = {
-        globalStoragePath = lsp_cache_dir..'/intelephense',
-        telemetry = {
-            enabled = false,
-        },
-    },
-})
+utils.create_lsp_cache_dir()
+
+require('user.plugins.lsp.intelephense')
+require('user.plugins.lsp.jdtls')
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
