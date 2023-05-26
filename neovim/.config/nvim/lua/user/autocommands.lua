@@ -22,13 +22,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	command = "startinsert | set winfixheight | setlocal nonumber norelativenumber",
 })
 
--- Setup emmet on specific filetypes
-vim.api.nvim_create_autocmd("FileType", {
-	group   = "bufcheck",
-	pattern = { "blade", "css", "html", "javascriptreact", "typescriptreact", "vue" },
-	command = "EmmetInstall"
-})
-
 -- Strip trailing whitespace on save
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*",
