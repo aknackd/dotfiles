@@ -172,6 +172,14 @@ require('lazy').setup {
     },
 
     {
+        'nvim-tree/nvim-tree.lua',
+        dependencies = {
+            { 'nvim-tree/nvim-web-devicons', lazy = true },
+        },
+        config = function () require('user.plugins.nvim-tree') end,
+    },
+
+    {
         'rcarriga/nvim-notify',
         config = function() require('user.plugins.notify') end,
     },
