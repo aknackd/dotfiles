@@ -32,6 +32,7 @@ utils.create_lsp_cache_dir()
 
 require('user.plugins.lsp.intelephense')
 require('user.plugins.lsp.jdtls')
+require('user.plugins.lsp.emmet-ls')
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
