@@ -18,7 +18,7 @@ vim.opt.rtp:prepend(lazy_install_path)
 require('lazy').setup {
     {
         'nvim-telescope/telescope.nvim',
-        tag          = '0.1.0',
+        branch       = 'master',
         config       = function() require('user.plugins.telescope') end,
         dependencies = {
             { 'nvim-lua/plenary.nvim' },
