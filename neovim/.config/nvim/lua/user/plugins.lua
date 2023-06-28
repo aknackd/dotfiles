@@ -78,6 +78,16 @@ require('lazy').setup {
         config = function() require('user.plugins.lspsaga') end,
     },
 
+    {
+        'sbdchd/neoformat',
+        config = function () require('user.plugins.neoformat') end,
+    },
+
+    {
+        'mfussenegger/nvim-lint',
+        config = function () require('user.plugins.nvim-lint') end,
+    },
+
     -- {
     --     'vim-airline/vim-airline',
     --     config       = function() require('user.plugins.airline') end,
