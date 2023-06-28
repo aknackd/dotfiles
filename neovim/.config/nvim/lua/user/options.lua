@@ -12,6 +12,7 @@ vim.g.netrw_banner = 1
 vim.g.netrw_winsize = 25
 
 vim.opt.title = true
+vim.opt.titlestring = "%f - NVIM"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.history = 500                                  -- Store lots of :cmdline history
