@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+# Automatically adds --project-name with the value of
+# $DOCKER_COMPOSE_PROJECT_NAME or $PODMAN_COMPOSE_PROJECT_NAME if either are
+# set.
+
+# @@@ Add support for "docker compose"
+
+# Bail if podman-compose is not in PATH
+if ! which podman-compose >/dev/null ; then
+    # @@@ Add color to error message
+    1>&2 printf "ERROR: Please install podman-compose first\n"
+    exit 1
+fi
+
+# Bail if no compose file is found in the current directory
+declare -a possible_compose_files
+possible_compose_files=( docker-compose.yml docker-compose.yaml compose.yml compose.yaml )
+
+compose_file_found=
+for compose_file in "${possible_compose_files[@]}" ; do
+    if [[ -f "${PWD}/${compose_file}" ]]; then
+        compose_file_found=$compose_file
+        break
+    fi
+done
+
+if [[ "$compose_file_found" == "" ]] ; then
+    # @@@ Add color to error message
+    1>&2 printf "ERROR: No compose compose file found in the current directory\n"
+    1>&2 printf "Please create one with one of the the following possible filenames:\n\n"
+    for compose_file in "${possible_compose_files[@]}" ; do
+        1>&2 printf "    %s\n" "$compose_file"
+    done
+    exit 1
+fi
+
+# @@@ Add color to compose filename
+printf "INFO: Using compose file: %s\n" "$compose_file_found"
+
+# Check if --project-name is in argv
+project_name_arg_found=0
+for arg in "${@}"; do
+    if [[ "$arg" == "--project-name" ]]; then
+        project_name_arg_found=1
+        break
+    fi
+done
+
+# --project-name wasn't in argv, so check for $DOCKER_COMPOSE_PROJECT_NAME or
+# $PODMAN_COMPOSE_PROJECT_NAME environment variables and manually invoke
+# podman-compose with --project-name with the value (if set)
+if [[ $project_name_arg_found == 0 ]]; then
+    project_name="${DOCKER_COMPOSE_PROJECT_NAME:-${PODMAN_COMPOSE_PROJECT_NAME:-}}"
+    if [[ "$project_name" != "" ]]; then
+        set -x
+        # shellcheck disable=SC2048,SC2086
+        exec podman-compose --project-name "$project_name" $*
+    fi
+fi
+
+# --project-name wasn't in argv and no environment variable is set, so just
+# manually invoke podman-compose as-is
+
+set -x
+# shellcheck disable=SC2048,SC2086
+exec podman-compose $*
