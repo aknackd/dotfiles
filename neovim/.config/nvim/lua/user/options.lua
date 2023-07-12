@@ -70,3 +70,9 @@ vim.opt.colorcolumn = '80,120'
 
 vim.opt.termguicolors = true
 vim.opt.syntax = 'on'
+
+-- Enable exrc to load .nvim.lua, .nvimrc, or .exrc if they're present in the
+-- current directory (neovim >= 0.9.0)
+if vim.fn.has('nvim-0.9') == 1 then
+    vim.opt.exrc = true
+end
