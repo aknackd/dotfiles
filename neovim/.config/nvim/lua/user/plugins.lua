@@ -190,11 +190,6 @@ require('lazy').setup {
     },
 
     {
-        'rcarriga/nvim-notify',
-        config = function() require('user.plugins.notify') end,
-    },
-
-    {
         'tpope/vim-eunuch',
         config = function() require('user.plugins.eunuch') end,
     },
