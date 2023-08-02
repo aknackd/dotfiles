@@ -221,7 +221,6 @@ require('lazy').setup {
     { 'vim-scripts/AnsiEsc.vim' },
 
     utils.use_colorscheme_plugin('kristijanhusak/vim-hybrid-material'),
-    utils.use_colorscheme_plugin('jessarcher/onedark.nvim'),
     utils.use_colorscheme_plugin('romainl/apprentice'),
     utils.use_colorscheme_plugin('yazeed1s/minimal.nvim'),
     utils.use_colorscheme_plugin('rebelot/kanagawa.nvim'),
