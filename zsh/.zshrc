@@ -176,6 +176,31 @@ backward-kill-dir () {
     zle backward-kill-word
 }
 
+# https://stackoverflow.com/a/17841619
+implode () { local IFS="$1";  shift ; echo "$*" }
+
+___paths=(
+    ${HOME}/.local/bin
+    ${HOME}/bin
+    ${GOPATH}/bin
+    /usr/local/sbin
+    /usr/local/bin
+    ${N_PREFIX}/bin
+    ${HOME}/.yarn/bin
+    ${HOME}/.config/yarn/global/node_modules/.bin
+    ${HOME}/.fzf/bin
+    ${HOME}/.composer/vendor/bin
+    ${HOME}/.config/composer/vendor/bin
+    ${HOME}/.config/yarn/global/bin
+    ${ANDROID_SDK_ROOT}/emulator
+    ${ANDROID_SDK_ROOT}/platform-tools
+    ${ANDROID_SDK_ROOT}/tools/bin
+)
+
+export PATH="$(implode ":" ${___paths[@]}):$PATH"
+
+unset ___paths
+
 zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
 bindkey \^U backward-kill-line
