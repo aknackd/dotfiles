@@ -4,8 +4,6 @@ if ! test -d $HOME/.antigen ; then
     git clone https://github.com/zsh-users/antigen.git $HOME/.antigen
 fi
 
-[ ! -d "$N_PREFIX" ] && mkdir -p "$N_PREFIX"
-
 ## Setup antigen
 source $HOME/.antigen/antigen.zsh
 
@@ -181,11 +179,9 @@ implode () { local IFS="$1";  shift ; echo "$*" }
 
 ___paths=(
     ${HOME}/.local/bin
-    ${HOME}/bin
     ${GOPATH}/bin
     /usr/local/sbin
     /usr/local/bin
-    ${N_PREFIX}/bin
     ${HOME}/.yarn/bin
     ${HOME}/.config/yarn/global/node_modules/.bin
     ${HOME}/.fzf/bin
