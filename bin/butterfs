@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+
+# Simple script to perform various administrative actions on BTRFS subvolumes.
+
+SELF="$(basename "$0")"
+
+# Colors
+RED="$(echo -e "\033[0;31m")"
+GREEN="$(echo -e "\033[0;32m")"
+RESET="$(echo -e "\033[0;0m")"
+
+function error_log() {
+    printf "%sERROR%s %s%s%s\n" "$RED" "$RESET" "$GREEN" "$1" "$RESET" 1>&2
+}
+
+if [[ "$UID" != "0" ]] ; then
+    error_log "Please run this script as root!"
+    exit 1
+fi
+
+function usage() {
+    1>&2 printf "usage: %s ACTION [OPTIONS]\n\n" "$(basename "$SELF")"
+    1>&2 printf "Easily perform various administrative actions on BTRFS subvolumes.\n\n"
+    1>&2 printf "ACTIONS\n"
+    1>&2 printf "  create-snapshots                Create a snapshot of all mounted BTRFS subvolumes\n"
+    1>&2 printf "  purge-snapshots                 Purge all existing snapshots for all mounted BTRFS subvolumes\n\n"
+    1>&2 printf "OPTIONS\n"
+    1>&2 printf "  -s, --snapshot-basedir=PATH     Specify the base directory where BTRFS subvolume snapshots are stored\n"
+    1>&2 printf "  -t, --timestamp=TIMESTAMP       Specify the timestamp to use for subvolume snapshot names\n"
+    exit 1
+}
+
+# An action **is** required
+[[ $# -eq 0 ]] && usage
+ACTION="$1" ; shift
+
+ARGS=$(getopt -o s:t: --long --snapshot-basedir:,--timestamp: -- "$@")
+eval set -- "$ARGS"
+
+while [ : ]; do
+    case "$1" in
+        -t | --timestamp)        TIMESTAMP="$2"        ; shift 2  ;;
+        -s | --shapshot-basedir) SNAPSHOT_BASEDIR="$2"  ; shift 2 ;;
+        --) shift ; break ;;
+    esac
+done
+
+TIMESTAMP="${TIMESTAMP:-${TIMESTAMP:-$(date +'%Y-%m-%dT%H:%M:%S%z')}}"
+SNAPSHOT_BASEDIR="${SNAPSHOT_BASEDIR:-${SNAPSHOT_BASEDIR:-/.snapshots}}"
+
+declare -a VALID_ACTIONS
+VALID_ACTIONS=( create-snapshots purge-snapshots )
+
+# Validates the specfied action.
+function validate_action() {
+    [[ " ${VALID_ACTIONS[*]} " =~ " ${ACTION} " ]] && return
+
+    error_log "Invalid action: ${RESET}${ACTION}"
+    error_log "Action must be one of the following: ${RESET}${VALID_ACTIONS[*]}"
+    exit 1
+}
+
+# Validates the specified options.
+function validate_options() {
+    [[ -d "$SNAPSHOT_BASEDIR" ]] && return
+    error_log "Snapshot base directory does not exist: ${RESET}${SNAPSHOT_BASEDIR}"
+    exit 1
+}
+
+# Finds the last generation ID of a btrfs subvolume mount point.
+function find_last_generation_id() {
+    local mountpoint="$1"
+    btrfs subvolume find-new "$mountpoint" 999999999 | awk '{ print $NF }'
+}
+
+# Returns the number of changed files for a btrfs subvolume from a specified generation.
+function find_num_changed_files() {
+    local mountpoint="$1"
+    local generation_id="$2"
+    btrfs subvolume find-new "$mountpoint" "$generation_id" | cut -d' ' -f17- | sed '/^$/d'| wc -l
+}
+
+# Deletes a specified snapshot
+function delete_snapshot() {
+    local snapshot_dir="$1"
+
+    if ! test -d "$snapshot_dir" ; then
+        error_log "Snapshot not found on disk: ${RESET}${snapshot_dir}"
+        return 1
+    fi
+
+    btrfs subvolume delete "$snapshot_dir"
+
+    return $?
+}
+
+# Creates a snapshot for every mounted BTRFS subvolume.
+function create_snapshots() {
+    # @@@ cut would be incorrect if the directory has spaces in its name
+    mount -t btrfs | cut -d' ' -f3 | grep -v "$SNAPSHOT_BASEDIR" | {
+        while IFS= read -r mountpoint ; do
+            name="$(btrfs subvolume show "$mountpoint" | head -n 1)"
+            dest="${SNAPSHOT_BASEDIR}/${name}/${TIMESTAMP}"
+            test -d "$(dirname "$dest")" || mkdir -p "$(dirname "$dest")"
+
+            generation_id="$(find_last_generation_id "$mountpoint")"
+            num_files_changed="$(find_num_changed_files "$mountpoint" "$generation_id")"
+
+            # TODO: Create the snapshot iff files have been added/changed/deleted
+            btrfs subvolume snapshot -r "$mountpoint" "$dest"
+        done
+    }
+}
+
+# Deletes all existing snapshots for every mounted BTRFS subvolume.
+function purge_snapshots() {
+    # @@@ cut would be incorrect if the directory has spaces in its name
+    mount -t btrfs | cut -d' ' -f3 | grep -v "$SNAPSHOT_BASEDIR" | {
+        # Loop through each snapshot and delete them one by one, tracking how
+        # many were deleted successfully and failed to delete
+        while IFS= read -r mountpoint ; do
+            btrfs subvolume show "$mountpoint" | grep '@snapshots' | cut -d'/' -f2- | {
+                while IFS= read -r snapshot ; do
+                    delete_snapshot "${SNAPSHOT_BASEDIR}/${snapshot}"
+                done
+            }
+        done
+    }
+}
+
+validate_action
+validate_options
+
+case "$ACTION" in
+    create-snapshots) create_snapshots ;;
+    purge-snapshots)  purge_snapshots  ;;
+    *)               usage
+esac
