@@ -6,6 +6,22 @@ require('noice').setup({
 			filter = { event = 'msg_show', kind = '', find = 'written' },
 			opts = { skip = true },
 		},
+		{
+			filter = { event = 'msg_show', kind = '', find = '; before' },
+			opts = { skip = true },
+		},
+		{
+			filter = { event = 'msg_show', kind = '', find = '; after' },
+			opts = { skip = true },
+		},
+		{
+			filter = { event = 'msg_show', kind = '', find = 'Already at oldest change' },
+			opts = { skip = true },
+		},
+		{
+			filter = { event = 'msg_show', kind = '', find = 'Already at newest change' },
+			opts = { skip = true },
+		},
 	},
 	cmdline = {
 		enabled = true,
