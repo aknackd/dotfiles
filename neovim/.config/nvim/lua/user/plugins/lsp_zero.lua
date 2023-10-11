@@ -2,12 +2,12 @@ local utils = require('user.utils')
 
 if utils.has_feature('lsp') == false then return end
 
-local lsp = require('lsp-zero')
+local lsp_zero = require('lsp-zero')
 local telescope = require('telescope.builtin')
 
 -- lsp.preset('recommended')
-lsp.set_preferences({
-    suggest_lsp_servers = true,
+lsp_zero.set_preferences({
+    suggest_lsp_servers = false,
     setup_servers_on_start = true,
     set_lsp_keymaps = {
         -- Ignore keymaps that we set ourselves
@@ -17,16 +17,17 @@ lsp.set_preferences({
     cmp_capabilities = true,
     manage_nvim_cmp = true,
     call_servers = 'local',
-    sign_icons = {
-        error = '✘',
-        warn = '▲',
-        hint = '⚑',
-        info = '',
-    }
+})
+
+lsp_zero.set_sign_icons({
+    error = '✘',
+    warn = '▲',
+    hint = '⚑',
+    info = '',
 })
 
 -- Ensure that some LSPs are always required via NVIM_LSP_SERVERS
-lsp.ensure_installed(utils.get_lsp_servers())
+lsp_zero.ensure_installed(utils.get_lsp_servers())
 
 utils.create_lsp_cache_dir()
 
@@ -36,7 +37,7 @@ require('user.plugins.lsp.emmet-ls')
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
+local cmp_mappings = lsp_zero.defaults.cmp_mappings({
   ['<C-p>']     = cmp.mapping.select_prev_item(cmp_select),
   ['<C-n>']     = cmp.mapping.select_next_item(cmp_select),
   ['<C-y>']     = cmp.mapping.confirm({ select = true }),
@@ -48,21 +49,11 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 -- cmp_mappings['<Tab>'] = nil
 -- cmp_mappings['<S-Tab>'] = nil
 
-lsp.setup_nvim_cmp({
+lsp_zero.setup_nvim_cmp({
 	mapping = cmp_mappings,
 })
 
-lsp.set_preferences({
-    suggest_lsp_servers = false,
-    sign_icons = {
-        error = 'E',
-        warn  = 'W',
-        hint  = 'H',
-        info  = 'I'
-    },
-})
-
-lsp.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 
 	if client.name == 'eslint' then
@@ -81,7 +72,7 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set('n', '<leader>ca',  vim.lsp.buf.code_action, opts)
 end)
 
-lsp.setup()
+lsp_zero.setup()
 
 vim.diagnostic.config({
     virtual_text = false,

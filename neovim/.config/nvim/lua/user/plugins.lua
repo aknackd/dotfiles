@@ -42,7 +42,7 @@ require('lazy').setup {
 
     {
         'VonHeikemen/lsp-zero.nvim',
-        config       = function() require('user.plugins.lsp') end,
+        config       = function() require('user.plugins.lsp_zero') end,
         dependencies = {
             -- LSP Support
             { 'williamboman/mason.nvim' },
