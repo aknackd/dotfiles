@@ -88,14 +88,6 @@ require('lazy').setup {
         config = function () require('user.plugins.nvim-lint') end,
     },
 
-    -- {
-    --     'vim-airline/vim-airline',
-    --     config       = function() require('user.plugins.airline') end,
-    --     dependencies = {
-    --         { 'vim-airline/vim-airline-themes' },
-    --     },
-    -- },
-
     {
         'akinsho/bufferline.nvim',
         config       = function() require('user.plugins.bufferline') end,

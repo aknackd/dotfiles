@@ -1,9 +1,0 @@
-vim.g['airline_powerline_fonts'] = 1
-vim.g['airline_theme'] = 'minimalist'
-vim.g['airline#extensions#branch#enabled'] = 1
-vim.g['airline#extensions#keymap#enabled'] = 1
-vim.g['airline#extensions#tabline#enabled'] = 1
-vim.g['airline#extensions#tabline#show_buffers'] = 0
-vim.g['airline#extensions#tabline#show_close_button'] = 0
-vim.g['airline#extensions#tabline#show_tabs'] = 0
-vim.g['airline#extensions#whitespace#enabled'] = 0
