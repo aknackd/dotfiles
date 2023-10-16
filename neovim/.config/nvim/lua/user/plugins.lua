@@ -72,7 +72,7 @@ require('lazy').setup {
     },
 
     {
-        'glepnir/lspsaga.nvim',
+        'nvimdev/lspsaga.nvim',
         branch = 'main',
         event = 'LspAttach',
         config = function() require('user.plugins.lspsaga') end,
