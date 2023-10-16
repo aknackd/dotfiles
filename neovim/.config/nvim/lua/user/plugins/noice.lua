@@ -2,25 +2,41 @@ vim.opt.lazyredraw = false
 
 require('noice').setup({
 	routes = {
+		-- Move undo/redo messages to the "mini" view
 		{
-			filter = { event = 'msg_show', kind = '', find = 'written' },
+			filter = {
+				event = 'msg_show',
+				any = {
+					{ find = '%d+L, %d+B' },
+					{ find = '; after #%d+' },
+					{ find = '; before #%d+' },
+					{ find = 'Already at oldest change' },
+					{ find = 'Already at newest change' },
+				},
+			},
+			view = 'mini',
+		},
+		-- Don't show yank/paste/delete messages
+		{
+			filter = {
+				event = 'msg_show',
+				any = {
+					{ find = '%d lines yanked' },
+					{ find = '%d fewer lines' },
+					{ find = '%d more lines' },
+					{ find = 'No lines in buffer' },
+				},
+			},
 			opts = { skip = true },
 		},
 		{
-			filter = { event = 'msg_show', kind = '', find = '; before' },
+			filter = { find = 'No information available' },
 			opts = { skip = true },
 		},
+		-- Route any messages with more than 20 lines to a split
 		{
-			filter = { event = 'msg_show', kind = '', find = '; after' },
-			opts = { skip = true },
-		},
-		{
-			filter = { event = 'msg_show', kind = '', find = 'Already at oldest change' },
-			opts = { skip = true },
-		},
-		{
-			filter = { event = 'msg_show', kind = '', find = 'Already at newest change' },
-			opts = { skip = true },
+			filter = { event = 'msg_show', min_height = 20 },
+			view = 'split',
 		},
 	},
 	cmdline = {
@@ -39,6 +55,6 @@ require('noice').setup({
 		command_palette = true,
 		long_message_to_split = true,
 		inc_rename = false,
-		lsp_doc_border = false,
+		lsp_doc_border = true,
 	},
 })
