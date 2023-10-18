@@ -1,6 +1,7 @@
 require('lspconfig').jdtls.setup({
     settings = {
         java = {
+            home = os.getenv('JAVA_HOME') or '',
             configuration = {
                 updateBuildConfiguration = 'interactive',
             },
@@ -22,6 +23,12 @@ require('lspconfig').jdtls.setup({
             },
             references = {
                 includeDecompiledSources = true,
+            },
+            saveActions = {
+                organizeImports = true,
+            },
+            server = {
+                launchMode = 'lightweight',
             },
         },
         redhat = {
