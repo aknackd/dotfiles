@@ -30,7 +30,13 @@ require('noice').setup({
 			opts = { skip = true },
 		},
 		{
-			filter = { find = 'No information available' },
+			filter = {
+				any = {
+					{ find = 'nil' },
+					{ find = 'No information available' },
+					{ find = 'ServiceReady' },
+				},
+			},
 			opts = { skip = true },
 		},
 		-- Route any messages with more than 20 lines to a split
