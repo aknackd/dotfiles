@@ -27,6 +27,7 @@ vim.keymap.set('v', '>', '>gv')
 
 vim.keymap.set('n', 'q:', ':q')                  -- Remap 'q:' typos to ':q'
 vim.keymap.set('v', 'p', '"_dP')                 -- Don't yank selected text when pasting in visual mode
+vim.keymap.set('n', 'c', '"_c')                  -- Don't yank when using "c" to replace (example: cw/ciw/caw/etc.)
 vim.keymap.set('i', ';;', '<Esc>A;')             -- Insert a semicolon at the end of the line when semicolon is pressed twice in insert mode
 vim.keymap.set('i', ';;', '<Esc>A;')             -- Insert a semicolon at the end of the line when semicolon is pressed twice in insert mode
 vim.keymap.set('n', ';;', '<Esc>A;<Esc>')        -- Same as above but when in normal mode
