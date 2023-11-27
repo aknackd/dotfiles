@@ -17,7 +17,7 @@ export MYSQL_PS1="[\u@\h]\n(mysql::\d)> "
 export BAT_STYLE="changes"
 export BAT_THEME="Monokai Extended Bright"
 export GOPATH="$HOME/go"
-export ASDF_DIR="$HOME/.config/asdf"
+export ASDF_DIR="$HOME/.local/opt/asdf"
 export ASDF_DATA_DIR="$ASDF_DIR"
 export SDKMAN_DIR="$HOME/.config/sdkman"
 
