@@ -56,31 +56,43 @@ function usage() {
     exit 1
 }
 
-ARGS=$(getopt -o b:c:j:n:p:s: --long branch:,num-commits:,nice:,jobs:,prefix:,source:,help -- "$@")
-eval set -- "$ARGS"
-
-while [ : ]; do
-    case "$1" in
-        -b | --branch)      NVIM_BRANCH="$2"      ; shift 2 ;;
-        -c | --num-commits) NVIM_NUM_COMMITS="$2" ; shift 2 ;;
-        -j | --jobs)        NVIM_NUM_JOBS="$2"    ; shift 2 ;;
-        -n | --nice)        NVIM_NICENESS="$2"    ; shift 2 ;;
-        -p | --prefix)      NVIM_PREFIX="$2"      ; shift 2 ;;
-        -s | --source)      NVIM_SOURCE_DIR="$2"  ; shift 2 ;;
-        --help)             usage ;;
-        --) shift ; break ;;
+# Transform long options into short options
+for option in "$@"; do
+    shift
+    case "$option" in
+        --branch)      set -- "$@" "-b" ;;
+        --num-commits) set -- "$@" "-c" ;;
+        --jobs)        set -- "$@" "-j" ;;
+        --nice)        set -- "$@" "-n" ;;
+        --prefix)      set -- "$@" "-p" ;;
+        --source)      set -- "$@" "-s" ;;
+        --help)        set -- "$@" "-h" ;;
+        *)             set -- "$@" "$option" ;;
     esac
 done
+
+# Parse short options
+OPTIND=1
+while getopts ":b:c:j:n:p:s:h:" option; do
+    case "$option" in
+        b) NVIM_BRANCH="$OPTARG"      ;;
+        c) NVIM_NUM_COMMITS="$OPTARG" ;;
+        j) NVIM_NUM_JOBS="$OPTARG"    ;;
+        n) NVIM_NICENESS="$OPTARG"    ;;
+        p) NVIM_PREFIX="$OPTARG"      ;;
+        s) NVIM_SOURCE_DIR="$OPTARG"  ;;
+        *) usage                      ;;
+    esac
+done
+
+shift "$(expr $OPTIND - 1)"
 
 NVIM_BRANCH="${NVIM_BRANCH:-${NVIM_BRANCH:-${DEFAULT_NVIM_BRANCH}}}"
 NVIM_SOURCE_DIR="${NVIM_SOURCE_DIR:-${NVIM_SOURCE_DIR:-${DEFAULT_NVIM_SOURCE_DIR}}}"
 NVIM_PREFIX="${NVIM_PREFIX:-${NVIM_PREFIX:-${DEFAULT_NVIM_PREFIX}}}"
-# TODO: Parse to int
-NVIM_NUM_COMMITS="${NVIM_NUM_COMMITS:-${NVIM_NUM_COMMITS:-${DEFAULT_NVIM_NUM_COMMITS}}}"
-# TODO: Parse to int
+NVIM_NUM_COMMITS=$(( "${NVIM_NUM_COMMITS:-${NVIM_NUM_COMMITS:-${DEFAULT_NVIM_NUM_COMMITS}}}" ))
 NVIM_NICENESS="${NVIM_NICENESS:-${NVIM_NICENESS:-${DEFAULT_NVIM_NICENESS}}}"
-# TODO: Parse to int
-NVIM_NUM_JOBS="${NVIM_NUM_JOBS:-${NVIM_NUM_JOBS:-${DEFAULT_NVIM_NUM_JOBS}}}"
+NVIM_NUM_JOBS=$(( "${NVIM_NUM_JOBS:-${NVIM_NUM_JOBS:-${DEFAULT_NVIM_NUM_JOBS}}}" ))
 
 make_cmd="make"
 if [[ "$(uname -s)" == "FreeBSD" ]]; then
