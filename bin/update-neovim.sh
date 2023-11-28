@@ -29,7 +29,6 @@ RESET="$(echo -e "\033[0;0m")"
 # Defaults
 DEFAULT_NVIM_BRANCH="master"
 DEFAULT_NVIM_NICENESS="+15"
-DEFAULT_NVIM_NUM_COMMITS=15
 DEFAULT_NVIM_NUM_JOBS="$(nproc 2>/dev/null || sysctl -n hw.ncpu)"
 DEFAULT_NVIM_PREFIX="/usr/local/Cellar/neovim"
 DEFAULT_NVIM_SOURCE_DIR="/usr/local/src/neovim"
@@ -47,7 +46,6 @@ function usage() {
     1>&2 printf "Builds Neovim from source\n\n"
     1>&2 printf "OPTIONS\n"
     1>&2 printf "  -b, --branch=BRANCH        Specify the neovim branch to build\n"
-    1>&2 printf "  -c, --num-commits=NUM      Specify the last NUM commits to show after fetching neovim updates\n"
     1>&2 printf "  -j, --jobs=NUM             Allow NUM jobs at once (default: %d)\n" "$DEFAULT_NVIM_NUM_JOBS"
     1>&2 printf "  -n, --nice=NUM             Specify nice adjustment (default: %s)\n" "$DEFAULT_NVIM_NICENESS"
     1>&2 printf "  -p, --prefix=PATH          Directory prefix where neovim will be installed (default: %s)\n" "$DEFAULT_NVIM_PREFIX"
@@ -61,7 +59,6 @@ for option in "$@"; do
     shift
     case "$option" in
         --branch)      set -- "$@" "-b" ;;
-        --num-commits) set -- "$@" "-c" ;;
         --jobs)        set -- "$@" "-j" ;;
         --nice)        set -- "$@" "-n" ;;
         --prefix)      set -- "$@" "-p" ;;
@@ -76,7 +73,6 @@ OPTIND=1
 while getopts ":b:c:j:n:p:s:h:" option; do
     case "$option" in
         b) NVIM_BRANCH="$OPTARG"      ;;
-        c) NVIM_NUM_COMMITS="$OPTARG" ;;
         j) NVIM_NUM_JOBS="$OPTARG"    ;;
         n) NVIM_NICENESS="$OPTARG"    ;;
         p) NVIM_PREFIX="$OPTARG"      ;;
@@ -90,7 +86,6 @@ shift "$(expr $OPTIND - 1)"
 NVIM_BRANCH="${NVIM_BRANCH:-${NVIM_BRANCH:-${DEFAULT_NVIM_BRANCH}}}"
 NVIM_SOURCE_DIR="${NVIM_SOURCE_DIR:-${NVIM_SOURCE_DIR:-${DEFAULT_NVIM_SOURCE_DIR}}}"
 NVIM_PREFIX="${NVIM_PREFIX:-${NVIM_PREFIX:-${DEFAULT_NVIM_PREFIX}}}"
-NVIM_NUM_COMMITS=$(( "${NVIM_NUM_COMMITS:-${NVIM_NUM_COMMITS:-${DEFAULT_NVIM_NUM_COMMITS}}}" ))
 NVIM_NICENESS="${NVIM_NICENESS:-${NVIM_NICENESS:-${DEFAULT_NVIM_NICENESS}}}"
 NVIM_NUM_JOBS=$(( "${NVIM_NUM_JOBS:-${NVIM_NUM_JOBS:-${DEFAULT_NVIM_NUM_JOBS}}}" ))
 
@@ -113,7 +108,6 @@ log "Building neovim with the following configuration:"
 1>&2 printf "    Neovim source branch:                  %s\n" "$NVIM_BRANCH"
 1>&2 printf "    Neovim source directory:               %s\n" "$NVIM_SOURCE_DIR"
 1>&2 printf "    Number of parallel build jobs:         %d\n" "$NVIM_NUM_JOBS"
-1>&2 printf "    Number of recent commits to display:   %d\n" "$NVIM_NUM_COMMITS"
 1>&2 printf "\n"
 
 cd "$NVIM_SOURCE_DIR"
@@ -125,8 +119,8 @@ log "Fetching the latest changes from the ${NVIM_BRANCH} branch ..."
 git fetch origin
 git merge "origin/${NVIM_BRANCH}"
 
-log "Showing the last ${NVIM_NUM_COMMITS} commits ..."
-git --git-dir="${NVIM_SOURCE_DIR}/.git" log --format="[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset" --max-count="$NVIM_NUM_COMMITS"
+log "Showing the last 15 commits ..."
+git --git-dir="${NVIM_SOURCE_DIR}/.git" log --format="[%Cgreen %h %Creset] %aI %Cred %an %Creset %s%Cblue%d%Creset" --max-count=15
 
 COMMIT="$(git rev-parse HEAD)"
 
