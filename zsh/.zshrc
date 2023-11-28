@@ -201,4 +201,7 @@ zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
 bindkey \^U backward-kill-line
 
+# setup pkgx shell integration - https://docs.pkgx.sh/run-anywhere/terminals
+command -v pkgx > /dev/null && source <(pkgx --shellcode)
+
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
