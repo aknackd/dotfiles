@@ -1,4 +1,21 @@
+local util = require('lspconfig.util')
+
+local root_files = {
+    -- Single-module projects
+    { 'build.xml', 'pom.xml', 'settings.gradle', 'settings.gradle.kts' },
+    -- Multi-module projects
+    { 'build.gradle', 'build.gradle.kts' },
+    -- Other
+    { '.project' },
+}
+
 require('lspconfig').jdtls.setup({
+    root_dir = function(fname)
+        for _, patterns in ipairs(root_files) do
+            local root = util.root_pattern(unpack(patterns))(fname)
+            if root then return root end
+        end
+    end,
     settings = {
         java = {
             home = os.getenv('JAVA_HOME') or '',
