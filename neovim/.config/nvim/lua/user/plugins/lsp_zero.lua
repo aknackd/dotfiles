@@ -27,7 +27,13 @@ lsp_zero.set_sign_icons({
 })
 
 -- Ensure that some LSPs are always required via NVIM_LSP_SERVERS
-lsp_zero.ensure_installed(utils.get_lsp_servers())
+require('mason').setup({})
+require('mason-lspconfig').setup({
+    ensure_installed = utils.get_lsp_servers(),
+    handlers = {
+      lsp_zero.default_setup,
+    },
+})
 
 utils.create_lsp_cache_dir()
 
@@ -36,22 +42,29 @@ require('user.plugins.lsp.jdtls')
 require('user.plugins.lsp.emmet-ls')
 
 local cmp = require('cmp')
+local cmp_action = lsp_zero.cmp_action()
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp_zero.defaults.cmp_mappings({
-  ['<C-p>']     = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>']     = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>']     = cmp.mapping.confirm({ select = true }),
-  ['<CR>']      = cmp.mapping.confirm({ select = true }),
-  ['<C-Space>'] = cmp.mapping.complete(),
-})
 
--- Disable completion with tab
--- cmp_mappings['<Tab>'] = nil
--- cmp_mappings['<S-Tab>'] = nil
-
-lsp_zero.setup_nvim_cmp({
-	mapping = cmp_mappings,
+cmp.setup({
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-f>']     = cmp_action.luasnip_jump_forward(),
+        ['<C-b>']     = cmp_action.luasnip_jump_backward(),
+        ['<C-u>']     = cmp.mapping.scroll_docs(-4),
+        ['<C-d>']     = cmp.mapping.scroll_docs(4),
+        ['<C-p>']     = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>']     = cmp.mapping.select_next_item(cmp_select),
+        ['<C-y>']     = cmp.mapping.confirm({ select = true }),
+        ['<CR>']      = cmp.mapping.confirm({ select = true }),
+        ['<C-Space>'] = cmp.mapping.complete(),
+    })
 })
+-- lsp_zero.setup_nvim_cmp({
+-- 	mapping = cmp_mappings,
+-- })
 
 lsp_zero.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
