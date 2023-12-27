@@ -1,0 +1,185 @@
+#!/usr/bin/env bash
+
+# Update a package installed by asdf (https://asdf-vm.com) to its latest
+# version
+
+# Colors
+RED="$(echo -e "\033[0;31m")"
+GREEN="$(echo -e "\033[0;32m")"
+RESET="$(echo -e "\033[0;0m")"
+
+# Use the printf binary instead of the shell builtin
+PRINTF=$(whereis -b printf | awk '{ print $NF }')
+
+if ! which asdf 1>/dev/null 2>/dev/null ; then
+    1>&2 "$PRINTF" "${RED}ERROR${RESET}: asdf not installed!${RESET} See ${GREEN}https://asdf-vm.com/guide/getting-started.html${RESET}\n"
+    exit 1
+fi
+
+if [[ $# -ne 1 ]]; then
+    1>&2 "$PRINTF" "usage: %s package\n" "$0"
+    exit 1
+fi
+
+readonly SEMVER_EQUAL=0
+readonly SEMVER_GREATER_THAN=1
+readonly SEMVER_LESS_THAN=2
+
+# Compare two semantic version numbers
+# https://stackoverflow.com/a/4025065
+function compare_semver() {
+    if [[ "$1" == "$2" ]]; then
+        return 0
+    fi
+
+    local IFS=.
+    local idx ver1=($1) ver2=($2)
+
+    # fill empty fields in ver1 with zeros
+    for ((idx=${#ver1[@]}; idx<${#ver2[@]}; idx++)); do ver1[idx]=0 ; done
+
+    for ((idx=0; idx<${#ver1[@]}; idx++)); do
+        # fill empty fields in ver2 with zeros
+        if [[ -z ${ver2[idx]} ]]; then ver2[idx]=0 ; fi
+        # return 1 if $1 > $2
+        if ((10#${ver1[idx]} > 10#${ver2[idx]})); then return $SEMVER_GREATER_THAN ; fi
+        # return 2 if $1 < $2
+        if ((10#${ver1[idx]} < 10#${ver2[idx]})); then return $SEMVER_LESS_THAN ; fi
+    done
+
+    # return 0 if $1 == $2
+    return $SEMVER_EQUAL
+}
+
+# Prints the version of a package (assuming it implements a --version flag),
+# useful for confirming that a package as updated successfully
+function print_package_version() {
+    local package="$1"
+
+    "$PRINTF" "-> displaying ${GREEN}%s${RESET} package version...\n" "$package"
+
+    # There isn't always a 1:1 match between the asdf package name and the
+    # binary or script that's installed (and the package could contain multiple
+    # binaries or scripts), so we can't always assume "$package --version" will
+    # always work
+
+    if [[ "$package" == "maven" ]]; then
+        mvn --version | head -n 1
+    elif [[ "$package" == "nodejs" ]]; then
+        node --version
+    elif [[ "$package" == "ripgrep" ]]; then
+        rg --version
+    else
+        "$package" --version
+    fi
+}
+
+# Returns the currently installed version of a package
+function get_package_current_version() {
+    local package="$1"
+
+    # First check if any versions are installed
+    if [[ $(asdf list "$package" 2>&1 | grep -vc "No versions installed") == 0 ]]; then
+        return 1
+    fi
+
+    asdf current "$package" | awk '{ print $2 }'
+}
+
+# Returns the latest version of a given package
+function get_package_latest_version() {
+    local package="$1"
+
+    if [[ "$package" == "maven" ]]; then
+        # Exclude snapshot, alpha, beta, RC, and milestones for maven
+        1>&2 "$PRINTF" "-> ${GREEN}NOTE${RESET}: Excluding snapshots, alphas, betas, RCs, and milestones for maven\n"
+        asdf list all "$package" | grep -vE 'SNAPSHOT|alpha|beta|RC-?|-M?' | tail -n 1
+    else
+        # Otherwise just grab the last version, assuming "asdf list all"
+        # output is sorted correctly
+        asdf list all "$package" | tail -n 1
+    fi
+}
+
+# Installs a specific version of a package
+function install_package() {
+    local package="$1"
+    local old_version="$2"
+    local new_version="$3"
+    local uninstall_old_version="$4"
+
+    "$PRINTF" "-> installing %s ${GREEN}v%s${RESET} and making it the global default...\n" "$package" "$new_version"
+    asdf install "$package" "$new_version"
+    asdf global "$package" "$new_version"
+
+    if [[ "$uninstall_old_version" == 1 ]]; then
+        "$PRINTF" "-> uninstalling %s ${GREEN}v%s${RESET}...\n" "$package" "$old_version"
+        asdf uninstall "$package" "$old_version"
+    fi
+
+    asdf reshim "$package" "$new_version"
+
+    print_package_version "$package"
+}
+
+package="$1"
+
+# The java plugin provides JDKs from many vendors; instead of handling this
+# just simply tell the user to update themselves and bail
+if [[ "$package" == "java" ]]; then
+    1>&2 "$PRINTF" "-> not updating java because different JDK vendors can be installed\n"
+    1>&2 "$PRINTF" "-> update java separately via:\n"
+    1>&2 "$PRINTF" "   \$ asdf install java ${GREEN}{VENDOR}${RESET}-${GREEN}{NEW_VERSION}${RESET}\n"
+    1>&2 "$PRINTF" "   \$ asdf uninstall java ${GREEN}{VENDOR}${RESET}-${GREEN}{OLD_VERSION}${RESET}\n"
+    1>&2 "$PRINTF" "   \$ asdf global java ${GREEN}{VENDOR}${RESET}-${GREEN}{NEW_VERSION}${RESET}\n"
+    1>&2 "$PRINTF" "   \$ asdf reshim java ${GREEN}{VENDOR}${RESET}-${GREEN}{NEW_VERSION}${RESET}\n"
+    exit 1
+fi
+
+# First check if the plugin is installed
+if [[ ! $(asdf plugin list | grep -q "$package") ]]; then
+    1>&2 "$PRINTF" "-> asdf plugin ${GREEN}%s${RESET} is not installed!\n" "$package"
+    1>&2 "$PRINTF" "-> checking if plugin ${GREEN}%s${RESET} is available (this may take awhile...)\n" "$package"
+    if [[ $(asdf plugin list all | grep -q "$package") ]] ; then
+        1>&2 "$PRINTF" "-> asdf plugin ${GREEN}%s${RESET} is not available!\n" "$package"
+        1>&2 "$PRINTF" "-> See the full list of available asdf plugins via ${GREEN}asdf plugin list all${RESET}\n"
+    else
+        1>&2 "$PRINTF" "-> ${GREEN}%s${RESET} plugin available!\n" "$package"
+        1>&2 "$PRINTF" "-> install plugin via ${GREEN}asdf plugin add %s${RESET}\n" "$package"
+    fi
+    exit 1
+fi
+
+current_version=$(get_package_current_version "$package")
+latest_version=$(get_package_latest_version "$package")
+
+# If no package version is installed, install the latest version and bail
+if [[ "$current_version" == "" ]]; then
+    1>&2 "$PRINTF" "-> no versions of %s are installed!\n" "$package"
+    install_package "$package" -1 "$latest_version" 0
+    exit
+fi
+
+# Otherwise install the latest version if it's greater than the currently
+# installed version
+
+"$PRINTF" "-> current %s version: ${GREEN}v%s${RESET}\n" "$package" "$current_version"
+"$PRINTF" "-> latest %s version:  ${GREEN}v%s${RESET}\n" "$package" "$latest_version"
+
+# Convert semver to numbers so we can properly compare versions
+current_version_number="${current_version//./}"
+latest_version_number="${latest_version//./}"
+
+# If there is a newer version available, do the following:
+#   1. Install the new version
+#   2. Set it as the global default
+#   3. Uninstall the old version
+#   4. Recreate shims
+compare_semver "$latest_version_number" "$current_version_number"
+if [[ $? -eq $SEMVER_GREATER_THAN ]]; then
+    install_package "$package" "$current_version" "$latest_version" 1
+else
+    "$PRINTF" "-> %s is already at its latest version, exiting\n" "$package"
+fi
+
+"$PRINTF" "-> done!\n"
