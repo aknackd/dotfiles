@@ -1,0 +1,21 @@
+[font]
+size = 16.0
+
+[font.normal]
+family = "MonaspaceRadon Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "MonaspaceRadon Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "MonaspaceRadon Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "MonaspaceRadon Nerd Font Mono"
+style = "Bold Italic"
+
+[font.offset]
+y = 25

@@ -1,0 +1,21 @@
+[font]
+size = 18.0
+
+[font.bold]
+family = "MonaspaceKrypton Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "MonaspaceKrypton Nerd Font Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "MonaspaceKrypton Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "MonaspaceKrypton Nerd Font Mono"
+style = "Regular"
+
+[font.offset]
+y = 35

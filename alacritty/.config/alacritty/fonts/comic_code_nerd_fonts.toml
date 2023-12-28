@@ -1,0 +1,21 @@
+[font]
+size = 16.0
+
+[font.normal]
+family = "ComicCode Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "ComicCode Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "ComicCode Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "ComicCode Nerd Font Mono"
+style = "Bold Italic"
+
+[font.offset]
+y = 20
