@@ -137,10 +137,10 @@ if [[ "$package" == "java" ]]; then
 fi
 
 # First check if the plugin is installed
-if [[ ! $(asdf plugin list | grep -q "$package") ]]; then
+if [[ ! $(asdf plugin list | grep "$package") ]]; then
     1>&2 "$PRINTF" "-> asdf plugin ${GREEN}%s${RESET} is not installed!\n" "$package"
     1>&2 "$PRINTF" "-> checking if plugin ${GREEN}%s${RESET} is available (this may take awhile...)\n" "$package"
-    if [[ $(asdf plugin list all | grep -q "$package") ]] ; then
+    if [[ ! $(asdf plugin list all | grep -q "$package") ]] ; then
         1>&2 "$PRINTF" "-> asdf plugin ${GREEN}%s${RESET} is not available!\n" "$package"
         1>&2 "$PRINTF" "-> See the full list of available asdf plugins via ${GREEN}asdf plugin list all${RESET}\n"
     else
