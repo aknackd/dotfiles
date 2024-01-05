@@ -94,6 +94,10 @@ function get_package_latest_version() {
         # Exclude snapshot, alpha, beta, RC, and milestones for maven
         1>&2 "$PRINTF" "-> ${GREEN}NOTE${RESET}: Excluding snapshots, alphas, betas, RCs, and milestones for maven\n"
         asdf list all "$package" | grep -vE 'SNAPSHOT|alpha|beta|RC-?|-M?' | tail -n 1
+    elif [[ "$package" == "nodejs" ]]; then
+        # Exclude LTS releases for nodejs
+        1>&2 "$PRINTF" "-> ${GREEN}NOTE${RESET}: Excluding LTS releases for nodejs\n"
+        asdf list all "$package" | grep -vE '^lts' | tail -n 1
     else
         # Otherwise just grab the last version, assuming "asdf list all"
         # output is sorted correctly
