@@ -11,11 +11,9 @@ fi
 xset s off &
 xset -dpms &
 xrdb -merge ~/.Xresources &
+xsetroot -solid '#333'
 command -v autocutsel 2>/dev/null && autocutsel -fork &
-command -v urxvtd 2>/dev/null && urxvtd &
-command -v VBoxClient-all 2>/dev/null && VBoxClient-all &
-
-# xsetroot -solid '#181818'
+command -v vmware-user-suid-wrapper 2>/dev/null && vmware-user-suid-wrapper &
 
 exec i3
 # exec gnome-session
