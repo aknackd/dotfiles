@@ -57,3 +57,5 @@ vim.keymap.set('n', '-', '<c-w>5<', { noremap = true })                         
 
 vim.keymap.set('i', '<C-c>', '<Esc>')
 vim.keymap.set('n', 'Q', '<nop>')
+
+vim.keymap.set('n', '<Leader>bD', ':bufdo bd<CR>', { noremap = true }) -- deletes all buffers
