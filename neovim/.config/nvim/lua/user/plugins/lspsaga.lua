@@ -122,7 +122,5 @@ local opts = { silent = true }
 
 vim.keymap.set('n', '<leader>gd', '<cmd>Lspsaga goto_definition<CR>', opts)
 vim.keymap.set('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', opts)
-vim.keymap.set('n', '<leader>ld', '<cmd>Lspsaga show_line_diagnostics<CR>', opts)
-vim.keymap.set('n', '<leader>e', '<cmd>Lspsaga show_buf_diagnostics<CR>', opts)
 vim.keymap.set('n', '<leader>t', '<cmd>Lspsaga term_toggle<CR>', opts)
 vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc<CR>', opts)

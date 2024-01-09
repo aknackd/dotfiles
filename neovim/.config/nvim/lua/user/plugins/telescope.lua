@@ -55,7 +55,8 @@ require('telescope').setup{
 vim.keymap.set('n', '<C-g>', builtin.git_commits)
 vim.keymap.set('n', '<C-p>', builtin.find_files)
 vim.keymap.set('n', '<leader>b', builtin.buffers)
-vim.keymap.set('n', '<leader>d', builtin.diagnostics)
+vim.keymap.set('n', '<leader>e', '<cmd>lua require("telescope.builtin").diagnostics({ bufnr = 0 })<CR>') -- diagnostics for the current buffer
+vim.keymap.set('n', '<leader>E', builtin.diagnostics) -- workspace diagnostics
 vim.keymap.set('n', '<leader>f', require('telescope').extensions.live_grep_args.live_grep_args)
 vim.keymap.set('n', '<leader>F', '<cmd>lua require("telescope.builtin").find_files({ no_ignore = true, prompt_title = "All Files" })<CR>')
 vim.keymap.set('n', '<leader>h', builtin.help_tags)
