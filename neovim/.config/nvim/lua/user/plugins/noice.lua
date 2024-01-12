@@ -39,6 +39,16 @@ require('noice').setup({
 			},
 			opts = { skip = true },
 		},
+		-- Don't show progress messages from jdtls
+		-- https://github.com/LazyVim/LazyVim/discussions/1439#discussioncomment-6971647
+		{
+			filter = {
+				event = 'lsp',
+				kind  = 'progress',
+				find  = 'jdtls',
+			},
+			opts = { skip = true },
+		},
 		-- Route any messages with more than 20 lines to a split
 		{
 			filter = { event = 'msg_show', min_height = 20 },
