@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Updates the Arch Linux mirrorlist using reflector.
+
+if [[ "$(grep '^NAME' /etc/os-release | cut -d= -f2 | sed 's|"||g')" != "Arch Linux" ]]; then
+    1>&2 printf "ERROR: This script only runs on Arch Linux!\n"
+    exit 1
+fi
+
+if ! which reflector 1>/dev/null 2>/dev/null ; then
+    1>&2 printf "ERROR: Please install reflector first!\n"
+    1>&2 printf "$ sudo pacman -Syu reflector\n"
+    exit 1
+fi
+
+if [[ "$UID" != "0" ]] ; then
+    1>&2 printf "ERROR: Please run this script as root!\n"
+    exit 1
+fi
+
+readonly REFLECTOR_AGE="${REFLECTOR_AGE:-24}"
+readonly REFLECTOR_CONNECTION_TIMEOUT="${REFLECTOR_CONNECTION_TIMEOUT:-5}"
+readonly REFLECTOR_COUNTRY="${REFLECTOR_COUNTRY:-"United States"}"
+readonly REFLECTOR_DELAY="${REFLECTOR_DELAY:-1}"
+readonly REFLECTOR_DOWNLOAD_TIMEOUT="${REFLECTOR_DOWNLOAD_TIMEOUT:-5}"
+readonly REFLECTOR_LATEST="${REFLECTOR_LATEST:-20}"
+readonly REFLECTOR_NUMBER="${REFLECTOR_NUMBER:-10}"
+readonly REFLECTOR_SORT="${REFLECTOR_SORT:-rate}"
+
+printf "Updating pacman mirrorlist...\n"
+
+set -x
+reflector \
+    --age "$REFLECTOR_AGE" \
+    --connection-timeout "$REFLECTOR_CONNECTION_TIMEOUT" \
+    --country "$REFLECTOR_COUNTRY" \
+    --delay "$REFLECTOR_DELAY" \
+    --download-timeout "$REFLECTOR_DOWNLOAD_TIMEOUT" \
+    --latest "$REFLECTOR_LATEST" \
+    --number "$REFLECTOR_NUMBER" \
+    --protocol https \
+    --sort "$REFLECTOR_SORT" \
+    --verbose \
+    --save /etc/pacman.d/mirrorlist
