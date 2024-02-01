@@ -90,3 +90,12 @@ lsp_zero.setup()
 vim.diagnostic.config({
     virtual_text = false,
 })
+
+-- Truncate the LSP log file
+vim.api.nvim_create_user_command('LspLogTruncate', function ()
+    local filename = vim.fn.stdpath('state')..'/lsp.log'
+    if utils.file_exists(filename) then
+        io.open(filename, 'w'):close()
+        vim.notify('Truncated LSP log file')
+    end
+end, {})
