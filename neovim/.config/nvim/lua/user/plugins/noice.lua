@@ -34,6 +34,9 @@ require('noice').setup({
 				any = {
 					{ find = 'nil' },
 					{ find = 'No information available' },
+					-- Messages emitted by jdtls
+					{ find = 'Starting Java Language Server' },
+					{ find = 'Ready' },
 					{ find = 'ServiceReady' },
 				},
 			},
