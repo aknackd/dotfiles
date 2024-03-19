@@ -62,32 +62,35 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
     })
 })
+
 -- lsp_zero.setup_nvim_cmp({
 -- 	mapping = cmp_mappings,
 -- })
 
 lsp_zero.on_attach(function(client, bufnr)
-	local opts = { buffer = bufnr, remap = false }
+    local opts = { buffer = bufnr, remap = false }
 
-	if client.name == 'eslint' then
-		vim.cmd.LspStop('eslint')
-		return
-	end
+    if client.name == 'eslint' then
+        vim.cmd.LspStop('eslint')
+        return
+    end
 
-	vim.keymap.set('n', '<leader>ds', telescope.lsp_document_symbols, opts)
-	vim.keymap.set('n', '<leader>rr', telescope.lsp_references, opts)
-	vim.keymap.set('n', '<leader>ws', telescope.lsp_workspace_symbols, opts)
-	vim.keymap.set('n', '[d', vim.diagnostic.goto_next, opts)
-	vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, opts)
-	vim.keymap.set('n', 'gi', telescope.lsp_implementations, opts)
-	vim.keymap.set('n', '<leader>gr', vim.lsp.buf.rename, opts)
-	-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-	vim.keymap.set('n', '<leader>ca',  vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>ds', telescope.lsp_document_symbols, opts)
+    vim.keymap.set('n', '<leader>rr', telescope.lsp_references, opts)
+    vim.keymap.set('n', '<leader>ws', telescope.lsp_workspace_symbols, opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_next, utils.mergetable(opts, { desc = 'Go to next diagnostic' }))
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, utils.mergetable(opts, { desc = 'Go to previous diagnostic '}))
+    vim.keymap.set('n', 'gi', telescope.lsp_implementations, opts)
+    vim.keymap.set('n', '<leader>gr', vim.lsp.buf.rename, utils.mergetable(opts, { desc = 'Rename variable/function/method under cursor' }))
+    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, utils.mergetable(opts, { desc = 'Open floating diagnostic message' }))
+    vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, utils.mergetable(opts, { desc = 'Open diagnostic list' }))
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, utils.mergetable(opts, { desc = 'Open code actions' }))
 end)
 
 lsp_zero.setup()
 
 vim.diagnostic.config({
+    -- Don't show diagnostics as virtual text at the end of the line (use <leader>e or <leader>q defined above)
     virtual_text = false,
 })
 
