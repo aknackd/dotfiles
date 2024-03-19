@@ -2,7 +2,7 @@ vim.keymap.set('n', '<C-J>', ':cnext<CR>', { noremap = true, silent = true })   
 vim.keymap.set('n', '<C-k>', ':cprev<CR>', { noremap = true, silent = true })      -- Navigate to previous item in error list
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n><CR>', { noremap = true })                -- Escape from terminal mode
 
-vim.keymap.set('n', '<Leader><Space>', ':nohlsearch<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Esc>', '<esc>:nohlsearch<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>s', ':sort u<CR>', { noremap = true, silent = true })
 vim.keymap.set('v', '<Leader>s', ':sort u<CR>', { noremap = true, silent = true })
 
