@@ -108,11 +108,11 @@ require('lazy').setup {
         },
     },
 
-    {
-        'lewis6991/gitsigns.nvim',
-        config       = function() require('user.plugins.gitsigns') end,
-        dependencies = { 'nvim-lua/plenary.nvim' },
-    },
+    -- {
+    --     'lewis6991/gitsigns.nvim',
+    --     config       = function() require('user.plugins.gitsigns') end,
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    -- },
 
     {
         'iamcco/markdown-preview.nvim',
@@ -179,13 +179,13 @@ require('lazy').setup {
         config = function() require('user.plugins.comment') end,
     },
 
-    {
-        'nvim-tree/nvim-tree.lua',
-        dependencies = {
-            { 'nvim-tree/nvim-web-devicons', lazy = true },
-        },
-        config = function () require('user.plugins.nvim-tree') end,
-    },
+    -- {
+    --     'nvim-tree/nvim-tree.lua',
+    --     dependencies = {
+    --         { 'nvim-tree/nvim-web-devicons', lazy = true },
+    --     },
+    --     config = function () require('user.plugins.nvim-tree') end,
+    -- },
 
     {
         'tpope/vim-eunuch',
