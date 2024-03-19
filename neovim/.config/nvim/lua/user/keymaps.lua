@@ -42,10 +42,14 @@ vim.keymap.set('n', '<leader>Y', [["+Y]])
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- Window management
-vim.keymap.set('n', 'gh', '<C-W>h', { silent = true })                                     -- Move to window on the left
-vim.keymap.set('n', 'gl', '<C-W>l', { silent = true })                                     -- Move to window on the right
-vim.keymap.set('n', 'gj', '<C-W>j', { silent = true })                                     -- Move to window below
-vim.keymap.set('n', 'gk', '<C-W>k', { silent = true })                                     -- Move to window above
+vim.keymap.set('n', 'gh', '<C-w><C-h>', { silent = true })                                 -- Move focus to window on the left
+vim.keymap.set('n', 'gl', '<C-w><C-l>', { silent = true })                                 -- Move focus to window on the right
+vim.keymap.set('n', 'gj', '<C-w><C-j>', { silent = true })                                 -- Move focus to window below
+vim.keymap.set('n', 'gk', '<C-w><C-k>', { silent = true })                                 -- Move focus to window above
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { silent = true })                              -- CTRL+h - Move focus to window on the left
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { silent = true })                              -- CTRL+l - Move focus to window on the right
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { silent = true })                              -- CTRL+j - Move focus to window below
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { silent = true })                              -- CTRL+k - Move focus to window above
 vim.keymap.set('n', '<Leader>w', ':wincmd w<CR>', { silent = true })                       -- Jump to the below/right window of the current window - same as <CTRL-W w>
 vim.keymap.set('n', '<Leader>ss', '<Esc>:split<CR>', { noremap = true, silent = true })    -- Open horizontal split
 vim.keymap.set('n', '<Leader>sv', '<Esc>:vsplit<CR>', { noremap = true, silent = true })   -- Open vertical split
