@@ -14,9 +14,8 @@
 #
 #     1. All build dependencies already installed (see https://github.com/neovim/neovim/wiki/Building-Neovim#build-prerequisites)
 #     2. The neovim git repo has already been cloned
-#     3. A local.mk file already exists in the source directory
-#     4. The install directory has r/w access for the user running the script
-#     5. A symlink to "$NVIM_PREFIX/latest" exists somewhere in your PATH (ex: /usr/local/bin/nvim)
+#     3. The install directory has r/w access for the user running the script
+#     4. A symlink to "$NVIM_PREFIX/latest" exists somewhere in your PATH (ex: /usr/local/bin/nvim)
 #
 
 SELF="$0"
@@ -33,6 +32,7 @@ DEFAULT_NVIM_NICENESS="+15"
 DEFAULT_NVIM_NUM_JOBS="$(nproc 2>/dev/null || sysctl -n hw.ncpu)"
 DEFAULT_NVIM_PREFIX="/usr/local/Cellar/neovim"
 DEFAULT_NVIM_SOURCE_DIR="/usr/local/src/neovim"
+DEFAULT_NVIM_BUILD_TYPE="Release"
 
 function log() {
     printf "[%s%s%s] %s%s%s\n" "$YELLOW" "$(date +'%Y-%m-%dT%H:%M:%S')" "$RESET" "$GREEN" "$1" "$RESET"
@@ -52,6 +52,7 @@ function usage() {
     1>&2 printf "  -n, --nice=NUM             Specify nice adjustment (default: %s)\n" "$DEFAULT_NVIM_NICENESS"
     1>&2 printf "  -p, --prefix=PATH          Directory prefix where neovim will be installed (default: %s)\n" "$DEFAULT_NVIM_PREFIX"
     1>&2 printf "  -s, --source=PATH          Directory path where neovim source is located (default: %s)\n" "$DEFAULT_NVIM_SOURCE_DIR"
+    1>&2 printf "  -t, --type=TYPE            Specify build type to use for source builds (default: %s)\n" "$DEFAULT_NVIM_BUILD_TYPE"
     1>&2 printf "      --help                 Display this help text and exit\n"
     exit 1
 }
@@ -66,6 +67,7 @@ for option in "$@"; do
         --nice)        set -- "$@" "-n" ;;
         --prefix)      set -- "$@" "-p" ;;
         --source)      set -- "$@" "-s" ;;
+        --type)        set -- "$@" "-t" ;;
         --help)        set -- "$@" "-h" ;;
         *)             set -- "$@" "$option" ;;
     esac
@@ -73,7 +75,7 @@ done
 
 # Parse short options
 OPTIND=1
-while getopts ":b:c:j:n:p:s:h:N" option; do
+while getopts ":b:c:j:n:p:s:t:h:N" option; do
     case "$option" in
         N) NVIM_USE_NIGHTLY=1         ;;
         b) NVIM_BRANCH="$OPTARG"      ;;
@@ -81,6 +83,7 @@ while getopts ":b:c:j:n:p:s:h:N" option; do
         n) NVIM_NICENESS="$OPTARG"    ;;
         p) NVIM_PREFIX="$OPTARG"      ;;
         s) NVIM_SOURCE_DIR="$OPTARG"  ;;
+        t) NVIM_BUILD_TYPE="$OPTARG"  ;;
         *) usage                      ;;
     esac
 done
@@ -93,6 +96,15 @@ NVIM_SOURCE_DIR="${NVIM_SOURCE_DIR:-${NVIM_SOURCE_DIR:-${DEFAULT_NVIM_SOURCE_DIR
 NVIM_PREFIX="${NVIM_PREFIX:-${NVIM_PREFIX:-${DEFAULT_NVIM_PREFIX}}}"
 NVIM_NICENESS="${NVIM_NICENESS:-${NVIM_NICENESS:-${DEFAULT_NVIM_NICENESS}}}"
 NVIM_NUM_JOBS=$(( "${NVIM_NUM_JOBS:-${NVIM_NUM_JOBS:-${DEFAULT_NVIM_NUM_JOBS}}}" ))
+NVIM_BUILD_TYPE="${NVIM_BUILD_TYPE:-${NVIM_BUILD_TYPE:-${DEFAULT_NVIM_BUILD_TYPE}}}"
+
+# Validates build type
+function validate_build_type() {
+    if [[ "$NVIM_BUILD_TYPE" != "Release" && "$NVIM_BUILD_TYPE" != "RelWithDebIfo" && "$NVIM_BUILD_TYPE" != "Debug" ]]; then
+        error_log "Invalid build type specified, must be \"Release\", \"RelWithDebInfo\", or \"Debug\""
+        exit 1
+    fi
+}
 
 # Download and extract the nightly prerelease build
 function install_nightly() {
@@ -152,6 +164,9 @@ function install_nightly() {
 
 # Builds neovim from source (i.e. when --nightly isn't specified)
 function build_from_source() {
+    log "Validating options ..."
+    validate_build_type
+
     make_cmd="make"
     if [[ "$(uname -s)" == "FreeBSD" ]]; then
         make_cmd="gmake"
@@ -168,6 +183,7 @@ function build_from_source() {
     1>&2 printf "\n"
     1>&2 printf "    Build niceness:                        %s\n" "$NVIM_NICENESS"
     1>&2 printf "    Build prefix:                          %s\n" "$NVIM_PREFIX"
+    1>&2 printf "    Build type:                            %s\n" "$NVIM_BUILD_TYPE"
     1>&2 printf "    Neovim source branch:                  %s\n" "$NVIM_BRANCH"
     1>&2 printf "    Neovim source directory:               %s\n" "$NVIM_SOURCE_DIR"
     1>&2 printf "    Number of parallel build jobs:         %d\n" "$NVIM_NUM_JOBS"
@@ -193,7 +209,10 @@ function build_from_source() {
     fi
 
     log "Building from commit ${COMMIT} ..."
-    nice -n "$NVIM_NICENESS" "$make_cmd" -j "$NVIM_NUM_JOBS" install
+    nice -n "$NVIM_NICENESS" "$make_cmd" -j "$NVIM_NUM_JOBS" \
+        CMAKE_BUILD_TYPE="$NVIM_BUILD_TYPE" \
+        CMAKE_INSTALL_PREFIX="${NVIM_PREFIX}/${COMMIT}" \
+        install
 
     cd "$NVIM_PREFIX"
 
