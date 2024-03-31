@@ -21,6 +21,7 @@
 SELF="$0"
 
 # Colors
+RED="$(echo -e "\033[0;31m")"
 GREEN="$(echo -e "\033[0;32m")"
 YELLOW="$(echo -e "\033[0;33m")"
 RESET="$(echo -e "\033[0;0m")"
@@ -39,7 +40,7 @@ function log() {
 }
 
 function error_log() {
-    printf "[%s%s%s] %s%s%s\n" "$YELLOW" "$(date +'%Y-%m-%dT%H:%M:%S')" "$RESET" "$GREEN" "$1" "$RESET" 1>&2
+    printf "[%s%s%s] %s%s%s\n" "$YELLOW" "$(date +'%Y-%m-%dT%H:%M:%S')" "$RESET" "$RED" "$1" "$RESET" 1>&2
 }
 
 function usage() {
@@ -109,7 +110,21 @@ function validate_build_type() {
 # Download and extract the nightly prerelease build
 function install_nightly() {
     local platform
-    platform="$(uname)"
+    platform="$(uname -s)"
+
+    local arch
+    arch="$(uname -m)"
+    if [[ "$arch" == "aarch64" ]]; then
+        arch=arm64
+    fi
+
+    # neovim sadly only has arm64 nightly builds for macOS
+
+    if [[ "$platform" != "Darwin" && "$arch" == "arm64" ]]; then
+        log "${RED}NOTICE${GREEN}: Only x86_64 nightly builds are available for ${platform}"
+        log "${RED}NOTICE${GREEN}: neovim only provides arm64 nightly prerelease builds for macOS (Apple Silicon)"
+        exit 1
+    fi
 
     local tarball_filename checksum_filename
     case "$platform" in
@@ -118,8 +133,8 @@ function install_nightly() {
             checksum_filename=nvim-linux64.tar.gz.sha256sum
             ;;
         Darwin)
-            tarball_filename=nvim-macos.tar.gz
-            checksum_filename=nvim-macos.tar.gz.sha256sum
+            tarball_filename="nvim-macos-${arch}.tar.gz"
+            checksum_filename="nvim-macos-${arch}.tar.gz.sha256sum"
             ;;
         *)
             error_log "Invalid platform, must be either Linux or macOS"
