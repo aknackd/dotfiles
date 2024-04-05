@@ -1,0 +1,7 @@
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+configuration {
+    drun-show-actions: true;
+    modes: "window,run,ssh,drun";
+    font: "ComicCode Nerd Font Mono 16";
+}
