@@ -11,7 +11,7 @@ fi
 xset s off &
 xset -dpms &
 xrdb -merge ~/.Xresources &
-xsetroot -solid '#333'
+xsetroot -solid '#111'
 command -v autocutsel 2>/dev/null && autocutsel -fork &
 command -v vmware-user-suid-wrapper 2>/dev/null && vmware-user-suid-wrapper &
 
