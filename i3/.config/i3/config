@@ -4,6 +4,8 @@ set $mod Mod1
 
 font pango:Noto Sans 9
 
+workspace_layout tabbed
+
 gaps outer 2
 gaps inner 2
 
@@ -138,8 +140,8 @@ bindsym $mod+Return exec ${TERMINAL:-urxvt}
 #bindsym $mod+Shift+s exec sleep 0.1 && takeselection
 
 # rofi with mod+d for arbituary programs
-bindsym $mod+d exec rofi -show run
-bindsym ctrl+space exec rofi -show run
+bindsym $mod+d exec rofi -show drun
+bindsym ctrl+space exec rofi -show drun
 
 # passwords
 # bindsym $mod+p exec pass-dmenu
