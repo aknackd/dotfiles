@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2143
 
 # Update a package installed by asdf (https://asdf-vm.com) to its latest
 # version
@@ -21,34 +22,56 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
-readonly SEMVER_EQUAL=0
-readonly SEMVER_GREATER_THAN=1
-readonly SEMVER_LESS_THAN=2
+# Compare two semantic version numbers and returns 0 if the first version is
+# greater than the second, otherwise returns 1
+function semver_greater_than() {
+    local latest="$1"
+    local current="$2"
 
-# Compare two semantic version numbers
-# https://stackoverflow.com/a/4025065
-function compare_semver() {
-    if [[ "$1" == "$2" ]]; then
-        return 0
+    # Very crude method of comparing two possible semantic versions:
+    #
+    #   1. Split each version into its separate major, minor, and patch versions
+    #   2. If latest major is greater then current major, return 0
+    #   3. However, if latest minor is greater than current minor, return 0
+    #   4. If latest minor is equal to current minor AND latest patch is greater than current patch, return 0
+    #   5. Otherwise, return 1
+    #
+    # Return values:
+    #    0 => latest is greater than current
+    #    1 => latest is NOT greater than current
+
+    local regex="([0-9]+)\.([0-9]+)(\.([0-9]+))?"
+
+    local lmajor lminor lpatch
+    local cmajor cminor cpatch
+
+
+    if [[ "$latest" =~ $regex ]]; then
+        lmajor="${BASH_REMATCH[1]}"
+        lminor="${BASH_REMATCH[2]}"
+        lpatch="${BASH_REMATCH[3]}"
     fi
 
-    local IFS=.
-    local idx ver1=($1) ver2=($2)
+    lpatch="${lpatch//\./}"
+    # If there is no latest patch version, assume it's zero
+    if [[ "$lpatch" == "" ]]; then lpatch=0 ; fi
 
-    # fill empty fields in ver1 with zeros
-    for ((idx=${#ver1[@]}; idx<${#ver2[@]}; idx++)); do ver1[idx]=0 ; done
 
-    for ((idx=0; idx<${#ver1[@]}; idx++)); do
-        # fill empty fields in ver2 with zeros
-        if [[ -z ${ver2[idx]} ]]; then ver2[idx]=0 ; fi
-        # return 1 if $1 > $2
-        if ((10#${ver1[idx]} > 10#${ver2[idx]})); then return $SEMVER_GREATER_THAN ; fi
-        # return 2 if $1 < $2
-        if ((10#${ver1[idx]} < 10#${ver2[idx]})); then return $SEMVER_LESS_THAN ; fi
-    done
+    if [[ "$current" =~ $regex ]]; then
+        cmajor="${BASH_REMATCH[1]}"
+        cminor="${BASH_REMATCH[2]}"
+        cpatch="${BASH_REMATCH[3]}"
+    fi
 
-    # return 0 if $1 == $2
-    return $SEMVER_EQUAL
+    cpatch="${cpatch//\./}"
+    # If there is no current patch version, assume it's zero
+    if [[ "$cpatch" == "" ]]; then cpatch=0 ; fi
+
+    if [[ $lmajor -gt $cmajor ]]; then return 0 ; fi
+    if [[ $lminor -gt $cminor ]]; then return 0 ; fi
+    if [[ $lminor -eq $cminor && $lpatch -gt $cpatch ]]; then return 0 ; fi
+
+    return 1
 }
 
 # Prints the version of a package (assuming it implements a --version flag),
@@ -170,17 +193,12 @@ fi
 "$PRINTF" "-> current %s version: ${GREEN}v%s${RESET}\n" "$package" "$current_version"
 "$PRINTF" "-> latest %s version:  ${GREEN}v%s${RESET}\n" "$package" "$latest_version"
 
-# Convert semver to numbers so we can properly compare versions
-current_version_number="${current_version//./}"
-latest_version_number="${latest_version//./}"
-
 # If there is a newer version available, do the following:
 #   1. Install the new version
 #   2. Set it as the global default
 #   3. Uninstall the old version
 #   4. Recreate shims
-compare_semver "$latest_version_number" "$current_version_number"
-if [[ $? -eq $SEMVER_GREATER_THAN ]]; then
+if semver_greater_than "$latest_version" "$current_version" ; then
     install_package "$package" "$current_version" "$latest_version" 1
 else
     "$PRINTF" "-> %s is already at its latest version, exiting\n" "$package"
