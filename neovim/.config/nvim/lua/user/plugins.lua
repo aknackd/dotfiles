@@ -188,6 +188,12 @@ require('lazy').setup {
     -- },
 
     {
+        'stevearc/oil.nvim',
+        config = function() require('user.plugins.oil') end,
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+    },
+
+    {
         'tpope/vim-eunuch',
         config = function() require('user.plugins.eunuch') end,
     },
