@@ -154,6 +154,11 @@ require('lazy').setup {
     },
 
     {
+        'joerdav/templ.vim',
+        config = function() require('user.plugins.templ') end,
+    },
+
+    {
         'junegunn/gv.vim',
         dependencies = { 'tpope/vim-fugitive' },
     },
