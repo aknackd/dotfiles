@@ -37,9 +37,12 @@ require('mason-lspconfig').setup({
 
 utils.create_lsp_cache_dir()
 
+require('user.plugins.lsp.emmet-ls')
+require('user.plugins.lsp.html')
+require('user.plugins.lsp.htmx')
 require('user.plugins.lsp.intelephense')
 require('user.plugins.lsp.jdtls')
-require('user.plugins.lsp.emmet-ls')
+require('user.plugins.lsp.tailwindcss')
 require('user.plugins.lsp.templ')
 
 local cmp = require('cmp')
