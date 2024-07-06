@@ -36,10 +36,40 @@ function M.file_exists(path)
 	return f ~= nil and io.close(f)
 end
 
+-- Finds an executable in PATH
+-- @param exe string Executable name
+-- @return string Path to executable if found, otherwise nil
+function M.find_in_path(exe)
+	local sep = M.get_directory_separator()
+
+	local delimiter = ":"
+	if M.is_windows() then delimiter = ";" end
+
+	-- Loop through directories in PATH and return the first
+	-- executable file with the matching name
+
+	local dirs = M.split(delimiter, os.getenv("PATH"))
+
+	for _, dir in pairs(dirs) do
+		local path = dir .. sep .. exe
+		if M.file_exists(path) and vim.fn.executable(path) == 1 then
+			return path
+		end
+	end
+
+	return nil
+end
+
 -- Gets the specified colorscheme from NVIM_COLORSCHEME
 -- @return string Colorscheme name
 function M.get_colorscheme()
 	return os.getenv('NVIM_COLORSCHEME') or 'default'
+end
+
+-- Returns the OS directory separator
+-- @return string
+function M.get_directory_separator()
+	return package.config:sub(1, 1)
 end
 
 -- Returns LSP servers that Mason will always install by default
@@ -73,6 +103,18 @@ end
 -- @return boolean
 function M.is_dir(path)
 	return M.dir_exists(path..'/')
+end
+
+-- Returns whether or not we're currently running on *nix
+-- @return boolean
+function M.is_unix()
+	return M.get_directory_separator() == "/"
+end
+
+-- Returns whether or not we're currently running on Windows
+-- @return boolean
+function M.is_windows()
+	return M.get_directory_separator() == "\\"
 end
 
 -- Merges two tables
