@@ -22,7 +22,7 @@ export ASDF_DATA_DIR="$ASDF_DIR"
 export SDKMAN_DIR="$HOME/.config/sdkman"
 export KOPIA_CHECK_FOR_UPDATES=false
 
-export NVIM_COLORSCHEME='kristijanhusak/vim-hybrid-material:hybrid_reverse'
+export NVIM_COLORSCHEME='catppuccin'
 export NVIM_FEATURE_LSP=true
 export NVIM_LSP_SERVERS='lua_ls'
 
