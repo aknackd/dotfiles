@@ -1,15 +1,16 @@
-local lint = require('lint')
+local lint = require("lint")
 
 lint.linters_by_ft = {
-	markdown = { 'vale' },
-	javascript = { 'eslint_d' },
-	typescript = { 'eslint_d' },
+	markdown = { "vale" },
+	javascript = { "biomejs" },
+	typescript = { "biomejs" },
 }
 
--- vim.api.nvim_create_augroup("nvim_lint_buf", { clear = true })
+local lint_augroup = vim.api.nvim_create_augroup("nvim_lint_buf", { clear = true })
 
--- vim.api.nvim_create_autocmd("BufWritePost", {
--- 	group   = "nvim_lint_buf",
--- 	pattern = { "*.md", "*.js", "*.jsx", "*.tsx" },
--- 	callback = function() lint.try_lint() end,
--- })
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+	group = lint_augroup,
+	callback = function()
+		lint.try_lint()
+	end,
+})

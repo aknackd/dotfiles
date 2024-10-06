@@ -1,4 +1,4 @@
-local user_enable_spellcheck = function ()
+local user_enable_spellcheck = function()
 	vim.api.nvim_win_set_option(0, "spell", true)
 end
 
@@ -10,14 +10,14 @@ vim.api.nvim_create_augroup("bufcheck", { clear = true })
 
 -- Reload nvim config when changed
 vim.api.nvim_create_autocmd("BufWritePost", {
-	group   = "bufcheck",
+	group = "bufcheck",
 	pattern = vim.env.MYVIMRC,
 	command = "silent source %",
 })
 
 -- Start :term in INSERT mode and disable line numbers
 vim.api.nvim_create_autocmd("TermOpen", {
-	group   = "bufcheck",
+	group = "bufcheck",
 	pattern = "*",
 	command = "startinsert | set winfixheight | setlocal nonumber norelativenumber",
 })
@@ -34,19 +34,28 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	callback = user_enable_spellcheck,
 })
 
+-- Highlight when yanking (copying) text
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
+
 -- Copies yanked text into the system clipboard over SSH
 -- Does not require x11 on linux
 --
 -- https://www.sobyte.net/post/2022-01/vim-copy-over-ssh/
 --
 -- @@@ Convert to lua
-vim.cmd [[
-	function CopyTextToClipboard()
-		let c = join(v:event.regcontents, "\n")
+vim.cmd([[
+    function CopyTextToClipboard()
+        let c = join(v:event.regcontents, "\n")
         let c64 = system("base64", c)
         let s = "\e]52;c;" . trim(c64) . "\x07"
         call chansend(v:stderr, s)
-	endfunction
+    endfunction
 
-	autocmd TextYankPost * call CopyTextToClipboard()
-]]
+    autocmd TextYankPost * call CopyTextToClipboard()
+]])

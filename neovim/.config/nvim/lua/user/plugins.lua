@@ -1,233 +1,427 @@
-local utils = require('user.utils')
+local lazy_install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-local lazy_install_path = vim.fn.stdpath('data')..'/lazy/lazy.nvim'
+if not (vim.uv or vim.loop).fs_stat(lazy_install_path) then
+	print("Installing lazy.nvim...")
 
--- Install lazy.nvim if it isn't already installed
-if not vim.loop.fs_stat(lazy_install_path) then
-    print('Installing lazy.nvim ...')
-    vim.fn.system({
-        'git', 'clone', '--filter=blob:none', '--branch=stable',
-        'https://github.com/folke/lazy.nvim.git',
-        lazy_install_path,
-    })
-    print('Done')
+	local stdout = vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"--branch=stable",
+		"https://github.com/folke/lazy.nvim.git",
+		lazy_install_path,
+	})
+
+	if vim.v.shell_error ~= 0 then
+		error("Error cloning lazy.nvim:\n" .. stdout)
+	else
+		print("Done!")
+	end
 end
 
+---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazy_install_path)
 
-require('lazy').setup {
-    {
-        'nvim-telescope/telescope.nvim',
-        branch       = 'master',
-        config       = function() require('user.plugins.telescope') end,
-        dependencies = {
-            { 'nvim-lua/plenary.nvim' },
-            { 'nvim-tree/nvim-web-devicons', lazy = true },
-            { 'nvim-telescope/telescope-live-grep-args.nvim' },
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-        },
-    },
+require("lazy").setup({
+	-- Fuzzy Finder (files, lsp, etc)
+	{
+		"nvim-telescope/telescope.nvim",
+		branch = "master",
+		event = "VimEnter",
+		config = function()
+			require("user.plugins.telescope")
+		end,
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+				cond = function()
+					return vim.fn.executable("make") == 1
+				end,
+			},
+			{ "nvim-telescope/telescope-ui-select.nvim" },
+			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font, lazy = true },
+			{ "nvim-telescope/telescope-live-grep-args.nvim" },
+		},
+	},
 
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build        = ':TSUpdate',
-        config       = function() require('user.plugins.treesitter') end,
-        dependencies = {
-            { 'JoosepAlviste/nvim-ts-context-commentstring' },
-            -- { 'nvim-treesitter/nvim-treesitter-context' },
-            { 'nvim-treesitter/nvim-treesitter-textobjects' },
-            { 'nvim-treesitter/playground' },
-         },
-    },
+	-- [[LSP Plugins]]
 
-    {
-        'VonHeikemen/lsp-zero.nvim',
-        config       = function() require('user.plugins.lsp_zero') end,
-        dependencies = {
-            -- LSP Support
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'neovim/nvim-lspconfig' },
+	-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+	-- used for completion, annotations and signatures of Neovim apis
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
+		},
+		dependencies = {
+			{ "Bilal2453/luvit-meta", lazy = true },
+		},
+	},
 
-            -- Autocompletion
-            { 'saadparwaiz1/cmp_luasnip' },
-            {
-                'hrsh7th/nvim-cmp',
-                event = 'InsertEnter',
-                dependencies = {
-                    { 'hrsh7th/cmp-buffer' },
-                    { 'hrsh7th/cmp-nvim-lsp' },
-                    { 'hrsh7th/cmp-nvim-lua' },
-                    { 'hrsh7th/cmp-path' },
-                },
-            },
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			{ "williamboman/mason.nvim", config = true },
+			{ "williamboman/mason-lspconfig.nvim" },
+			{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
+			{ "j-hui/fidget.nvim", opts = {} },
+			{ "hrsh7th/cmp-nvim-lsp" },
+		},
+		config = function()
+			require("user.plugins.nvim-lspconfig")
+		end,
+	},
 
-            -- Snippets
-            {
-                'L3MON4D3/LuaSnip',
-                version = 'v2.*',
-                build = 'make install_jsregexp',
-            },
-            { 'rafamadriz/friendly-snippets' },
+	-- [[Autoformat]]
+	{
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		config = function()
+			require("user.plugins.conform")
+		end,
+		init = function()
+			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+		end,
+	},
 
-            -- Miscellaneous
-            { 'simrat39/symbols-outline.nvim' },
-        },
-    },
+	-- [[Autocompletion]]
+	{
+		"hrsh7th/nvim-cmp",
+		event = { "BufReadPost", "BufNewFile", "InsertEnter" },
+		dependencies = {
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-buffer" },
+			{ "hrsh7th/cmp-path" },
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
+			-- Snippet Engine & its associated nvim-cmp source
+			{
+				"L3MON4D3/LuaSnip",
+				build = (function()
+					-- Build Step is needed for regex support in snippets.
+					-- This step is not supported in many windows environments.
+					-- Remove the below condition to re-enable on windows.
+					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+						return
+					end
+					return "make install_jsregexp"
+				end)(),
+				dependencies = {
+					-- {
+					--   'rafamadriz/friendly-snippets',
+					--   config = function() require('luasnip.loaders.from_vscode').lazy_load() end,
+					-- },
+				},
+			},
+			{ "saadparwaiz1/cmp_luasnip" },
+			{ "onsails/lspkind.nvim" },
+		},
+		config = function()
+			require("user.plugins.nvim-cmp")
+		end,
+	},
 
-    {
-        'nvimdev/lspsaga.nvim',
-        branch = 'main',
-        event = 'LspAttach',
-        config = function() require('user.plugins.lspsaga') end,
-    },
+	-- Various UI enhancements
+	{
+		"nvimdev/lspsaga.nvim",
+		branch = "main",
+		event = "LspAttach",
+		config = function()
+			require("user.plugins.lspsaga")
+		end,
+	},
 
-    {
-        'sbdchd/neoformat',
-        config = function () require('user.plugins.neoformat') end,
-    },
+	-- Highlight todo, notes, etc in comments
+	{
+		"folke/todo-comments.nvim",
+		event = "VimEnter",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = { signs = false },
+	},
 
-    {
-        'mfussenegger/nvim-lint',
-        config = function () require('user.plugins.nvim-lint') end,
-    },
+	-- Collection of various small independent plugins/modules
+	-- {
+	-- 	"echasnovski/mini.nvim",
+	-- 	config = function()
+	-- 		require("user.plugins.mini")
+	-- 	end,
+	-- },
 
-    {
-        'akinsho/bufferline.nvim',
-        config       = function() require('user.plugins.bufferline') end,
-        dependencies = {
-            { 'nvim-tree/nvim-web-devicons', lazy = true },
-        },
-    },
+	-- Highlight, edit, and navigate code,
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("user.plugins.treesitter")
+		end,
+		dependencies = {
+			{ "JoosepAlviste/nvim-ts-context-commentstring" },
+			{
+				"nvim-treesitter/nvim-treesitter-context",
+				config = function()
+					require("user.plugins.nvim-treesitter-context")
+				end,
+			},
+			{ "nvim-treesitter/nvim-treesitter-textobjects" },
+			{ "nvim-treesitter/playground" },
+		},
+	},
 
-    {
-        'nvim-lualine/lualine.nvim',
-        config       = function() require('user.plugins.lualine') end,
-        dependencies = {
-            { 'nvim-tree/nvim-web-devicons', lazy = true },
-        },
-    },
+	{
+		"mfussenegger/nvim-lint",
+		config = function()
+			require("user.plugins.nvim-lint")
+		end,
+	},
 
-    -- {
-    --     'lewis6991/gitsigns.nvim',
-    --     config       = function() require('user.plugins.gitsigns') end,
-    --     dependencies = { 'nvim-lua/plenary.nvim' },
-    -- },
+	{
+		"akinsho/bufferline.nvim",
+		config = function()
+			require("user.plugins.bufferline")
+		end,
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons", lazy = true },
+		},
+	},
 
-    {
-        'iamcco/markdown-preview.nvim',
-        build  = function() vim.fn['mkdp#util#install']() end,
-        config = function() require('user.plugins.markdown-preview') end,
-    },
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("user.plugins.lualine")
+		end,
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons", lazy = true },
+		},
+	},
 
-    {
-        'AndrewRadev/splitjoin.vim',
-        config = function() require('user.plugins.splitjoin') end,
-    },
+	-- {
+	-- 	"iamcco/markdown-preview.nvim",
+	-- 	build = function()
+	-- 		vim.fn["mkdp#util#install"]()
+	-- 	end,
+	-- 	config = function()
+	-- 		require("user.plugins.markdown-preview")
+	-- 	end,
+	-- },
 
-    {
-        'airblade/vim-gitgutter',
-        config = function() require('user.plugins.gitgutter') end,
-    },
+	-- {
+	-- 	"AndrewRadev/splitjoin.vim",
+	-- 	config = function()
+	-- 		require("user.plugins.splitjoin")
+	-- 	end,
+	-- },
 
-    {
-        'famiu/bufdelete.nvim',
-        config = function() require('user.plugins.bufdelete') end,
-    },
+	{
+		"airblade/vim-gitgutter",
+		config = function()
+			require("user.plugins.gitgutter")
+		end,
+	},
 
-    {
-        'folke/trouble.nvim',
-        config = function() require('user.plugins.trouble') end,
-        dependencies = {
-            { 'nvim-tree/nvim-web-devicons', lazy = true },
-        },
-    },
+	{
+		"famiu/bufdelete.nvim",
+		config = function()
+			require("user.plugins.bufdelete")
+		end,
+	},
 
-    {
-        'folke/noice.nvim',
-        event = 'VeryLazy',
-        config = function() require('user.plugins.noice') end,
-        dependencies = {
-            { 'MunifTanjim/nui.nvim' },
-            { 'rcarriga/nvim-notify', config = function() require ('user.plugins.notify') end },
-        },
-    },
+	-- A pretty diagnostics, references, telescope results, quickfix and location list
+	{
+		"folke/trouble.nvim",
+		config = function()
+			require("user.plugins.trouble")
+		end,
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons", lazy = true },
+		},
+	},
 
-    {
-        'joerdav/templ.vim',
-        config = function() require('user.plugins.templ') end,
-    },
+	-- Replaces the UI for messages, cmdline and the popupmenu
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("user.plugins.noice")
+		end,
+		dependencies = {
+			{ "MunifTanjim/nui.nvim" },
+			{
+				"rcarriga/nvim-notify",
+				config = function()
+					require("user.plugins.notify")
+				end,
+			},
+		},
+	},
 
-    {
-        'junegunn/gv.vim',
-        dependencies = { 'tpope/vim-fugitive' },
-    },
+	{
+		"joerdav/templ.vim",
+		config = function()
+			require("user.plugins.templ")
+		end,
+	},
 
-    {
-        'junegunn/vim-easy-align',
-        config = function() require('user.plugins.easy-align') end,
-    },
+	-- Git commit browser
+	-- { "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" } },
 
-    {
-        'lukas-reineke/indent-blankline.nvim',
-        main = 'ibl',
-        config = function () require('user.plugins.indent-blankline') end,
-    },
+	{
+		"junegunn/vim-easy-align",
+		config = function()
+			require("user.plugins.easy-align")
+		end,
+	},
 
-    {
-        'mattn/emmet-vim',
-        config = function() require('user.plugins.emmet') end,
-    },
+	-- Indent guides
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		config = function()
+			require("user.plugins.indent-blankline")
+		end,
+	},
 
-    {
-        'numToStr/Comment.nvim',
-        config = function() require('user.plugins.comment') end,
-    },
+	-- Emmet integration
+	{
+		"mattn/emmet-vim",
+		config = function()
+			require("user.plugins.emmet")
+		end,
+	},
 
-    -- {
-    --     'nvim-tree/nvim-tree.lua',
-    --     dependencies = {
-    --         { 'nvim-tree/nvim-web-devicons', lazy = true },
-    --     },
-    --     config = function () require('user.plugins.nvim-tree') end,
-    -- },
+	-- Smart and powerful comment plugin for neovim. Supports treesitter, dot
+	-- repeat, left-right/up-down motions, hooks, and more
+	{
+		"numToStr/Comment.nvim",
+		config = function()
+			require("user.plugins.comment")
+		end,
+	},
 
-    {
-        'stevearc/oil.nvim',
-        config = function() require('user.plugins.oil') end,
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-    },
+	-- {
+	-- 	"nvim-tree/nvim-tree.lua",
+	-- 	dependencies = {
+	-- 		{ "nvim-tree/nvim-web-devicons", lazy = true },
+	-- 	},
+	-- 	config = function()
+	-- 		require("user.plugins.nvim-tree")
+	-- 	end,
+	-- },
 
-    {
-        'tpope/vim-eunuch',
-        config = function() require('user.plugins.eunuch') end,
-    },
+	-- File explorer
+	{
+		"stevearc/oil.nvim",
+		config = function()
+			require("user.plugins.oil")
+		end,
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
 
-    {
-        'kana/vim-textobj-user',
-        dependencies = { { 'whatyouhide/vim-textobj-xmlattr' } },
-    },
+	-- Helpers for UNIX (:Remove, :Delete, :Move, etc.)
+	{
+		"tpope/vim-eunuch",
+		config = function()
+			require("user.plugins.eunuch")
+		end,
+	},
 
-    { 'Raimondi/delimitMate' },
-    { 'editorconfig/editorconfig-vim' },
-    { 'godlygeek/tabular' },
-    { 'gregsexton/MatchTag' },
-    { 'jessarcher/vim-heritage' },
-    { 'jremmen/vim-ripgrep' },
-    { 'mbbill/undotree' },
-    { 'nathanaelkane/vim-indent-guides' },
-    { 'nelstrom/vim-visual-star-search' },
-    { 'rhysd/committia.vim' },
-    { 'rhysd/git-messenger.vim' },
-    { 'sheerun/vim-polyglot' },
-    { 'tpope/vim-repeat' },
-    { 'tpope/vim-surround' },
-    { 'vim-scripts/AnsiEsc.vim' },
+	-- {
+	-- 	"kana/vim-textobj-user",
+	-- 	dependencies = { { "whatyouhide/vim-textobj-xmlattr" } },
+	-- },
 
-    utils.use_colorscheme_plugin('kristijanhusak/vim-hybrid-material'),
-    utils.use_colorscheme_plugin('romainl/apprentice'),
-    utils.use_colorscheme_plugin('yazeed1s/minimal.nvim'),
-    utils.use_colorscheme_plugin('rebelot/kanagawa.nvim'),
-    utils.use_colorscheme_plugin('luisiacc/gruvbox-baby'),
-    utils.use_colorscheme_plugin('morhetz/gruvbox'),
-}
+	-- Provides insert mode auto-completion for quotes, parens, brackets, etc.
+	{ "Raimondi/delimitMate" },
+
+	-- Editorconfig integration
+	{ "editorconfig/editorconfig-vim" },
+
+	-- Text filtering and alignment
+	-- { 'godlygeek/tabular' },
+
+	-- Highlights the matching HTML tag when the cursor is positioned on a tag
+	{ "gregsexton/MatchTag" },
+
+	-- Automatically create missing parent directories when saving a new file
+	{ "jessarcher/vim-heritage" },
+
+	--  Use RipGrep in Vim and display results in a quickfix list
+	{ "jremmen/vim-ripgrep" },
+
+	-- Undo history visualizer
+	{ "mbbill/undotree" },
+
+	-- Visually display indent levels
+	{ "preservim/vim-indent-guides" },
+
+	-- { 'nelstrom/vim-visual-star-search' },
+
+	-- View status and diff when creating a Git commit
+	{ "rhysd/committia.vim" },
+
+	-- Reveal the commit messages under the cursor
+	{ "rhysd/git-messenger.vim", lazy = true },
+
+	-- Adds more language packs
+	{ "sheerun/vim-polyglot" },
+
+	-- Enable repeating supported plugin maps with "."
+	{ "tpope/vim-repeat" },
+
+	-- Delete/change/add parentheses/quotes/XML-tags/much more with ease
+	{ "tpope/vim-surround" },
+
+	-- ANSI escape sequences concealed, but highlighted as specified (conceal)
+	{ "vim-scripts/AnsiEsc.vim" },
+
+	-- [[Colorschemes]]
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			require("user.colors.catppucin")
+		end,
+	},
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			transparent = true,
+			terminal_colors = true,
+			styles = {
+				sidebars = "transparent",
+				floats = "transparent",
+			},
+		},
+	},
+	{ "kristijanhusak/vim-hybrid-material" },
+	{ "yazeed1s/minimal.nvim" },
+}, {
+	ui = {
+		-- If you are using a Nerd Font: set icons to an empty table which will
+		-- use the default lazy.nvim defined Nerd Font icons, otherwise define
+		-- a unicode icons table
+		icons = vim.g.have_nerd_font and {} or {
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
+			runtime = "💻",
+			require = "🌙",
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
+		},
+	},
+})

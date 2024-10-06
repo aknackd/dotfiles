@@ -1,10 +1,10 @@
-require("Comment").setup {
+require("Comment").setup({
 	padding = true,
-	ignore = '^$',
-}
+	ignore = "^$",
+})
 
-local ft = require('Comment.ft')
+local ft = require("Comment.ft")
 
-ft.set('javascript', { '// %s', '/** %s */' })
-ft.set('typescript', { '// %s', '/** %s */' })
-ft.set('php', { '// %s', '/** %s */' })
+ft.set("javascript", { "// %s", "/** %s */" })
+ft.set("typescript", { "// %s", "/** %s */" })
+ft.set("php", { "// %s", "/** %s */" })
