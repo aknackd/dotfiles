@@ -260,15 +260,27 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		"joerdav/templ.vim",
-		config = function()
-			require("user.plugins.templ")
-		end,
-	},
+	-- {
+	-- 	"ray-x/go.nvim",
+	-- 	dependencies = {
+	-- 		{ "ray-x/guihua.lua" },
+	-- 		{
+	-- 			"joerdav/templ.vim",
+	-- 			config = function()
+	-- 				require("user.plugins.templ")
+	-- 			end,
+	-- 		},
+	-- 	},
+	-- 	config = function()
+	-- 		require("user.plugins.go")
+	-- 	end,
+	-- 	event = { "CmdlineEnter" },
+	-- 	ft = { "go", "gomod" },
+	-- 	build = ':lua require("go.install").update_all_sync()',
+	-- },
 
 	-- Git commit browser
-	-- { "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" } },
+	{ "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" } },
 
 	{
 		"junegunn/vim-easy-align",
