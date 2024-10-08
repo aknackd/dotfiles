@@ -21,7 +21,13 @@ return {
 	end,
 	settings = {
 		java = {
+			--
+			-- https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+			--
 			home = env("JAVA_HOME", ""),
+			autobuild = {
+				enabled = false,
+			},
 			configuration = {
 				updateBuildConfiguration = "interactive",
 			},
@@ -29,7 +35,7 @@ return {
 				downloadSources = true,
 			},
 			format = {
-				enabled = true,
+				enabled = false,
 			},
 			implementationsCodeLens = {
 				enabled = true,
