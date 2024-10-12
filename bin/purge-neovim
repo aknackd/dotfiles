@@ -1,0 +1,11 @@
+#!/uar/bin/env bash
+
+# Purges neovim cache and state, including downloaded plugins, but leaves the
+# actual configuration behind. Useful for full reinstalls when debugging
+# configuration issues.
+
+set -x
+
+rm -rf "$HOME/.cache/nvim"
+rm -rf "$HOME/.local/share/nvim"
+rm -rf "$HOME/.local/state/nvim"
