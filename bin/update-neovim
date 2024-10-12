@@ -62,15 +62,15 @@ function usage() {
 for option in "$@"; do
     shift
     case "$option" in
-        --nightly)     set -- "$@" "-N" ;;
-        --branch)      set -- "$@" "-b" ;;
-        --jobs)        set -- "$@" "-j" ;;
-        --nice)        set -- "$@" "-n" ;;
-        --prefix)      set -- "$@" "-p" ;;
-        --source)      set -- "$@" "-s" ;;
-        --type)        set -- "$@" "-t" ;;
-        --help)        set -- "$@" "-h" ;;
-        *)             set -- "$@" "$option" ;;
+    --nightly) set -- "$@" "-N" ;;
+    --branch) set -- "$@" "-b" ;;
+    --jobs) set -- "$@" "-j" ;;
+    --nice) set -- "$@" "-n" ;;
+    --prefix) set -- "$@" "-p" ;;
+    --source) set -- "$@" "-s" ;;
+    --type) set -- "$@" "-t" ;;
+    --help) set -- "$@" "-h" ;;
+    *) set -- "$@" "$option" ;;
     esac
 done
 
@@ -78,14 +78,14 @@ done
 OPTIND=1
 while getopts ":b:c:j:n:p:s:t:h:N" option; do
     case "$option" in
-        N) NVIM_USE_NIGHTLY=1         ;;
-        b) NVIM_BRANCH="$OPTARG"      ;;
-        j) NVIM_NUM_JOBS="$OPTARG"    ;;
-        n) NVIM_NICENESS="$OPTARG"    ;;
-        p) NVIM_PREFIX="$OPTARG"      ;;
-        s) NVIM_SOURCE_DIR="$OPTARG"  ;;
-        t) NVIM_BUILD_TYPE="$OPTARG"  ;;
-        *) usage                      ;;
+    N) NVIM_USE_NIGHTLY=1 ;;
+    b) NVIM_BRANCH="$OPTARG" ;;
+    j) NVIM_NUM_JOBS="$OPTARG" ;;
+    n) NVIM_NICENESS="$OPTARG" ;;
+    p) NVIM_PREFIX="$OPTARG" ;;
+    s) NVIM_SOURCE_DIR="$OPTARG" ;;
+    t) NVIM_BUILD_TYPE="$OPTARG" ;;
+    *) usage ;;
     esac
 done
 
@@ -96,7 +96,7 @@ NVIM_BRANCH="${NVIM_BRANCH:-${NVIM_BRANCH:-${DEFAULT_NVIM_BRANCH}}}"
 NVIM_SOURCE_DIR="${NVIM_SOURCE_DIR:-${NVIM_SOURCE_DIR:-${DEFAULT_NVIM_SOURCE_DIR}}}"
 NVIM_PREFIX="${NVIM_PREFIX:-${NVIM_PREFIX:-${DEFAULT_NVIM_PREFIX}}}"
 NVIM_NICENESS="${NVIM_NICENESS:-${NVIM_NICENESS:-${DEFAULT_NVIM_NICENESS}}}"
-NVIM_NUM_JOBS=$(( "${NVIM_NUM_JOBS:-${NVIM_NUM_JOBS:-${DEFAULT_NVIM_NUM_JOBS}}}" ))
+NVIM_NUM_JOBS=$(("${NVIM_NUM_JOBS:-${NVIM_NUM_JOBS:-${DEFAULT_NVIM_NUM_JOBS}}}"))
 NVIM_BUILD_TYPE="${NVIM_BUILD_TYPE:-${NVIM_BUILD_TYPE:-${DEFAULT_NVIM_BUILD_TYPE}}}"
 
 # Validates build type
@@ -128,18 +128,18 @@ function install_nightly() {
 
     local tarball_filename checksum_filename
     case "$platform" in
-        Linux)
-            tarball_filename=nvim-linux64.tar.gz
-            checksum_filename=nvim-linux64.tar.gz.sha256sum
-            ;;
-        Darwin)
-            tarball_filename="nvim-macos-${arch}.tar.gz"
-            checksum_filename="nvim-macos-${arch}.tar.gz.sha256sum"
-            ;;
-        *)
-            error_log "Invalid platform, must be either Linux or macOS"
-            exit 1
-            ;;
+    Linux)
+        tarball_filename=nvim-linux64.tar.gz
+        checksum_filename=nvim-linux64.tar.gz.sha256sum
+        ;;
+    Darwin)
+        tarball_filename="nvim-macos-${arch}.tar.gz"
+        checksum_filename="nvim-macos-${arch}.tar.gz.sha256sum"
+        ;;
+    *)
+        error_log "Invalid platform, must be either Linux or macOS"
+        exit 1
+        ;;
     esac
 
     local tarball_url checksum_url
@@ -159,7 +159,7 @@ function install_nightly() {
 
     pushd "$tempdir" >/dev/null
 
-    if sha256sum --check "$temp_checksum_filename" 1>/dev/null ; then
+    if sha256sum --check "$temp_checksum_filename" 1>/dev/null; then
         log "Checksum OK, extracting prerelease build ..."
         rm -rf "${NVIM_PREFIX}/nightly"
         mkdir -p "${NVIM_PREFIX}/nightly"
@@ -240,7 +240,7 @@ function build_from_source() {
 
 [[ "$NVIM_USE_NIGHTLY" == "1" ]] && install_nightly || build_from_source
 
-if ! which nvim 1>/dev/null 2>/dev/null ; then
+if ! which nvim 1>/dev/null 2>/dev/null; then
     error_log "nvim not found in \$PATH"
     error_log "Be sure to setup a symlink somewhere in your PATH that links to ${NVIM_PREFIX}/latest"
     exit 1

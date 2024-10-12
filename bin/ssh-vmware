@@ -7,8 +7,8 @@
 
 # macOS only
 if [ "$(uname -s)" != "Darwin" ]; then
-   2>&1 printf "ERROR: This script only works on MacOS!\n"
-   exit 1
+    2>&1 printf "ERROR: This script only works on MacOS!\n"
+    exit 1
 fi
 
 # Check that VMware Fusion is installed
@@ -27,16 +27,16 @@ readonly SSH_OPTIONS="-o UserKnownHostsFile /dev/null"
 readonly TIMEOUTS=(5 10 15 20)
 readonly LEASE_FILE=/var/db/vmware/vmnet-dhcpd-vmnet8.leases
 
-readonly COLOR_RED=$(echo -e "\033[0;31m")
-readonly COLOR_GREEN=$(echo -e "\033[0;32m")
-readonly COLOR_YELLOW=$(echo -e "\033[0;33m")
-readonly COLOR_RESET=$(echo -e "\033[0;0m")
+COLOR_RED=$(echo -e "\033[0;31m")
+COLOR_GREEN=$(echo -e "\033[0;32m")
+COLOR_YELLOW=$(echo -e "\033[0;33m")
+COLOR_RESET=$(echo -e "\033[0;0m")
 
 # Write a message in a particular color
 #
 # @param {string} color
 # @param {string} message
-function chalk () {
+function chalk() {
     readonly color="$(printf "COLOR_%s" "${1^^}")"
     readonly message="$2"
 
@@ -48,30 +48,30 @@ function chalk () {
 }
 
 # Prints the current timestamp
-function now () {
+function now() {
     echo -n "$(date +"%Y-%m-%dT%H:%M:%S%z")"
 }
 
 # Prints an informational log message
-function log::info () {
+function log::info() {
     1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk green "$1")"
 }
 
 # Prints an error message
-function log::error () {
+function log::error() {
     1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk red "$1")"
 }
 
 # Prints a warning message
-function log::warning () {
+function log::warning() {
     1>&2 printf "%s %s\n" "$(chalk yellow "[$(now)]")" "$(chalk yellow "$1")"
 }
 
 # Go through the dhcpd leases file and print the hosts known to fusion
 #
 # Adapted from https://stackoverflow.com/a/2143661
-function vmware::print_hosts () {
-   awk 'BEGIN{
+function vmware::print_hosts() {
+    awk 'BEGIN{
       RS="}"
       FS="\n"
   }
@@ -101,35 +101,37 @@ function vmware::print_hosts () {
 }
 
 # Main entry point
-function main () {
+function main() {
     log::info "Attempting to find IP address of guest: $(chalk reset "${VM}")"
 
-    # Check if the hostname is in the dhcpd.leases file
-    readonly ENTRIES=$(vmware::print_hosts  | grep "$VM")
-    readonly NUM_ENTRIES="$(echo "$ENTRIES" | sed '/^\s*$/d' | wc -l)"
+    local entries num_entries ipaddr
 
-    if [ $NUM_ENTRIES -eq 0 ]; then
+    # Check if the hostname is in the dhcpd.leases file
+    entries=$(vmware::print_hosts | grep "$VM")
+    num_entries="$(echo "$entries" | sed '/^\s*$/d' | wc -l)"
+
+    if [ $num_entries -eq 0 ]; then
         log::error "ERROR: No dhcpd lease entry found for $(chalk green "${VM}")"
         exit 1
-    elif [ $NUM_ENTRIES -gt 1 ]; then
+    elif [ $num_entries -gt 1 ]; then
         log::error "ERROR: More than one dhcp entry found for ${VM}:\n\n"
-        log::error "$(echo "$ENTRIES" | sed 's/^/    /')\n"
+        log::error "$(echo "$entries" | sed 's/^/    /')\n"
         exit 1
     fi
 
     # Grab the VM's IP address
-    readonly IPADDR=$(echo "$ENTRIES" | tail -1 | awk '{print $4 }')
+    ipaddr=$(echo "$entries" | tail -1 | awk '{print $4 }')
 
-    log::info "Found IP address of guest ${VM}: $(chalk reset "${IPADDR}")"
+    log::info "Found IP address of guest ${VM}: $(chalk reset "${ipaddr}")"
 
     # Continually try to ping the VM to ensure it's up yet before attempting to ssh into it
     for TIMEOUT in "${TIMEOUTS[@]}"; do
         log::info "Attempting to ssh to $(chalk reset "${VM}")"
 
-        ping -c 1 -t 1 "$IPADDR" >/dev/null
+        ping -c 1 -t 1 "$ipaddr" >/dev/null
         # We got a response, ssh to the VM
         if [ $? -eq 0 ]; then
-            ssh "$SSH_OPTIONS" "$IPADDR"
+            ssh "$SSH_OPTIONS" "$ipaddr"
             exit $?
         fi
 
