@@ -1,4 +1,4 @@
-#!/uar/bin/env bash
+#!/usr/bin/env bash
 
 # Purges neovim cache and state, including downloaded plugins, but leaves the
 # actual configuration behind. Useful for full reinstalls when debugging
