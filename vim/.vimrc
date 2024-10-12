@@ -2,24 +2,18 @@
 " Must Have
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
-
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
-
+set background=dark
 syntax on
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set history=1000     " How many lines of history to remember
-set cf               " enable error files and error jumping
-set ffs=unix,dos,mac " support all three, in this order
-set viminfo+=!       " make sure it can save viminfo
-set isk+=_,$,@,%,#   " none of these should be word dividers, so make them not be
-set nosol            " leave my cursor where it was
+set history=1000             " How many lines of history to remember
+set cf                       " enable error files and error jumping
+set fileformats=unix,dos,mac " support all three, in this order
+set viminfo+=!               " make sure it can save viminfo
+set iskeyword+=_,$,@,%,#     " none of these should be word dividers, so make them not be
+set nostartofline            " leave my cursor where it was
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files/Backups
@@ -36,7 +30,7 @@ set sessionoptions+=winpos          " What should be saved during sessions being
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim UI
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set lsp=0                            " space it out a little more (easier to read)
+set linespace=0                      " space it out a little more (easier to read)
 set wildmenu                         " turn on wild menu
 set wildmode=list:longest            " turn on wild menu in special format (long format)
 set wildignore=*.dll,*.o,*.so,*.obj,*.bak,*.exe,*.pyc,*.swp,*.jpg,*.gif,*.png,*.tar,*.tar.gz,*.tgz,*.tar.bz2,*.tbz " ignore formats
@@ -44,8 +38,8 @@ set ruler                            " Always show current positions along the b
 set cmdheight=1                      " the command bar is 1 high
 set number                           " turn on line numbers
 set relativenumber                   " ...and show line numbers relative to the current line
-set lz                               " do not redraw while running macros (much faster) (LazyRedraw)
-set hid                              " you can change buffer without saving
+set lazyredraw                       " do not redraw while running macros (much faster) (LazyRedraw)
+set hidden                           " you can change buffer without saving
 set backspace=2                      " make backspace work normal
 set whichwrap+=<,>,h,l               " backspace and cursor keys wrap to
 set mouse=a                          " use mouse everywhere
@@ -71,8 +65,8 @@ set laststatus=2 " always show the status line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Indent Related
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set ai                    " autoindent (filetype indenting instead)
-set nosi                  " smartindent (filetype indenting instead)
+set autoindent            " autoindent (filetype indenting instead)
+set nosmartindent         " smartindent (filetype indenting instead)
 set cindent               " do c-style indenting
 set softtabstop=4         " unify
 set shiftwidth=4          " unify
