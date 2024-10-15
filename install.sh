@@ -35,16 +35,16 @@ function install::dotfiles() {
 
     # Setup ssh in home directory with the correct permissions to use
     # authorized_keys
-    mkdir -pv "$HOME/.ssh/sessions" "$HOME/.ssh/conf.d/{home,work}"
+    mkdir -p "$HOME/.ssh/sessions" "$HOME/.ssh/conf.d/home" "$HOME/.ssh/conf.d/work"
     touch "$HOME/.ssh/authorized_keys"
     chmod 0700 "$HOME/.ssh"
     chmod 0600 "$HOME/.ssh/authorized_keys"
 
     # And copy over the ssh config file(s) since some systems can have strict
     # permissions that won't allow symlinks to work
-    cp -pv ssh/.ssh/config "$HOME/.ssh/config"
-    touch "$HOME/.ssh/conf.d/{home,work}/config"
-    chmod 0600 "$HOME/.ssh/config" "$HOME/.ssh/conf.d/{home,work}/config"
+    [[ ! -f "$HOME/.ssh/config" ]] && cp -p ssh/.ssh/config "$HOME/.ssh/config"
+    touch "$HOME/.ssh/conf.d/home/config" "$HOME/.ssh/conf.d/home/config"
+    chmod 0600 "$HOME/.ssh/config" "$HOME/.ssh/conf.d/home/config" "$HOME/.ssh/conf.d/home/config"
 
     case "$(uname -s)" in
     Linux)
@@ -80,7 +80,7 @@ function setup::vim() {
 
     if [ ! -d "$confDir" ]; then
         echo "${COLOR_GREEN}:: Setting up vim ...${COLOR_RESET}"
-        mkdir -pv "${confDir}/{backup,temp}"
+        mkdir -p "${confDir}/backup" "${confDir}/temp"
     fi
 }
 
