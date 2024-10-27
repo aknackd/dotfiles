@@ -25,12 +25,12 @@ require("conform").setup({
 			return
 		end
 
-		return { timeout_ms = 500, lsp_format = "fallback" }
+		return { timeout_ms = 2500, lsp_format = "fallback" }
 	end,
 
 	formatters = {
 		shfmt = {
-			prepend_args = { "-i", "2" },
+			prepend_args = { "-i", "4" },
 		},
 	},
 
