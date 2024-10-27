@@ -1,5 +1,5 @@
 return {
-	filetypes = { "html", "astro", "javascript", "typescript", "react", "vue" },
+	filetypes = { "html", "astro", "blade", "javascript", "typescript", "react", "vue" },
 	settings = {
 		tailwindCSS = {
 			includeLanguages = {
