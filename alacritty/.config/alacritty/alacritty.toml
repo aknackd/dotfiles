@@ -1,4 +1,3 @@
-import = ["~/.config/alacritty/local.toml"]
 
 [colors]
 draw_bold_text_with_bright_colors = false
@@ -566,6 +565,9 @@ multiplier = 3
 [window]
 opacity = 0.95
 
-[window.padding]
-x = 30
-y = 30
+[general]
+import = ["~/.config/alacritty/local.toml"]
+
+# [window.padding]
+# x = 30
+# y = 30
