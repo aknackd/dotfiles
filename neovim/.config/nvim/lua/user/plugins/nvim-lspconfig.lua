@@ -9,15 +9,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 		end
 
-		local diagnostic_goto = {
-			prev = function()
-				vim.diagnostic.jump({ count = -1, float = true })
-			end,
-			next = function()
-				vim.diagnostic.jump({ count = 1, float = true })
-			end,
-		}
-
 		-- Jump to the definition of the word under your cursor.
 		--  This is where a variable was first declared, or where a function is defined, etc.
 		--  To jump back, press <C-t>.
@@ -59,8 +50,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		--  For example, in C this would take you to the header.
 		map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-		map("[d", diagnostic_goto.next, "Go to next diagnostic")
-		map("]d", diagnostic_goto.prev, "Go to previous diagnostic")
+		map("[d", vim.diagnostic.goto_next, "Go to next diagnostic")
+		map("]d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
 
 		-- The following two autocommands are used to highlight references of the
 		-- word under your cursor when your cursor rests there for a little while.
