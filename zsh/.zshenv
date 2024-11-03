@@ -25,6 +25,7 @@ export KOPIA_CHECK_FOR_UPDATES=false
 export NVIM_COLORSCHEME='catppuccin'
 export NVIM_FEATURE_LSP=true
 export NVIM_LSP_SERVERS='lua_ls'
+export NVIM_DISABLE_ARROW_KEYS=true
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
