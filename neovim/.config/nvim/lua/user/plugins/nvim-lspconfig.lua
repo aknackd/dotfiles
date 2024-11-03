@@ -1,4 +1,3 @@
-local builtin = require("telescope.builtin")
 local utils = require("user.utils")
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -12,27 +11,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Jump to the definition of the word under your cursor.
 		--  This is where a variable was first declared, or where a function is defined, etc.
 		--  To jump back, press <C-t>.
-		map("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
+		map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 
 		-- Find references for the word under your cursor.
-		map("gr", builtin.lsp_references, "[G]oto [R]eferences")
+		map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
 
 		-- Jump to the implementation of the word under your cursor.
 		--  Useful when your language has ways of declaring types without an actual implementation.
-		map("gI", builtin.lsp_implementations, "[G]oto [I]mplementation")
+		map("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 
 		-- Jump to the type of the word under your cursor.
 		--  Useful when you're not sure what type a variable is and you want to see
 		--  the definition of its *type*, not where it was *defined*.
-		map("<leader>D", builtin.lsp_type_definitions, "Type [D]efinition")
+		map("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 
 		-- Fuzzy find all the symbols in your current document.
 		--  Symbols are things like variables, functions, types, etc.
-		map("<leader>ds", builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
+		map("<leader>ds", vim.lsp.buf.document_symbol, "[D]ocument [S]ymbols")
 
 		-- Fuzzy find all the symbols in your current workspace.
 		--  Similar to document symbols, except searches over your entire project.
-		map("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+		-- map("<leader>ws", require('telescope.builtin').lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
 		-- Rename the variable under your cursor.
 		--  Most Language Servers support renaming across files, etc.
