@@ -23,10 +23,11 @@ vim.keymap.set("v", "<tab>", "%", { noremap = true })
 vim.keymap.set("v", "gq", "gw", { noremap = true }) -- "gw" seems more consistent than "gq" so always use the former when the latter is used
 
 -- Tab management
-vim.keymap.set("n", "<C-t>", ":tabnew<CR>", { noremap = true, silent = true }) -- Open new tab
-vim.keymap.set("n", "tl", ":tabnext<CR>", { noremap = true, silent = true }) -- Jump to next tab
-vim.keymap.set("n", "th", ":tabprevious<CR>", { noremap = true, silent = true }) -- Jump to previous tab
-vim.keymap.set("n", "<Leader>c", ":tabclose<CR>", { silent = true }) -- Close tab
+-- vim.keymap.set("n", "<C-t>", ":tabnew<CR>", { noremap = true, silent = true }) -- Open new tab
+-- vim.keymap.set("n", "tl", ":tabnext<CR>", { noremap = true, silent = true }) -- Jump to next tab
+-- vim.keymap.set("n", "th", ":tabprevious<CR>", { noremap = true, silent = true }) -- Jump to previous tab
+vim.keymap.set("n", "]t", ":tabnext<CR>", { noremap = true, silent = true }) -- Jump to next tab
+vim.keymap.set("n", "[t", ":tabprevious<CR>", { noremap = true, silent = true }) -- Jump to previous tab
 
 -- Stay on the same column with j/k when going up and down within wrapped text
 vim.keymap.set("n", "j", 'v:count == 0 ? "gj" : "j"', { expr = true })
@@ -46,27 +47,20 @@ vim.keymap.set("i", ",,", "<Esc>A,") -- Insert a comma at the end of the
 vim.keymap.set("n", ",,", "<Esc>A,<Esc>") -- Same as above but when in normal mode;
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set("n", "<leader>y", [["+y]])
-vim.keymap.set("v", "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>y", [["+y]]) -- Yank into system clipboard (only when inside tmux)
+vim.keymap.set("v", "<leader>y", [["+y]]) -- Yank into system clipboard (only when inside tmux)
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- Window management
-vim.keymap.set("n", "gh", "<C-w><C-h>", { silent = true }) -- gh - Move focus to window on the left
-vim.keymap.set("n", "gl", "<C-w><C-l>", { silent = true }) -- gl - Move focus to window on the right
-vim.keymap.set("n", "gj", "<C-w><C-j>", { silent = true }) -- gj - Move focus to window below
-vim.keymap.set("n", "gk", "<C-w><C-k>", { silent = true }) -- gk - Move focus to window above
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { silent = true }) -- CTRL+h - Move focus to window on the left
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { silent = true }) -- CTRL+l - Move focus to window on the right
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { silent = true }) -- CTRL+j - Move focus to window below
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { silent = true }) -- CTRL+k - Move focus to window above
-vim.keymap.set("n", "<Leader>w", ":wincmd w<CR>", { silent = true }) -- Jump to the below/right window of the current window - same as <CTRL-W w>
-vim.keymap.set("n", "<Leader>ss", "<Esc>:split<CR>", { noremap = true, silent = true }) -- Open horizontal split
-vim.keymap.set("n", "<Leader>sv", "<Esc>:vsplit<CR>", { noremap = true, silent = true }) -- Open vertical split
-vim.keymap.set("n", "<Leader>v", "<C-W>v<SPACE>", { noremap = true, silent = true }) -- Open vertical split
-vim.keymap.set("n", "ts", "<Esc>:split<CR>", { noremap = true, silent = true }) -- Open horizontal split
-vim.keymap.set("n", "tv", "<Esc>:vsplit<CR>", { noremap = true, silent = true }) -- Open vertical split
+vim.keymap.set("n", "<leader>w", ":wincmd w<CR>", { silent = true }) -- Jump to the below/right window of the current window - same as <CTRL-W w>
+vim.keymap.set("n", "<leader>sH", "<Esc>:split<CR>", { noremap = true, silent = true }) -- Open horizontal split
+vim.keymap.set("n", "<leader>sV", "<Esc>:vsplit<CR>", { noremap = true, silent = true }) -- Open vertical split
 vim.keymap.set("n", "+", "<c-w>5>", { noremap = true }) -- Increase window width
 vim.keymap.set("n", "-", "<c-w>5<", { noremap = true }) -- Decrease window width
 
