@@ -24,10 +24,9 @@ vim.keymap.set("v", "gq", "gw", { noremap = true }) -- "gw" seems more consisten
 
 -- Tab management
 -- vim.keymap.set("n", "<C-t>", ":tabnew<CR>", { noremap = true, silent = true }) -- Open new tab
--- vim.keymap.set("n", "tl", ":tabnext<CR>", { noremap = true, silent = true }) -- Jump to next tab
--- vim.keymap.set("n", "th", ":tabprevious<CR>", { noremap = true, silent = true }) -- Jump to previous tab
-vim.keymap.set("n", "]t", ":tabnext<CR>", { noremap = true, silent = true }) -- Jump to next tab
-vim.keymap.set("n", "[t", ":tabprevious<CR>", { noremap = true, silent = true }) -- Jump to previous tab
+vim.keymap.set("n", "<leader>tl", ":tabnext<CR>", { noremap = true, silent = true }) -- Jump to next tab
+vim.keymap.set("n", "<leader>th", ":tabprevious<CR>", { noremap = true, silent = true }) -- Jump to previous tab
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { noremap = true, silent = true }) -- Close tab
 
 -- Stay on the same column with j/k when going up and down within wrapped text
 vim.keymap.set("n", "j", 'v:count == 0 ? "gj" : "j"', { expr = true })
@@ -59,8 +58,9 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { silent = true }) -- CTRL+l - Move f
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { silent = true }) -- CTRL+j - Move focus to window below
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { silent = true }) -- CTRL+k - Move focus to window above
 vim.keymap.set("n", "<leader>w", ":wincmd w<CR>", { silent = true }) -- Jump to the below/right window of the current window - same as <CTRL-W w>
-vim.keymap.set("n", "<leader>sH", "<Esc>:split<CR>", { noremap = true, silent = true }) -- Open horizontal split
-vim.keymap.set("n", "<leader>sV", "<Esc>:vsplit<CR>", { noremap = true, silent = true }) -- Open vertical split
+vim.keymap.set("n", "<leader>-", "<Esc>:split<CR>", { noremap = true, silent = true }) -- Open horizontal split
+vim.keymap.set("n", "<leader>|", "<Esc>:vsplit<CR>", { noremap = true, silent = true }) -- Open vertical split
+vim.keymap.set("n", "<leader>\\", "<Esc>:vsplit<CR>", { noremap = true, silent = true }) -- Open vertical split
 vim.keymap.set("n", "+", "<c-w>5>", { noremap = true }) -- Increase window width
 vim.keymap.set("n", "-", "<c-w>5<", { noremap = true }) -- Decrease window width
 

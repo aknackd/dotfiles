@@ -135,5 +135,5 @@ require("lspsaga").setup({
 local opts = { silent = true }
 
 vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)
-vim.keymap.set("n", "<leader>t", "<cmd>Lspsaga term_toggle<CR>", opts)
+vim.keymap.set("n", "<leader>T", "<cmd>Lspsaga term_toggle<CR>", opts)
 -- vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
