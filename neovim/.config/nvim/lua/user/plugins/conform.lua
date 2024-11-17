@@ -1,3 +1,12 @@
+local env = require("user.utils").env
+
+local default_timeout = 2500
+local timeout = tonumber(env("NVIM_CONFORM_TIMEOUT", tostring(default_timeout)))
+
+if timeout == nil or timeout <= 0 then
+	timeout = default_timeout
+end
+
 require("conform").setup({
 	notify_on_error = false,
 
@@ -25,7 +34,7 @@ require("conform").setup({
 			return
 		end
 
-		return { timeout_ms = 2500, lsp_format = "fallback" }
+		return { timeout_ms = timeout, lsp_format = "fallback" }
 	end,
 
 	formatters = {
