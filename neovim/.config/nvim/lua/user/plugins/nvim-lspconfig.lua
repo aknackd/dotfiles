@@ -49,8 +49,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		--  For example, in C this would take you to the header.
 		map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-		map("[d", vim.diagnostic.goto_next, "Go to next diagnostic")
-		map("]d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
+		map("[d", vim.diagnostic.jump({ count = 1 }), "Go to next diagnostic")
+		map("]d", vim.diagnostic.jump({ count = -1 }), "Go to previous diagnostic")
 
 		-- The following two autocommands are used to highlight references of the
 		-- word under your cursor when your cursor rests there for a little while.
