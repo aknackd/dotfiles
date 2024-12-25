@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2143
 
-# Update a package installed by asdf (https://asdf-vm.com) to its latest
-# version
+# Update a package installed by asdf (https://asdf-vm.com) to its latest version
 
 # Colors
 RED="$(echo -e "\033[0;31m")"
@@ -12,7 +11,7 @@ RESET="$(echo -e "\033[0;0m")"
 # Use the printf binary instead of the shell builtin
 PRINTF=$(whereis -b printf | awk '{ print $NF }')
 
-if ! which asdf 1>/dev/null 2>/dev/null ; then
+if ! which asdf 1>/dev/null 2>/dev/null; then
     1>&2 "$PRINTF" "${RED}ERROR${RESET}: asdf not installed!${RESET} See ${GREEN}https://asdf-vm.com/guide/getting-started.html${RESET}\n"
     exit 1
 fi
@@ -45,7 +44,6 @@ function semver_greater_than() {
     local lmajor lminor lpatch
     local cmajor cminor cpatch
 
-
     if [[ "$latest" =~ $regex ]]; then
         lmajor="${BASH_REMATCH[1]}"
         lminor="${BASH_REMATCH[2]}"
@@ -54,8 +52,7 @@ function semver_greater_than() {
 
     lpatch="${lpatch//\./}"
     # If there is no latest patch version, assume it's zero
-    if [[ "$lpatch" == "" ]]; then lpatch=0 ; fi
-
+    if [[ "$lpatch" == "" ]]; then lpatch=0; fi
 
     if [[ "$current" =~ $regex ]]; then
         cmajor="${BASH_REMATCH[1]}"
@@ -65,11 +62,11 @@ function semver_greater_than() {
 
     cpatch="${cpatch//\./}"
     # If there is no current patch version, assume it's zero
-    if [[ "$cpatch" == "" ]]; then cpatch=0 ; fi
+    if [[ "$cpatch" == "" ]]; then cpatch=0; fi
 
-    if [[ $lmajor -gt $cmajor ]]; then return 0 ; fi
-    if [[ $lminor -gt $cminor ]]; then return 0 ; fi
-    if [[ $lminor -eq $cminor && $lpatch -gt $cpatch ]]; then return 0 ; fi
+    if [[ $lmajor -gt $cmajor ]]; then return 0; fi
+    if [[ $lminor -gt $cminor ]]; then return 0; fi
+    if [[ $lminor -eq $cminor && $lpatch -gt $cpatch ]]; then return 0; fi
 
     return 1
 }
@@ -79,7 +76,7 @@ function semver_greater_than() {
 function print_package_version() {
     local package="$1"
 
-    "$PRINTF" "-> displaying ${GREEN}%s${RESET} package version...\n" "$package"
+    "$PRINTF" "=> displaying ${GREEN}%s${RESET} package version...\n" "$package"
 
     # There isn't always a 1:1 match between the asdf package name and the
     # binary or script that's installed (and the package could contain multiple
@@ -115,11 +112,11 @@ function get_package_latest_version() {
 
     if [[ "$package" == "maven" ]]; then
         # Exclude snapshot, alpha, beta, RC, and milestones for maven
-        1>&2 "$PRINTF" "-> ${GREEN}NOTE${RESET}: Excluding snapshots, alphas, betas, RCs, and milestones for maven\n"
+        1>&2 "$PRINTF" "=> ${GREEN}NOTE${RESET}: Excluding snapshots, alphas, betas, RCs, and milestones for maven\n"
         asdf list all "$package" | grep -vE 'SNAPSHOT|alpha|beta|RC-?|-M?' | tail -n 1
     elif [[ "$package" == "nodejs" ]]; then
         # Exclude LTS releases for nodejs
-        1>&2 "$PRINTF" "-> ${GREEN}NOTE${RESET}: Excluding LTS releases for nodejs\n"
+        1>&2 "$PRINTF" "=> ${GREEN}NOTE${RESET}: Excluding LTS releases for nodejs\n"
         asdf list all "$package" | grep -vE '^lts' | tail -n 1
     else
         # Otherwise just grab the last version, assuming "asdf list all"
@@ -135,12 +132,12 @@ function install_package() {
     local new_version="$3"
     local uninstall_old_version="$4"
 
-    "$PRINTF" "-> installing %s ${GREEN}v%s${RESET} and making it the global default...\n" "$package" "$new_version"
+    "$PRINTF" "=> installing %s ${GREEN}v%s${RESET} and making it the global default...\n" "$package" "$new_version"
     asdf install "$package" "$new_version"
     asdf global "$package" "$new_version"
 
     if [[ "$uninstall_old_version" == 1 ]]; then
-        "$PRINTF" "-> uninstalling %s ${GREEN}v%s${RESET}...\n" "$package" "$old_version"
+        "$PRINTF" "=> uninstalling %s ${GREEN}v%s${RESET}...\n" "$package" "$old_version"
         asdf uninstall "$package" "$old_version"
     fi
 
@@ -154,8 +151,8 @@ package="$1"
 # The java plugin provides JDKs from many vendors; instead of handling this
 # just simply tell the user to update themselves and bail
 if [[ "$package" == "java" ]]; then
-    1>&2 "$PRINTF" "-> not updating java because different JDK vendors can be installed\n"
-    1>&2 "$PRINTF" "-> update java separately via:\n"
+    1>&2 "$PRINTF" "=> not updating java because different JDK vendors can be installed\n"
+    1>&2 "$PRINTF" "=> update java separately via:\n"
     1>&2 "$PRINTF" "   \$ asdf install java ${GREEN}{VENDOR}${RESET}-${GREEN}{NEW_VERSION}${RESET}\n"
     1>&2 "$PRINTF" "   \$ asdf uninstall java ${GREEN}{VENDOR}${RESET}-${GREEN}{OLD_VERSION}${RESET}\n"
     1>&2 "$PRINTF" "   \$ asdf global java ${GREEN}{VENDOR}${RESET}-${GREEN}{NEW_VERSION}${RESET}\n"
@@ -165,14 +162,14 @@ fi
 
 # First check if the plugin is installed
 if [[ ! $(asdf plugin list | grep "$package") ]]; then
-    1>&2 "$PRINTF" "-> asdf plugin ${GREEN}%s${RESET} is not installed!\n" "$package"
-    1>&2 "$PRINTF" "-> checking if plugin ${GREEN}%s${RESET} is available (this may take awhile...)\n" "$package"
-    if [[ ! $(asdf plugin list all | grep -q "$package") ]] ; then
-        1>&2 "$PRINTF" "-> asdf plugin ${GREEN}%s${RESET} is not available!\n" "$package"
-        1>&2 "$PRINTF" "-> See the full list of available asdf plugins via ${GREEN}asdf plugin list all${RESET}\n"
+    1>&2 "$PRINTF" "=> asdf plugin ${GREEN}%s${RESET} is not installed!\n" "$package"
+    1>&2 "$PRINTF" "=> checking if plugin ${GREEN}%s${RESET} is available (this may take awhile...)\n" "$package"
+    if [[ ! $(asdf plugin list all | grep -q "$package") ]]; then
+        1>&2 "$PRINTF" "=> asdf plugin ${GREEN}%s${RESET} is not available!\n" "$package"
+        1>&2 "$PRINTF" "=> See the full list of available asdf plugins via ${GREEN}asdf plugin list all${RESET}\n"
     else
-        1>&2 "$PRINTF" "-> ${GREEN}%s${RESET} plugin available!\n" "$package"
-        1>&2 "$PRINTF" "-> install plugin via ${GREEN}asdf plugin add %s${RESET}\n" "$package"
+        1>&2 "$PRINTF" "=> ${GREEN}%s${RESET} plugin available!\n" "$package"
+        1>&2 "$PRINTF" "=> install plugin via ${GREEN}asdf plugin add %s${RESET}\n" "$package"
     fi
     exit 1
 fi
@@ -182,7 +179,7 @@ latest_version=$(get_package_latest_version "$package")
 
 # If no package version is installed, install the latest version and bail
 if [[ "$current_version" == "" ]]; then
-    1>&2 "$PRINTF" "-> no versions of %s are installed!\n" "$package"
+    1>&2 "$PRINTF" "=> no versions of %s are installed!\n" "$package"
     install_package "$package" -1 "$latest_version" 0
     exit
 fi
@@ -190,18 +187,18 @@ fi
 # Otherwise install the latest version if it's greater than the currently
 # installed version
 
-"$PRINTF" "-> current %s version: ${GREEN}v%s${RESET}\n" "$package" "$current_version"
-"$PRINTF" "-> latest %s version:  ${GREEN}v%s${RESET}\n" "$package" "$latest_version"
+"$PRINTF" "=> current %s version: ${GREEN}v%s${RESET}\n" "$package" "$current_version"
+"$PRINTF" "=> latest %s version:  ${GREEN}v%s${RESET}\n" "$package" "$latest_version"
 
 # If there is a newer version available, do the following:
 #   1. Install the new version
 #   2. Set it as the global default
 #   3. Uninstall the old version
 #   4. Recreate shims
-if semver_greater_than "$latest_version" "$current_version" ; then
+if semver_greater_than "$latest_version" "$current_version"; then
     install_package "$package" "$current_version" "$latest_version" 1
 else
-    "$PRINTF" "-> %s is already at its latest version, exiting\n" "$package"
+    "$PRINTF" "=> %s is already at its latest version, exiting\n" "$package"
 fi
 
-"$PRINTF" "-> done!\n"
+"$PRINTF" "=> done!\n"

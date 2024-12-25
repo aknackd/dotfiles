@@ -2,18 +2,23 @@
 
 # Updates the Arch Linux mirrorlist using reflector.
 
+if [[ "$(uname -s)" != "Linux" ]]; then
+    1>&2 printf "ERROR: This script can only be ran on a Linux system!\n"
+    exit 1
+fi
+
 if [[ "$(grep '^NAME' /etc/os-release | cut -d= -f2 | sed 's|"||g')" != "Arch Linux" ]]; then
     1>&2 printf "ERROR: This script only runs on Arch Linux!\n"
     exit 1
 fi
 
-if ! which reflector 1>/dev/null 2>/dev/null ; then
+if ! which reflector 1>/dev/null 2>/dev/null; then
     1>&2 printf "ERROR: Please install reflector first!\n"
     1>&2 printf "$ sudo pacman -Syu reflector\n"
     exit 1
 fi
 
-if [[ "$UID" != "0" ]] ; then
+if [[ "$UID" != "0" ]]; then
     1>&2 printf "ERROR: Please run this script as root!\n"
     exit 1
 fi
