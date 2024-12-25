@@ -18,12 +18,19 @@ antigen apply
 
 ## Helper functions
 
-___am_i_installed() {
+# echoes "1" if the given argument is a command in PATH, otherwise "0
+am_i_installed() {
     command -v $1 >/dev/null 2>&1 && echo 1 || echo 0
 }
 
-___am_i_running() {
+# echoes "1" if the given argument is a running process, othewise "0"
+am_i_running() {
     ps -ef | grep "$(echo "$1" | perl -lape 's/^(.)/\[$1\]/')" 2>&1 >/dev/null && echo 1 || echo 0
+}
+
+# echoes the argument if it's a directory and it exists
+dir_exists() {
+    [[ -d "$1" ]] && echo "$1"
 }
 
 ## Setup fzf
@@ -60,14 +67,7 @@ alias tmux="TERM=xterm-256color tmux"
 alias ssh="TERM=xterm-color ssh"
 
 # Startup ssh-agent if not already running
-[ $(___am_i_running ssh-agent) -eq 0 ] && eval "$(ssh-agent -s)"
-
-command -v bat >/dev/null         && alias cat="bat"
-command -v batcat >/dev/null      && alias cat="batcat"
-command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
-command -v dotnet >/dev/null      && alias dotnet="TERM=xterm dotnet"
-command -v nvim >/dev/null        && alias nvim="TERM=screen-256color nvim"
-command -v rg >/dev/null          && alias ack="rg"
+[ $(am_i_running ssh-agent) -eq 0 ] && eval "$(ssh-agent -s)"
 
 case "$(uname -s)" in
     Darwin)
@@ -81,7 +81,11 @@ case "$(uname -s)" in
 
         test -f /usr/local/share/dotnet/dotnet && alias dotnet=/usr/local/share/dotnet/dotnet
 
-        if [ $(___am_i_installed brew) -eq 1 ]; then
+        if [[ "$(uname -m)" == "arm64" && -f /opt/homebrew/bin/brew ]]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+
+        if [ $(am_i_installed brew) -eq 1 ]; then
             # Prefer GNU versions of coreutuils and other utilities
             alias date="gdate"
             alias df="gdf"
@@ -144,9 +148,9 @@ alias gs="git status --short --branch --untracked-files --renames"
 alias gsp="git show --patch"
 alias gsup="git standup"
 
+# git: merge a branch from the "origin" remote into the current branch
 gmo () {
     if test $# -ne 1 ; then
-        printf "Merge a branch from the \`origin\` remote into the current branch\n"
         printf "Usage: $0 BRANCH\n"
         return 1
     fi
@@ -154,9 +158,9 @@ gmo () {
     git merge origin/$1
 }
 
+# git: merge a branch from the "upstream" remote into the current branch
 gmu () {
     if test $# -ne 1 ; then
-        printf "Merge a branch from the \`upstream\` remote into the current branch\n"
         printf "Usage: $0 BRANCH\n"
         return 1
     fi
@@ -177,25 +181,34 @@ backward-kill-dir () {
 # https://stackoverflow.com/a/17841619
 implode () { local IFS="$1";  shift ; echo "$*" }
 
-___paths=(
-    ${HOME}/.local/bin
-    ${GOPATH}/bin
-    /usr/local/sbin
-    /usr/local/bin
-    ${HOME}/.yarn/bin
-    ${HOME}/.config/yarn/global/node_modules/.bin
-    ${HOME}/.fzf/bin
-    ${HOME}/.composer/vendor/bin
-    ${HOME}/.config/composer/vendor/bin
-    ${HOME}/.config/yarn/global/bin
-    ${ANDROID_SDK_ROOT}/emulator
-    ${ANDROID_SDK_ROOT}/platform-tools
-    ${ANDROID_SDK_ROOT}/tools/bin
+typeset -Ua path
+
+path=(
+    $(dir_exists "${HOME}/.local/bin")
+    $(dir_exists "${GOPATH}/bin")
+    $(dir_exists /usr/local/sbin)
+    $(dir_exists /usr/local/bin)
+    $(dir_exists "${HOME}/.yarn/bin")
+    $(dir_exists "${HOME}/.config/yarn/global/node_modules/.bin")
+    $(dir_exists "${HOME}/.fzf/bin")
+    $(dir_exists "${HOME}/.composer/vendor/bin")
+    $(dir_exists "${HOME}/.config/composer/vendor/bin")
+    $(dir_exists "${HOME}/.config/yarn/global/bin")
+    "$(dir_exists "${HOME}/Library/Application Support/Herd/bin")"
+    $(dir_exists "${ANDROID_SDK_ROOT}/emulator")
+    $(dir_exists "${ANDROID_SDK_ROOT}/platform-tools")
+    $(dir_exists "${ANDROID_SDK_ROOT}/tools/bin")
+    "${path[@]}"
 )
 
-export PATH="$(implode ":" ${___paths[@]}):$PATH"
+command -v bat >/dev/null     && alias cat="bat"
+command -v batcat >/dev/null  && alias cat="batcat"
+command -v dotnet >/dev/null  && alias dotnet="TERM=xterm dotnet"
+command -v nvim >/dev/null    && alias nvim="TERM=screen-256color nvim"
+command -v rg >/dev/null      && alias ack="rg"
 
-unset ___paths
+# setup direnv if installed
+command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
 
 zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
@@ -204,4 +217,10 @@ bindkey \^U backward-kill-line
 # setup pkgx shell integration - https://docs.pkgx.sh/run-anywhere/terminals
 command -v pkgx > /dev/null && source <(pkgx --shellcode)
 
-[ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
+# setup orbstack if installed
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+# source environment specific .zshrc.local if exists
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+unset -f am_i_installed am_i_running dir_exists implode

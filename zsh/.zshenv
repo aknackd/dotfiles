@@ -22,11 +22,21 @@ export ASDF_DATA_DIR="$ASDF_DIR"
 export SDKMAN_DIR="$HOME/.config/sdkman"
 export KOPIA_CHECK_FOR_UPDATES=false
 
+export NVIM_BACKGROUND='dark'
 export NVIM_COLORSCHEME='catppuccin'
+export NVIM_DISABLE_ARROW_KEYS=true
 export NVIM_FEATURE_LSP=true
 export NVIM_LSP_SERVERS='lua_ls'
-export NVIM_DISABLE_ARROW_KEYS=true
+export NVIM_TRANSPARENT_BACKGROUND=true
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
-[ -f "$HOME/.zshenv.local" ] && . "$HOME/.zshenv.local"
+if [[ -d "${HOME}/Library/Application Support/Herd/config/php" ]]; then
+    for DIR in $(find $HOME/Library/Application\ Support/Herd/config/php -maxdepth 1 -type d ! -name php -print0 | xargs -0 basename); do
+        export HERD_PHP_${DIR}_INI_SCAN_DIR="${HOME}/Library/Application Support/Herd/config/php/${DIR}/"
+    done
+fi
+
+if [[ -f "$HOME/.zshenv.local" ]]; then
+    source "$HOME/.zshenv.local"
+fi
