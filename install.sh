@@ -93,6 +93,15 @@ function install::kitty_themes() {
     fi
 }
 
+function install::alacritty_themes() {
+    local confDir="$HOME/.config/alacritty/alacritty-themes"
+
+    if [ ! -d "$confDir" ]; then
+        echo "${COLOR_GREEN}:: Setting up alacritty themes ...${COLOR_RESET}"
+        git clone https://github.com/alacritty/alacritty-theme.git "$confDir"
+    fi
+}
+
 check::dependencies
 install::dotfiles
 [[ "${SKIP_FZF:-n}" == "y" ]] || setup::fzf
@@ -100,3 +109,4 @@ install::dotfiles
 [[ "${SKIP_VIM:-n}" == "y" ]] || setup::vim
 [[ "${INSTALL_HOMEBREW:-n}" == "y" ]] && install::homebrew
 [[ "${INSTALL_KITTY_THEMES:-n}" == "y" ]] && install::kitty_themes
+[[ "${INSTALL_ALACRITTY_THEMES:-n}" == "y" ]] && install::alacritty_themes
