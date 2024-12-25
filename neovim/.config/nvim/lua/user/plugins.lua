@@ -401,20 +401,13 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {
-			transparent = true,
-			terminal_colors = true,
-			styles = {
-				sidebars = "transparent",
-				floats = "transparent",
-			},
-		},
+		"aktersnurra/no-clown-fiesta.nvim",
+		config = function()
+			require("user.colors.no-clown-fiesta")
+		end,
 	},
 	{ "kristijanhusak/vim-hybrid-material" },
-	{ "yazeed1s/minimal.nvim" },
+	-- { "yazeed1s/minimal.nvim" },
 }, {
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will

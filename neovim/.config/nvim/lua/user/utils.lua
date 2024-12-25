@@ -1,5 +1,12 @@
 local M = {}
 
+---Returns if a string is a boolean value equaling "true", "y", and etc.
+---@param s string
+---@return boolean
+function M.bool(s)
+	return s:lower() == "true" or s:lower() == "y" or s == "1"
+end
+
 ---Creates the cache directory to use for language servers if it doesn't exist.
 function M.create_lsp_cache_dir()
 	local dir = M.get_lsp_cache_dir()
@@ -7,6 +14,13 @@ function M.create_lsp_cache_dir()
 	if not M.is_dir(dir) then
 		vim.fn.mkdir(dir, "p")
 	end
+end
+
+---Returns whether or not the colorscheme should use a transparent background
+---via the `NVIM_TRANSPARENT_BACKGROUND` environment variable.
+---@return boolean
+function M.does_colorscheme_has_transparent_background()
+	return M.bool(M.env("NVIM_BACKGROUND", "false"))
 end
 
 ---Returns the background, which can be set via the `NVIM_BACKGROUND`
@@ -21,6 +35,19 @@ function M.get_background()
 	end
 
 	return value
+end
+
+---Returns the timeout to apply for requests sent to stevearc/conform.nvim.
+---@return number
+function M.get_conform_timeout()
+	local default_timeout = 2500
+	local timeout = tonumber(M.env("NVIM_CONFORM_TIMEOUT", tostring(default_timeout)))
+
+	if timeout == nil or timeout <= 0 then
+		timeout = default_timeout
+	end
+
+	return timeout
 end
 
 ---Returns the cache directory to use for language servers.

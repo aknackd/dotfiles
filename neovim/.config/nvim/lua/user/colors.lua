@@ -10,6 +10,6 @@ vim.g.colors_name = colorscheme
 vim.cmd('let g:colors_name = "' .. colorscheme .. '"')
 vim.cmd.colorscheme(colorscheme)
 
-if colorscheme == "hybrid_reverse" then
+if colorscheme == "hybrid_reverse" and utils.does_colorscheme_has_transparent_background() then
 	vim.cmd("let g:hybrid_transparent_background = 1")
 end

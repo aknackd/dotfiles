@@ -1,18 +1,14 @@
-local env = require("user.utils").env
+local utils = require("user.utils")
 
-local default_timeout = 2500
-local timeout = tonumber(env("NVIM_CONFORM_TIMEOUT", tostring(default_timeout)))
-
-if timeout == nil or timeout <= 0 then
-	timeout = default_timeout
-end
+local ignore_filetypes = {
+	c = true,
+	cpp = true,
+}
 
 require("conform").setup({
 	notify_on_error = false,
 
 	format_on_save = function(bufnr)
-		local ignore_filetypes = { c = true, cpp = true }
-
 		if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
 			return
 		end
@@ -29,12 +25,15 @@ require("conform").setup({
 			return
 		end
 
-		-- The goes for vendor/ but only for PHP files
+		-- The same goes for vendor/ but only for PHP files
 		if bufname:match("/vendor/") and ft == "php" then
 			return
 		end
 
-		return { timeout_ms = timeout, lsp_format = "fallback" }
+		return {
+			timeout_ms = utils.get_conform_timeout(),
+			lsp_format = "fallback",
+		}
 	end,
 
 	formatters = {
