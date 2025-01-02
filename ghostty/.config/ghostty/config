@@ -4,7 +4,7 @@ theme = DimmedMonokai
 title = 👻 ghostty
 unfocused-split-opacity = 0.97
 window-colorspace = display-p3
-window-padding-color = background
+window-padding-color = extend
 window-padding-balance = true
 window-padding-x = 10
 window-padding-y = 10
@@ -30,7 +30,10 @@ font-family = ComicCode Nerd Font Mono
 font-family-bold = Comic Code Bold Nerd Font Complete Mono
 font-family-italic = Comic Code Italic Nerd Font Complete Mono
 font-family-bold-italic = Comic Code Bold Italic Nerd Font Complete Mono
-adjust-cell-height = 50%
+adjust-cell-height = 35%
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
 
 # [[keybinds]]
 keybind = ctrl+page_up=previous_tab
