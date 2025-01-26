@@ -279,6 +279,13 @@ require("lazy").setup({
 	-- 	build = ':lua require("go.install").update_all_sync()',
 	-- },
 
+	{
+		"ziglang/zig.vim",
+		config = function()
+			require("user.plugins.zig")
+		end,
+	},
+
 	-- Git commit browser
 	{ "junegunn/gv.vim", dependencies = { "tpope/vim-fugitive" } },
 

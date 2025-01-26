@@ -125,6 +125,7 @@ local servers = {
 	["tailwindcss"] = require("user.lsp.tailwindcss"),
 	["templ"] = require("user.lsp.templ"),
 	["tsserver"] = require("user.lsp.ts_ls"),
+	["zls"] = require("user.lsp.zls"),
 }
 
 require("mason").setup({
