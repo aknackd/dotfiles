@@ -103,7 +103,7 @@ function get_package_current_version() {
         return 1
     fi
 
-    asdf current "$package" | awk '{ print $2 }'
+    asdf current --no-header "$package" | head -n 1 | awk '{ print $2 }'
 }
 
 # Returns the latest version of a given package
@@ -113,15 +113,15 @@ function get_package_latest_version() {
     if [[ "$package" == "maven" ]]; then
         # Exclude snapshot, alpha, beta, RC, and milestones for maven
         1>&2 "$PRINTF" "=> ${GREEN}NOTE${RESET}: Excluding snapshots, alphas, betas, RCs, and milestones for maven\n"
-        asdf list all "$package" | grep -vE 'SNAPSHOT|alpha|beta|RC-?|-M?' | tail -n 1
+        asdf list all "$package" | sed '/^$/d' | grep -vE 'SNAPSHOT|alpha|beta|RC-?|-M?' | tail -n 1
     elif [[ "$package" == "nodejs" ]]; then
         # Exclude LTS releases for nodejs
         1>&2 "$PRINTF" "=> ${GREEN}NOTE${RESET}: Excluding LTS releases for nodejs\n"
-        asdf list all "$package" | grep -vE '^lts' | tail -n 1
+        asdf list all "$package" | sed '/^$/d' | grep -vE '^lts' | tail -n 1
     else
         # Otherwise just grab the last version, assuming "asdf list all"
         # output is sorted correctly
-        asdf list all "$package" | tail -n 1
+        asdf list all "$package" | sed '/^$/d' | tail -n 1
     fi
 }
 
@@ -134,7 +134,7 @@ function install_package() {
 
     "$PRINTF" "=> installing %s ${GREEN}v%s${RESET} and making it the global default...\n" "$package" "$new_version"
     asdf install "$package" "$new_version"
-    asdf global "$package" "$new_version"
+    asdf set "$package" "$new_version"
 
     if [[ "$uninstall_old_version" == 1 ]]; then
         "$PRINTF" "=> uninstalling %s ${GREEN}v%s${RESET}...\n" "$package" "$old_version"

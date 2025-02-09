@@ -186,6 +186,8 @@ typeset -Ua path
 path=(
     $(dir_exists "${HOME}/.local/bin")
     $(dir_exists "${GOPATH}/bin")
+    $(dir_exists "${ASDF_DIR}/bin")
+    $(dir_exists "${ASDF_DATA_DIR}/shims")
     $(dir_exists /usr/local/sbin)
     $(dir_exists /usr/local/bin)
     $(dir_exists "${HOME}/.yarn/bin")
@@ -222,5 +224,11 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 # source environment specific .zshrc.local if exists
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+# add asdf completions to fpath
+if [[ -f "${ASDF_DATA_DIR}/completions/_asdf" ]]; then
+    fpath=("${ASDF_DATA_DIR}/completions/" $fpath)
+    autoload -Uz compinit && compinit
+fi
 
 unset -f am_i_installed am_i_running dir_exists implode
