@@ -48,3 +48,5 @@
 
 [include]
     path = config.local
+[branch]
+	sort = -committerdate
