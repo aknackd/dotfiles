@@ -4,7 +4,6 @@
 
 readonly GITHUB_API_ACCEPT="application/vnd.github+json"
 readonly GITHUB_API_VERSION="2022-11-28"
-readonly OS_PLATFORM="$(uname -sm | sed 's| |-|' | tr '[[:upper:]]' '[[:lower:]]')"
 readonly PREFIX="${PREFIX:-${ASDF_DATA_DIR:-$HOME/.local/opt/asdf}}"
 
 install_dir="${PREFIX}/bin"
@@ -47,6 +46,16 @@ function get_latest_release_version() {
     echo "$json" | jq -r '.name'
 }
 
+function determine_asset_filename() {
+    local version="$1"
+    local os="$(uname -s | tr '[[:upper:]]' '[[:lower:]]')"
+    local arch="$(uname -m)"
+
+    [[ "$arch" == "x86_64" ]] && arch="amd64"
+
+    printf "asdf-%s-%s-%s.tar.gz" "$version" "$os" "$arch"
+}
+
 # Downloads a release for our platform
 # @param {string} json
 # @param {string} version
@@ -56,10 +65,9 @@ function download_and_install_release() {
     local version="$2"
     local platform="$3"
 
-    local expected_filename="asdf-${version}-${platform}.tar.gz"
+    local expected_filename=$(determine_asset_filename "$version")
     local download_url="$(echo "$json" | jq -r ".assets[] | select(.name == \"${expected_filename}\") | .url")"
-    # @@@ Test with linux
-    local download_dir="$(mktemp -d -t asdf-download)"
+    local download_dir="$(mktemp --directory --suffix asdf-download || mktemp -d -t asdf-download)"
     local downloaded_filename="${download_dir}/${expected_filename}"
 
     log "Downloading asdf ${version} :: filename = ${expected_filename}"
