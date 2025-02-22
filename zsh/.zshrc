@@ -128,6 +128,7 @@ alias ga="git add"
 alias gap="git add --patch"
 alias gar="git add --all ."
 alias gb="git branch"
+alias gbla='git for-each-ref --format="%(color:bold blue)%(align:45,middle)%(refname:short)%(color:default)%(end) [%(color:green)%(objectname:short)%(color:default)] %(color:yellow)%(align:28,middle)%(authordate:format:%Y-%m-%dT%H:%M:%S%z)%(end)%(color:default) %(align:35,middle)%(color:red)%(authorname)%(color:default)%(end) %(contents:subject)" "refs/heads/" "refs/remotes/**/*"'
 alias gc="git commit"
 alias gco="git checkout"
 alias gd="git diff"
