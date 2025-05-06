@@ -12,6 +12,7 @@ xset s off &
 xset -dpms &
 xrdb -merge ~/.Xresources &
 xsetroot -solid '#111'
+setxkbmap -option caps:escape
 command -v autocutsel 2>/dev/null && autocutsel -fork &
 command -v vmware-user-suid-wrapper 2>/dev/null && vmware-user-suid-wrapper &
 
