@@ -404,7 +404,7 @@ require("lazy").setup({
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
-			require("user.colors.catppucin")
+			require("user.colors.catppuccin")
 		end,
 	},
 	{
