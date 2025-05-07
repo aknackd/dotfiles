@@ -147,6 +147,7 @@ alias grs="git restore --staged"
 alias grup="git remote update --prune"
 alias gs="git status --short --branch --untracked-files --renames"
 alias gsp="git show --patch"
+alias gspno="git show --patch --name-only --no-commit-id --no-notes --pretty=''"
 alias gsup="git standup"
 
 # git: merge a branch from the "origin" remote into the current branch
