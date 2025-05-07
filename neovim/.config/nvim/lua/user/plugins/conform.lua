@@ -1,9 +1,6 @@
 local utils = require("user.utils")
 
-local ignore_filetypes = {
-	c = true,
-	cpp = true,
-}
+local ignore_filetypes = { "c", "cpp", "java" }
 
 require("conform").setup({
 	notify_on_error = false,
