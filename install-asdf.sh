@@ -53,6 +53,10 @@ function determine_asset_filename() {
 
     [[ "$arch" == "x86_64" ]] && arch="amd64"
 
+    if [[ "$os" == "linux" ]]; then
+        [[ "$arch" == "aarch64" ]] && arch="arm64"
+    fi
+
     printf "asdf-%s-%s-%s.tar.gz" "$version" "$os" "$arch"
 }
 
