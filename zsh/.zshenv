@@ -8,6 +8,7 @@ export HISTCONTROL="ignoredups"
 export HISTSIZE="1000000"
 export HISTTIMEFORMAT="%F %T >> "
 export XDG_CONFIG_HOME="$HOME/.config"
+export XKB_DEFAULT_OPTIONS=caps:escape
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
