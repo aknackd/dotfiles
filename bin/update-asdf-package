@@ -134,7 +134,7 @@ function install_package() {
 
     "$PRINTF" "=> installing %s ${GREEN}v%s${RESET} and making it the global default...\n" "$package" "$new_version"
     asdf install "$package" "$new_version"
-    asdf set "$package" "$new_version"
+    asdf set --home "$package" "$new_version"
 
     if [[ "$uninstall_old_version" == 1 ]]; then
         "$PRINTF" "=> uninstalling %s ${GREEN}v%s${RESET}...\n" "$package" "$old_version"
