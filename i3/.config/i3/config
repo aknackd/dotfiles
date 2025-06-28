@@ -1,8 +1,12 @@
 # i3 config file (v4)
+
 # Windows key on most keyboards
-set $mod Mod1
+set $mod Mod4
+set $alt Mod1
+set $win Mod4
 
 font pango:Noto Sans 9
+focus_follows_mouse no
 
 workspace_layout tabbed
 
