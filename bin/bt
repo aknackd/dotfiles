@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2155
+
+readonly SELF=$0
+
+function usage() {
+    1>&2 printf "Usage: %s ACTION [OPTIONS]\n\n" "$SELF"
+    1>&2 printf "ACTIONS\n"
+    1>&2 printf "    connect DEVICE       Start bluetooth and connect to device\n"
+    1>&2 printf "    disconnect DEVICE    Disconnect from device and stop bluetooth\n"
+    1>&2 printf "    list                 List known bluetooth devices\n"
+    1>&2 printf "    enable               Enables the bluetooth service\n"
+    1>&2 printf "    disable              Disables the bluetooth service\n"
+    exit 1
+}
+
+function bluetooth::list_devices() {
+    bluetoothctl devices | awk '{ printf "%s\t%s\n", $3, $2 }'
+}
+
+function bluetooth::get_device_address() {
+    local device=$1
+
+    if [[ -z $device ]]; then
+        1>&2 printf "ERROR: Please specify a device name!\n"
+        exit 1
+    fi
+
+    bluetooth::list_devices | grep $device | awk '{ print $2 }'
+}
+
+function bluetooth::connect() {
+    local address=$(bluetooth::get_device_address "$1")
+
+    (
+        set -x
+        bluetoothctl power on
+        bluetoothctl connect $address
+    )
+}
+
+function bluetooth::disconnect() {
+    local address=$(bluetooth::get_device_address "$1")
+
+    (
+        set -x
+        bluetoothctl disconnect $address
+        bluetoothctl power off
+    )
+}
+
+function bluetooth::enable() {
+    sudo systemctl enable --now bluetooth.service
+}
+
+function bluetooth::disable() {
+    sudo systemctl disable --now bluetooth.service
+}
+
+case "$1" in
+connect) bluetooth::connect "$2" ;;
+disconnect) bluetooth::disconnect "$2" ;;
+list) bluetooth::list_devices ;;
+enable) bluetooth::enable ;;
+disable) bluetooth::disable ;;
+*) usage ;;
+esac

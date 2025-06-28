@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Sets a tv as a secondary display
+
+export EXTERNAL_MONITOR_DEVICE="${EXTERNAL_MONITOR_DEVICE:-DP-3}"
+export EXTERNAL_MONITOR_RESOLUTION="${EXTERNAL_MONITOR_RESOLUTION:-1920x1080}"
+export BLUETOOTH_HEADPHONES_DEVICE="${BLUETOOTH_HEADPHONES_DEVICE:-WH-1000XM4}"
+
+readonly SELF="$0"
+readonly DIR="$(dirname "$(readlink -f "$0")")"
+
+function enable_everything() {
+    printf "=> Enabling secondary display and restarting i3...\n"
+    "$DIR/monitor" refresh && sleep 5 && i3-msg restart
+
+    printf "=> Enabling bluetooth and automatically connecting to headphones...\n"
+    "$DIR/bt" enable && sleep 5 && bash bluetooth.sh connect "$BLUETOOTH_HEADPHONES_DEVICE"
+}
+
+function disable_everything() {
+    printf "=> Disconnecting headphones and disabling bluetooth...\n"
+    "$DIR/bt" disconnect "$BLUETOOTH_HEADPHONES_DEVICE" && sleep 5 && bash bluetooth.sh disable
+
+    printf "=> Disabling secondary display...\n"
+    xrandr --output "$EXTERNAL_MONITOR_DEVICE" --off
+}
+
+if [[ $# -ne 1 ]]; then
+    1>&2 printf "Usage: %s enable|disable\n\n" "$SELF"
+    1>&2 printf "OPTIONS\n"
+    1>&2 printf "    enable      Enables the secondary display, enables bluetooth, and connects bluetooth headphones\n"
+    1>&2 printf "   disable      Disconnects bluetooth headphones, disables bluetooth, and turns off secondary display\n"
+    exit 1
+fi
+
+case "$1" in
+enable) enable_everything ;;
+disable) disable_everything ;;
+esac

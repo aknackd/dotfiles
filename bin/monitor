@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2155
+
+# Manage the brightness of the laptop monitor and sets the resolution and
+# position of a secondary external monitor
+
+# Bail if we're not using x11
+if [[ "$XDG_SESSION_TYPE" != "x11" ]]; then
+    1>&2 printf "ERROR: This script only supports x11 - %s was detected\n" "$XDG_SESSION_TYPE"
+    exit 1
+fi
+
+# @@@ Check if xrandr is available in PATH
+
+readonly SELF=$0
+
+declare -r DEFAULT_DISPLAY_BACKLIGHT="$(find /sys/class/backlight -type l | head -n 1)"
+declare -r DEFAULT_EXTERNAL_MONITOR_POSITION="above"
+
+function usage() {
+    1>&2 printf "Usage: %s ACTION [OPTIONS]\n\n" "$SELF"
+    1>&2 printf "ACTIONS\n"
+    1>&2 printf "    get-brightness               Displays the current brightness of the laptop screen\n"
+    1>&2 printf "    set-brightness [1..255]      Sets the current brightness of the laptop screen\n"
+    1>&2 printf "    refresh                      Detects and sets the external monitor position and resolution\n\n"
+    1>&2 printf "ENVIRONMENT VARIABLES\n"
+    1>&2 printf "    DISPLAY_BACKLIGHT            The laptop screen backlight device used to get/set brightness\n"
+    1>&2 printf "                                 default: %s\n" "$DEFAULT_DISPLAY_BACKLIGHT"
+    1>&2 printf "    EXTERNAL_MONITOR_POSITION    The external monitor position relative to the laptop\n"
+    1>&2 printf "                                 default: %s\n" "$DEFAULT_EXTERNAL_MONITOR_POSITION"
+    1>&2 printf "    EXTERNAL_MONITOR_DEVICE      The external monitor device\n"
+    1>&2 printf "    EXTERNAL_MONITOR_RESOUTION   The external monitor resolution\n"
+    exit 1
+}
+
+function external_monitor::detect() {
+    # @@@ There can be no external monitors
+    # @@@ There can be more than one monitor
+    xrandr --listactivemonitors | grep -vE '^Monitors|eDP-1'
+}
+
+function external_monitor::get_device() {
+    external_monitor::detect | awk '{ print $NF }'
+}
+
+function external_monitor::get_resolution() {
+    local active_monitors width height
+
+    active_monitors="$(external_monitor::detect | cut -d ' ' -f 4-5)"
+    width="$(echo "$active_monitors" | awk -F 'x' '{ print $1 }' | cut -d '/' -f1)"
+    height="$(echo "$active_monitors" | awk -F 'x' '{ print $NF }' | cut -d '/' -f1)"
+
+    echo "${width}x${height}"
+}
+
+declare -r DISPLAY_BACKLIGHT="${DISPLAY_BACKLIGHT:-$DEFAULT_DISPLAY_BACKLIGHT}"
+declare -r EXTERNAL_MONITOR_DEVICE="${EXTERNAL_MONITOR_DEVICE:-$(external_monitor::get_device)}"
+declare -r EXTERNAL_MONITOR_RESOLUTION="${EXTERNAL_MONITOR_RESOLUTION:-$(external_monitor::get_resolution)}"
+declare -r EXTERNAL_MONITOR_POSITION="${EXTERNAL_MONITOR_POSITION:-$DEFAULT_EXTERNAL_MONITOR_POSITION}"
+
+function monitor::set_device_and_resoution() {
+    set -x
+    xrandr                                      \
+        --output "$EXTERNAL_MONITOR_DEVICE"     \
+        --mode "$EXTERNAL_MONITOR_RESOLUTION"   \
+        --"$EXTERNAL_MONITOR_POSITION" eDP-1    \
+        --auto
+}
+
+function backlight::get_brightness() {
+    ( set -x ; cat "$DISPLAY_BACKLIGHT/brightness" )
+}
+
+function backlight::set_brightness() {
+    if [[ "$1" -lt 0 || "$1" -gt 255 ]]; then
+        1>&2 printf "ERROR: Brightness must be between 0 and 255\n"
+        exit 1
+    fi
+
+    ( set -x ; sudo bash -c "echo $1 > ${DISPLAY_BACKLIGHT}/brightness" )
+}
+
+case "$1" in
+    get-brightness) backlight::get_brightness         ;;
+    set-brightness) backlight::set_brightness "$2"    ;;
+    refresh)        monitor::set_device_and_resoution ;;
+    *)              usage                             ;;
+esac

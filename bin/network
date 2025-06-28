@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+readonly SELF="$0"
+
+readonly ETHERNET_INTERFACE=${ETHERNET_INTERFACE:-enp193s0f3u1}
+readonly WIFI_INTERFACE=${WIFI_INTERFACE:-wlp1s0}
+
+function usage() {
+    1>&2 printf "Usage: %s [wifi|ethernet up|down]|status\n" "$SELF"
+    exit 1
+}
+
+function ethernet::start() {
+    set -x
+    nmcli device connect $ETHERNET_INTERFACE
+}
+
+function ethernet::stop() {
+    set -x
+    nmcli device disconnect $ETHERNET_INTERFACE
+}
+
+function _ethernet() {
+    case "$1" in
+        start|up|connect)     ethernet::start ;;
+        stop|down|disconnect) ethernet::stop  ;;
+    esac
+}
+
+function wifi::start() {
+    set -x
+    nmcli radio wifi on
+}
+
+function wifi::stop() {
+    set -x
+    nmcli radio wifi off
+}
+
+function _wifi() {
+    case "$1" in
+        start|up|connect)     wifi::start ;;
+        stop|down|disconnect) wifi::stop  ;;
+    esac
+}
+
+function show_status() {
+    set -x ; nmcli connection show
+}
+
+case "$1" in
+    ethernet|eth)  _ethernet "$2" ;;
+    wifi|wireless) _wifi "$2"     ;;
+    status)        show_status    ;;
+    *)             usage          ;;
+esac
