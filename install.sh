@@ -49,7 +49,7 @@ function install::dotfiles() {
     case "$(uname -s)" in
     Linux)
         echo "${COLOR_GREEN}:: Linking linux-specific dotfiles ...${COLOR_RESET}"
-        stow herbstluftwm i3 polybar rofi xorg --target "$HOME" --verbose
+        stow herbstluftwm i3 polybar rofi sway waybar xorg --target "$HOME" --verbose
         ;;
     Darwin)
         echo "${COLOR_GREEN}:: Linking macOS-specific dotfiles ...${COLOR_RESET}"
@@ -102,6 +102,15 @@ function install::alacritty_themes() {
     fi
 }
 
+function install::sway_themes() {
+    local confDir="$HOME/.config/sway/themes"
+
+    if [ ! -d "$confDir" ]; then
+        echo "${COLOR_GREEN}:: Setting up sway themes ...${COLOR_RESET}"
+        git clone https://github.com/catppuccin/i3.git "$confDir/catppuccin"
+    fi
+}
+
 check::dependencies
 install::dotfiles
 [[ "${SKIP_FZF:-n}" == "y" ]] || setup::fzf
@@ -110,3 +119,4 @@ install::dotfiles
 [[ "${INSTALL_HOMEBREW:-n}" == "y" ]] && install::homebrew
 [[ "${INSTALL_KITTY_THEMES:-n}" == "y" ]] && install::kitty_themes
 [[ "${INSTALL_ALACRITTY_THEMES:-n}" == "y" ]] && install::alacritty_themes
+[[ "${INSTALL_SWAY_THEMES:-n}" == "y" ]] && install::sway_themes

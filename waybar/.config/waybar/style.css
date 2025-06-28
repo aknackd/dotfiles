@@ -1,0 +1,83 @@
+* {
+  font-family: ComicCode Nerd Font Mono;
+  font-size: 12px;
+  min-height: 0;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+#waybar {
+  background: transparent;
+  color: #c6d0f5;
+}
+
+#workspaces {
+  background: #333333;
+  margin-right: 0.25rem;
+}
+
+#workspaces button {
+  color: #babbf1;
+  padding: 0.25rem 0.2rem 0.2rem 0.25rem;
+  font-weight: 400;
+}
+
+#workspaces button.active {
+  color: #99d1db;
+  background: #404040;
+  font-weight: 900;
+}
+
+#workspaces button:hover {
+  background: #404040;
+}
+
+#backlight,
+#battery,
+#clock,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#temperature,
+#tray,
+#custom-lock,
+#custom-music,
+#custom-power {
+  background: #101010;
+  padding: 2px;
+}
+
+#memory {}
+
+#clock {
+  color: #8caaee;
+}
+
+#battery {
+  color: #a6d189;
+}
+
+#battery.charging {
+  color: #a6d189;
+}
+
+#battery.warning:not(.charging) {
+  color: #e78284;
+}
+
+#backlight {
+  color: #e5c890;
+}
+
+#backlight,
+#battery {}
+
+#pulseaudio {
+  color: #ea999c;
+}
+
+#tray {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
