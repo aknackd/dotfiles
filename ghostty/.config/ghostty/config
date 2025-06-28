@@ -39,4 +39,7 @@ font-feature = -dlig
 keybind = ctrl+page_up=previous_tab
 keybind = ctrl+page_down=next_tab
 
+# [[misc]]
+app-notifications = no-clipboard-copy
+
 config-file = ?config.local
