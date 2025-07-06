@@ -7,9 +7,11 @@
     "spacing": 10, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-        "sway/workspaces",
-        "sway/mode",
-        "sway/window"
+        // "sway/workspaces",
+        // "sway/mode",
+        // "sway/window"
+        "hyprland/workspaces",
+        "hyprland/window"
         // "sway/scratchpad",
         // "custom/media"
     ],

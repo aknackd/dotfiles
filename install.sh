@@ -49,7 +49,7 @@ function install::dotfiles() {
     case "$(uname -s)" in
     Linux)
         echo "${COLOR_GREEN}:: Linking linux-specific dotfiles ...${COLOR_RESET}"
-        stow herbstluftwm i3 polybar rofi sway waybar xorg --target "$HOME" --verbose
+        stow herbstluftwm hyprland i3 polybar rofi sway waybar xorg --target "$HOME" --verbose
         ;;
     Darwin)
         echo "${COLOR_GREEN}:: Linking macOS-specific dotfiles ...${COLOR_RESET}"
