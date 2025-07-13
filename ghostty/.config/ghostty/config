@@ -1,7 +1,7 @@
 theme = DimmedMonokai
 
 # [[window]]
-title = 👻 ghostty
+title = " "
 unfocused-split-opacity = 0.97
 window-colorspace = display-p3
 window-padding-color = extend
