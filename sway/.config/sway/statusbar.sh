@@ -6,4 +6,4 @@ if pgrep -x "waybar" >/dev/null; then
     sleep 1
 fi
 
-waybar &
+waybar --config $HOME/.config/waybar/config-sway.jsonc &

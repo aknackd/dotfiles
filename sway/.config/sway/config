@@ -8,7 +8,7 @@ set $up k
 set $right l
 
 set $term ${TERMINAL:-ghostty}
-set $menu rofi -show drun -dpi 50
+set $menu rofi -show drun
 
 workspace_layout tabbed
 gaps outer 5
