@@ -3,5 +3,5 @@
 configuration {
     drun-show-actions: true;
     modes: "window,run,ssh,drun";
-    font: "ComicCode Nerd Font Mono 16";
+    font: "ComicCode Nerd Font Mono 10";
 }
