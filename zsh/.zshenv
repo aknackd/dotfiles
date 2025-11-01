@@ -20,7 +20,6 @@ export BAT_THEME="Monokai Extended Bright"
 export GOPATH="$HOME/go"
 export ASDF_DIR="$HOME/.local/opt/asdf"
 export ASDF_DATA_DIR="$ASDF_DIR"
-export SDKMAN_DIR="$HOME/.config/sdkman"
 export KOPIA_CHECK_FOR_UPDATES=false
 
 export NVIM_BACKGROUND='dark'

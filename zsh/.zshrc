@@ -44,11 +44,6 @@ if [[ -s "${ASDF_DIR}/asdf.sh" ]]; then
     source "${ASDF_DIR}/asdf.sh"
 fi
 
-# Initialize SDKMAN!
-if [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then
-    source "${SDKMAN_DIR}/bin/sdkman-init.sh"
-fi
-
 ## Aliases
 
 alias art="php artisan"
