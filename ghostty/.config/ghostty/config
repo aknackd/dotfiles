@@ -26,10 +26,6 @@ macos-titlebar-style = tabs
 # [[fonts]]
 font-size = 14
 font-style = Regular
-font-family = ComicCode Nerd Font Mono
-font-family-bold = Comic Code Bold Nerd Font Complete Mono
-font-family-italic = Comic Code Italic Nerd Font Complete Mono
-font-family-bold-italic = Comic Code Bold Italic Nerd Font Complete Mono
 adjust-cell-height = 35%
 font-feature = -calt
 font-feature = -liga
