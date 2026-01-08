@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# Simple script to select a region inside a Wayland compositor and either
+# copy it to the clipboard or open it for annotation.
+
+# TODO: Check dependencies
+
+if [[ "$(uname -s)" != "Linux" ]]; then
+    printf "ERROR: This script can only run on Linux!\n" 1>&2
+    exit 1
+fi
+
+function is_running_wayland() {
+    if [ "$XDG_SESSION_TYPE" == "wayland" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+        return 0
+    fi
+
+    SESSION_TYPE=$(loginctl show-session "$(loginctl | grep "$(whoami)" | awk '{print $1}')" -p Type 2>/dev/null | cut -d= -f2)
+    if [ "$SESSION_TYPE" == "wayland" ]; then
+        return 0
+    fi
+
+    return 1
+}
+
+if ! is_running_wayland; then
+    printf "ERROR: This script can only run on a Wayland compositor!\n" 1>&2
+    exit 1
+fi
+
+usage() {
+    echo "Usage: $(basename "$0") [option]"
+    echo "Options:"
+    echo "  -a, --annotate    Select a region and annotate with Satty"
+    echo "  -c, --clipboard   Select a region and copy directly to clipboard"
+    exit 1
+}
+
+if [ $# -eq 0 ]; then
+    usage
+fi
+
+function capture_to_clipboard() {
+    slurp | grim -g - - | wl-copy
+
+    notify-send \
+        "Selected region copied to clipboard" \
+        "Paste the image into an image editor like GIMP or gThumb"
+}
+
+function capture_and_annotate() {
+    slurp | grim -g - - | satty --filename -
+}
+
+case "$1" in
+-a | --annotate)
+    slurp | grim -g - - | satty --filename -
+    ;;
+
+-c | --clipboard)
+    slurp | grim -g - - | wl-copy
+    notify-send "Selected region copied to clipboard" \
+        "Paste the image into an image editor like GIMP or gThumb"
+    ;;
+*) usage ;;
+esac
