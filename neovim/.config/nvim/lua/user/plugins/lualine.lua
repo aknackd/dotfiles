@@ -1,16 +1,17 @@
 require("lualine").setup({
 	options = {
-		-- icons_enabled = true,
-		theme = "codedark",
+		icons_enabled = true,
+		theme = "catppuccin",
 		component_separators = "",
-		section_separators = "",
+		section_separators = { left = "", right = "" },
+
 		disabled_filetypes = {
 			statusline = {},
 			winbar = {},
 		},
 		ignore_focus = {},
 		always_divide_middle = true,
-		globalstatus = true,
+		globalstatus = false,
 	},
 	sections = {
 		lualine_a = {
