@@ -20,7 +20,7 @@ end
 ---via the `NVIM_TRANSPARENT_BACKGROUND` environment variable.
 ---@return boolean
 function M.does_colorscheme_has_transparent_background()
-	return M.bool(M.env("NVIM_BACKGROUND", "false"))
+	return M.bool(M.env("NVIM_TRANSPARENT_BACKGROUND", "false"))
 end
 
 ---Returns the background, which can be set via the `NVIM_BACKGROUND`
