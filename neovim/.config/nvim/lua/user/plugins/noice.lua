@@ -39,6 +39,8 @@ require("noice").setup({
 					{ find = "OK" },
 					{ find = "Ready" },
 					{ find = "ServiceReady" },
+					{ find = "WARNING" },
+					{ find = "Init..." },
 				},
 			},
 			opts = { skip = true },
