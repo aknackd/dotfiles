@@ -122,6 +122,7 @@ local servers = {
 	["intelephense"] = require("user.lsp.intelephense"),
 	["jdtls"] = require("user.lsp.jdtls"),
 	["lua_ls"] = require("user.lsp.lua_ls"),
+	["ruby-lsp"] = require("user.lsp.ruby-lsp"),
 	["tailwindcss"] = require("user.lsp.tailwindcss"),
 	["templ"] = require("user.lsp.templ"),
 	["tsserver"] = require("user.lsp.ts_ls"),
