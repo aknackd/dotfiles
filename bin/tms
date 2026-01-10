@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# List non-dot directories in $BASE_DIR, let user pick one with fzf, then
+# create/attach a tmux session named after the chosen directory.
+
+BASE_DIR="${BASE_DIR:-$HOME/Projects}"
+
+[ -d "$BASE_DIR" ] || {
+    echo "Directory not found: $BASE_DIR" >&2
+    exit 1
+}
+
+selected=$(find "$BASE_DIR" -maxdepth 1 -mindepth 1 -type d ! -name '.*' -exec basename {} \; | sort | fzf --prompt 'Projects> ')
+
+[ -z "$selected" ] && exit 0
+
+# Colors
+readonly BOLD="\e[1m"
+readonly GREEN="\e[32m"
+readonly RESET="\e[0m"
+
+DIR="${BASE_DIR}/${selected}"
+
+if ! tmux has-session -t "$selected" 2>/dev/null; then
+    printf "📦 Setting up new tmux session...\n"
+    tmux new-session -As "$selected" -c "$DIR" -d
+fi
+
+printf "🚀 Attaching to tmux session...${BOLD}${GREEN}%s${RESET}\n" "$selected"
+tmux attach-session -t "$selected"
