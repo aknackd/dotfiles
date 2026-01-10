@@ -12,3 +12,5 @@ Thumbs.db
 /ssh/.ssh/sessions
 
 /neovim/.config/nvim/lazy-lock.json
+
+/tmux/.config/tmux/plugins
