@@ -125,7 +125,7 @@ local servers = {
 	["ruby-lsp"] = require("user.lsp.ruby-lsp"),
 	["tailwindcss"] = require("user.lsp.tailwindcss"),
 	["templ"] = require("user.lsp.templ"),
-	["tsserver"] = require("user.lsp.ts_ls"),
+	["ts_ls"] = require("user.lsp.ts_ls"),
 	["zls"] = require("user.lsp.zls"),
 }
 
