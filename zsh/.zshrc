@@ -39,11 +39,6 @@ if [ -d $HOME/.fzf ]; then
     source $HOME/.fzf/shell/key-bindings.zsh
 fi
 
-# Initialize asdf
-if [[ -s "${ASDF_DIR}/asdf.sh" ]]; then
-    source "${ASDF_DIR}/asdf.sh"
-fi
-
 ## Aliases
 
 alias art="php artisan"
@@ -183,8 +178,6 @@ typeset -Ua path
 path=(
     $(dir_exists "${HOME}/.local/bin")
     $(dir_exists "${GOPATH}/bin")
-    $(dir_exists "${ASDF_DIR}/bin")
-    $(dir_exists "${ASDF_DATA_DIR}/shims")
     $(dir_exists /usr/local/sbin)
     $(dir_exists /usr/local/bin)
     $(dir_exists "${HOME}/.yarn/bin")
@@ -206,9 +199,6 @@ command -v dotnet >/dev/null  && alias dotnet="TERM=xterm dotnet"
 command -v nvim >/dev/null    && alias nvim="TERM=screen-256color nvim"
 command -v rg >/dev/null      && alias ack="rg"
 
-# setup direnv if installed
-command -v direnv >/dev/null 2>&1 && { eval "$(direnv hook zsh)" }
-
 zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
 bindkey \^U backward-kill-line
@@ -222,10 +212,9 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 # source environment specific .zshrc.local if exists
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
 
-# add asdf completions to fpath
-if [[ -f "${ASDF_DATA_DIR}/completions/_asdf" ]]; then
-    fpath=("${ASDF_DATA_DIR}/completions/" $fpath)
-    autoload -Uz compinit && compinit
+# activate mise if installed
+if command -v mise > /dev/null ; then
+    eval "$(mise activate zsh)"
 fi
 
 unset -f am_i_installed am_i_running dir_exists implode
