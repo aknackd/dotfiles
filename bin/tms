@@ -31,5 +31,10 @@ if ! tmux has-session -t "$selected" 2>/dev/null; then
     tmux new-session -As "$selected" -c "$DIR" -d
 fi
 
-printf "🚀 Attaching to tmux session...${BOLD}${GREEN}%s${RESET}\n" "$selected"
-tmux attach-session -t "$selected"
+if [[ ! -z $TMUX ]]; then
+    printf "🚜 We're already inside a tmux session; switching to new session...${BOLD}${GREEN}%s${RESET}\n" "$selected"
+    tmux switch-client -t "$selected"
+else
+    printf "🚀 Attaching to tmux session...${BOLD}${GREEN}%s${RESET}\n" "$selected"
+    tmux attach-session -t "$selected"
+fi
