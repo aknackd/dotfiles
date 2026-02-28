@@ -1,35 +1,50 @@
 * {
-  font-family: ComicCode Nerd Font Mono;
-  font-size: 12px;
+  /* font-family: ComicCode Nerd Font Mono; */
+  /* font-family: Cantarell Nerd Font; */
+  font-family: Montserrat;
+  font-size: 9pt;
   min-height: 0;
-  padding-left: 2px;
-  padding-right: 2px;
+  /* padding-left: 2px; */
+  /* padding-right: 2px; */
 }
 
 #waybar {
   background: transparent;
-  color: #c6d0f5;
+  /* background: #222; */
+  /* color: #c6d0f5; */
 }
 
 #workspaces {
-  background: #333333;
-  margin-right: 0.25rem;
+  /* margin-right: 0.25rem; */
+  margin: 0.5em;
 }
 
 #workspaces button {
+  /* background: #404040; */
   color: #babbf1;
-  padding: 0.25rem 0.2rem 0.2rem 0.25rem;
-  font-weight: 400;
+  padding: 0.3em;
+  font-weight: bold;
+  /* border-radius: 20px; */
+  /* margin: 5px; */
 }
 
 #workspaces button.active {
-  color: #99d1db;
   background: #404040;
-  font-weight: 900;
+  color: white;
 }
 
 #workspaces button:hover {
   background: #404040;
+}
+
+#window {
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 3px 0;
+  background-color: #404040;
+  color: white;
+  font-weight: bold;
 }
 
 #backlight,
@@ -44,14 +59,21 @@
 #custom-lock,
 #custom-music,
 #custom-power {
-  background: #101010;
-  padding: 2px;
+  /* background: #101010; */
+  padding: 0 2px;
 }
 
 #memory {}
 
 #clock {
-  color: #8caaee;
+  /* border-radius: 20px; */
+  /* padding: 0 1.15em; */
+  margin-right: 1.15em;
+  /* margin: 8px 0; */
+  /* background-color: #404040; */
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 #battery {
@@ -74,10 +96,21 @@
 #battery {}
 
 #pulseaudio {
-  color: #ea999c;
+  /* border-radius: 20px; */
+  /* padding-left: 10px; */
+  /* padding-right: 10px; */
+  /* margin: 8px 0; */
+  /* background-color: #404040; */
+  color: white;
+  font-weight: bold;
 }
 
 #tray {
-  margin-right: 1rem;
-  margin-left: 1rem;
+  /* border-radius: 20px; */
+  /* padding-left: 10px; */
+  /* padding-right: 10px; */
+  /* margin: 8px 0; */
+  /* background-color: #404040; */
+  color: white;
+  font-weight: bold;
 }
