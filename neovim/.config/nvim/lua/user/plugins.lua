@@ -168,8 +168,7 @@ require("lazy").setup({
 					require("user.plugins.nvim-treesitter-context")
 				end,
 			},
-			{ "nvim-treesitter/nvim-treesitter-textobjects" },
-			{ "nvim-treesitter/playground" },
+			{ "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
 		},
 	},
 
