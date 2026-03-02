@@ -199,6 +199,13 @@ require("lazy").setup({
 		},
 	},
 
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		config = function()
+			require("user.plugins.render-markdown")
+		end,
+	},
+
 	-- {
 	-- 	"iamcco/markdown-preview.nvim",
 	-- 	build = function()
