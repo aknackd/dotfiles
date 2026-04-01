@@ -43,6 +43,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Set commentstring based on filetype
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "javascript", "typescript", "php" },
+	callback = function()
+		vim.bo.commentstring = "// %s"
+	end,
+})
+
 -- Copies yanked text into the system clipboard over SSH
 -- Does not require x11 on linux
 --

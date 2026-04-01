@@ -161,7 +161,12 @@ require("lazy").setup({
 			require("user.plugins.treesitter")
 		end,
 		dependencies = {
-			{ "JoosepAlviste/nvim-ts-context-commentstring" },
+			{
+				"JoosepAlviste/nvim-ts-context-commentstring",
+				config = function()
+					require("user.plugins.nvim-ts-context-commentstring")
+				end,
+			},
 			{
 				"nvim-treesitter/nvim-treesitter-context",
 				config = function()
@@ -316,15 +321,6 @@ require("lazy").setup({
 		"mattn/emmet-vim",
 		config = function()
 			require("user.plugins.emmet")
-		end,
-	},
-
-	-- Smart and powerful comment plugin for neovim. Supports treesitter, dot
-	-- repeat, left-right/up-down motions, hooks, and more
-	{
-		"numToStr/Comment.nvim",
-		config = function()
-			require("user.plugins.comment")
 		end,
 	},
 
