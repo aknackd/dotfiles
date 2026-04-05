@@ -203,18 +203,13 @@ zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
 bindkey \^U backward-kill-line
 
-# setup pkgx shell integration - https://docs.pkgx.sh/run-anywhere/terminals
+# setup version managers if they're installed
 command -v pkgx > /dev/null && source <(pkgx --shellcode)
+command -v mise > /dev/null && eval "$(mise activate zsh)"
 
-# setup orbstack if installed
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+[[ -f "~/.orbstack/shell/init.zsh" ]] && source "~/.orbstack/shell/init.zsh"
 
 # source environment specific .zshrc.local if exists
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
-
-# activate mise if installed
-if command -v mise > /dev/null ; then
-    eval "$(mise activate zsh)"
-fi
 
 unset -f am_i_installed am_i_running dir_exists implode
