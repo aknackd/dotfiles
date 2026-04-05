@@ -99,72 +99,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- LSP servers and clients are able to communicate to each other what features they support.
---  By default, Neovim doesn't support everything that is in the LSP specification.
---  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
---  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
--- Enable the following language servers, they will automatically be installed.
---
---  Add any additional override configuration in the following tables. Available keys are:
---  - cmd (table): Override the default command used to start the server
---  - filetypes (table): Override the default list of associated filetypes for the server
---  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
---  - settings (table): Override the default settings passed when initializing the server.
---        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-local servers = {
-	["emmet-ls"] = require("user.lsp.emmet-ls"),
-	["emmet_language_server"] = require("user.lsp.emmet-language-server"),
-	["html"] = require("user.lsp.html"),
-	["htmx"] = require("user.lsp.htmx"),
-	["intelephense"] = require("user.lsp.intelephense"),
-	["jdtls"] = require("user.lsp.jdtls"),
-	["lua_ls"] = require("user.lsp.lua_ls"),
-	["ruby-lsp"] = require("user.lsp.ruby-lsp"),
-	["tailwindcss"] = require("user.lsp.tailwindcss"),
-	["templ"] = require("user.lsp.templ"),
-	["ts_ls"] = require("user.lsp.ts_ls"),
-	["zls"] = require("user.lsp.zls"),
-}
-
 require("mason").setup({
 	ui = {
 		border = "rounded",
 	},
 })
 
-local ensure_installed = utils.get_lsp_servers()
-vim.list_extend(ensure_installed, { "stylua" })
-
 require("mason-tool-installer").setup({
-	ensure_installed = ensure_installed,
+	ensure_installed = { "lua_ls", "stylua" },
 	auto_update = false,
 	run_on_start = true,
 	start_delay = 3000,
 	debounce_hours = 12,
 })
 
-require("mason-lspconfig").setup({
-	handlers = {
-		function(server_name)
-			local server = servers[server_name] or {}
-
-			server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-
-			-- INFO: 2024-09-07 - tsserver was renamed to ts_ls
-			-- INFO: https://github.com/neovim/nvim-lspconfig/commit/bdbc65aadc708ce528efb22bca5f82a7cca6b54d
-			if server_name == "tsserver" then
-				server_name = "ts_ls"
-			end
-
-			require("lspconfig")[server_name].setup(server)
-		end,
-	},
-})
-
 utils.create_lsp_cache_dir()
+
+require("user.lsp.emmet-ls")
+require("user.lsp.emmet-language-server")
+require("user.lsp.html")
+require("user.lsp.htmx")
+require("user.lsp.intelephense")
+require("user.lsp.jdtls")
+require("user.lsp.lua_ls")
+require("user.lsp.ruby-lsp")
+require("user.lsp.tailwindcss")
+require("user.lsp.templ")
+require("user.lsp.ts_ls")
+require("user.lsp.zls")
 
 require("lspconfig.ui.windows").default_options.border = "rounded"
 

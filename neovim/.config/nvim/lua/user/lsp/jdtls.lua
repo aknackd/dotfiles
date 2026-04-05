@@ -1,5 +1,6 @@
 local util = require("lspconfig.util")
 local env = require("user.utils").env
+local lsp = require("user.lsp")
 
 local root_files = {
 	-- Single-module projects
@@ -10,7 +11,7 @@ local root_files = {
 	{ ".project" },
 }
 
-return {
+lsp.setup("jdtls", {
 	root_dir = function(fname)
 		for _, patterns in ipairs(root_files) do
 			local root = util.root_pattern(unpack(patterns))(fname)
@@ -63,4 +64,4 @@ return {
 			},
 		},
 	},
-}
+})

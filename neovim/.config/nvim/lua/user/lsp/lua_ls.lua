@@ -1,4 +1,6 @@
-return {
+local lsp = require("user.lsp")
+
+lsp.setup("lua_ls", {
 	settings = {
 		Lua = {
 			runtime = { version = "LuaJIT" },
@@ -15,4 +17,4 @@ return {
 			-- diagnostics = { disable = { 'missing-fields' } },
 		},
 	},
-}
+})

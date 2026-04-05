@@ -1,4 +1,6 @@
-return {
+local lsp = require("user.lsp")
+
+lsp.setup("ruby_lsp", {
 	capabilities = {
 		textDocument = { completion = { completionItem = { snippetSupport = true } } },
 	},
@@ -11,4 +13,4 @@ return {
 		formatter = "standard",
 		linters = { "standard" },
 	},
-}
+})

@@ -1,4 +1,6 @@
-return {
+local lsp = require("user.lsp")
+
+lsp.setup("tailwindcss", {
 	filetypes = {
 		"astro",
 		"blade",
@@ -16,4 +18,4 @@ return {
 			},
 		},
 	},
-}
+})

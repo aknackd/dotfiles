@@ -1,4 +1,6 @@
-return {
+local lsp = require("user.lsp")
+
+lsp.setup("emmet_language_server", {
 	filetypes = {
 		"blade",
 		"css",
@@ -35,4 +37,4 @@ return {
 		--- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
 		variables = {},
 	},
-}
+})

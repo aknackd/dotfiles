@@ -1,8 +1,9 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+local lsp = require("user.lsp")
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-return {
+lsp.setup("emmet_ls", {
 	capabilities = capabilities,
 	filetypes = {
 		"blade",
@@ -27,4 +28,4 @@ return {
 			},
 		},
 	},
-}
+})

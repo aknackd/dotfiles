@@ -1,6 +1,7 @@
 local lspconfig = require("lspconfig")
+local lsp = require("user.lsp")
 
-return {
+lsp.setup("zls", {
 	root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
 	settings = {
 		zls = {
@@ -9,4 +10,4 @@ return {
 			warn_style = true,
 		},
 	},
-}
+})

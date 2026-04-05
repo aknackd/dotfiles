@@ -9,7 +9,9 @@ local ts_ls_inlay_hints = {
 	includeInlayVariableTypeHintsWhenTypeMatchesName = true,
 }
 
-return {
+local lsp = require("user.lsp")
+
+lsp.setup("ts_ls", {
 	settings = {
 		maxts_lsMemory = 12288,
 		typescript = {
@@ -19,4 +21,4 @@ return {
 			inlayHints = ts_ls_inlay_hints,
 		},
 	},
-}
+})

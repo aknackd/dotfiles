@@ -134,17 +134,6 @@ function M.get_directory_separator()
 	return package.config:sub(1, 1)
 end
 
----Returns LSP servers that Mason will always install by default. LSP servers
----are specified by a comma separated string defined in the `NVIM_LSP_SERVERS`
----environment variable.
----@return table<string>
-function M.get_lsp_servers()
-	local servers = { "lua_ls" }
-	M.mergetable(servers, M.split(",", M.env("NVIM_LSP_SERVERS", "")))
-
-	return M.remove_duplicates(servers)
-end
-
 ---Returns whether or not a feature is enabled via an environment variable
 ---named `NVIM_FEATURE_{feature}` is set and has a truthy value.
 ---@param feature string Feature name
