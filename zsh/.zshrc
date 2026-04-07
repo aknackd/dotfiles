@@ -57,7 +57,7 @@ alias tmux="TERM=xterm-256color tmux"
 alias ssh="TERM=xterm-color ssh"
 
 # Startup ssh-agent if not already running
-[ $(am_i_running ssh-agent) -eq 0 ] && eval "$(ssh-agent -s)"
+[[ $(am_i_running ssh-agent) -eq 0 ]] && eval "$(ssh-agent -s)"
 
 case "$(uname -s)" in
     Darwin)

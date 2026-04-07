@@ -37,6 +37,5 @@ if [[ -d "${HOME}/Library/Application Support/Herd/config/php" ]]; then
     done
 fi
 
-if [[ -f "$HOME/.zshenv.local" ]]; then
-    source "$HOME/.zshenv.local"
-fi
+# source environment specific .zshenv.local if exists
+[[ -f "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"
