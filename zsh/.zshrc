@@ -207,6 +207,9 @@ bindkey \^U backward-kill-line
 command -v pkgx > /dev/null && source <(pkgx --shellcode)
 command -v mise > /dev/null && eval "$(mise activate zsh)"
 
+# shell history manager
+command -v atuin > /dev/null && eval "$(atuin init zsh --disable-up-arrow --disable-ai)"
+
 [[ -f "~/.orbstack/shell/init.zsh" ]] && source "~/.orbstack/shell/init.zsh"
 
 # source environment specific .zshrc.local if exists
