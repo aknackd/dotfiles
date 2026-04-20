@@ -28,7 +28,7 @@ function install::homebrew() {
 
 function install::dotfiles() {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
-    stow atuin ghostty git neovim opencode pi sqlite tmux vim zsh --target "$HOME" --verbose
+    stow atuin ghostty git neovim opencode pi sqlite tmux zsh --target "$HOME" --verbose
 
     mkdir -pv "$HOME/.local/bin"
     stow bin --target "$HOME/.local/bin" --verbose
@@ -75,33 +75,6 @@ function setup::tmux() {
     fi
 }
 
-function setup::vim() {
-    local confDir="$HOME/.config/vim"
-
-    if [ ! -d "$confDir" ]; then
-        echo "${COLOR_GREEN}:: Setting up vim ...${COLOR_RESET}"
-        mkdir -p "${confDir}/backup" "${confDir}/temp"
-    fi
-}
-
-function install::kitty_themes() {
-    local confDir="$HOME/.config/kitty/kitty-themes"
-
-    if [ ! -d "$confDir" ]; then
-        echo "${COLOR_GREEN}:: Setting up kitty ...${COLOR_RESET}"
-        git clone https://github.com/kovidgoyal/kitty-themes.git "$confDir"
-    fi
-}
-
-function install::alacritty_themes() {
-    local confDir="$HOME/.config/alacritty/alacritty-themes"
-
-    if [ ! -d "$confDir" ]; then
-        echo "${COLOR_GREEN}:: Setting up alacritty themes ...${COLOR_RESET}"
-        git clone https://github.com/alacritty/alacritty-theme.git "$confDir"
-    fi
-}
-
 function install::sway_themes() {
     local confDir="$HOME/.config/sway/themes"
 
@@ -115,8 +88,5 @@ check::dependencies
 install::dotfiles
 [[ "${SKIP_FZF:-n}" == "y" ]] || setup::fzf
 [[ "${SKIP_TMUX:-n}" == "y" ]] || setup::tmux
-[[ "${SKIP_VIM:-n}" == "y" ]] || setup::vim
 [[ "${INSTALL_HOMEBREW:-n}" == "y" ]] && install::homebrew
-[[ "${INSTALL_KITTY_THEMES:-n}" == "y" ]] && install::kitty_themes
-[[ "${INSTALL_ALACRITTY_THEMES:-n}" == "y" ]] && install::alacritty_themes
 [[ "${INSTALL_SWAY_THEMES:-n}" == "y" ]] && install::sway_themes
