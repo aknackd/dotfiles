@@ -16,16 +16,6 @@ function check::dependencies() {
     done
 }
 
-function install::homebrew() {
-    [[ $(uname -s) != "Darwin" ]] && return
-
-    if ! command -v brew >/dev/null 2>&1; then
-        echo "${COLOR_GREEN}:: Installing homebrew ...${COLOR_RESET}"
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew analytics off
-    fi
-}
-
 function install::dotfiles() {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
     stow atuin ghostty git neovim opencode pi sqlite tmux zsh --target "$HOME" --verbose
@@ -88,5 +78,4 @@ check::dependencies
 install::dotfiles
 [[ "${SKIP_FZF:-n}" == "y" ]] || setup::fzf
 [[ "${SKIP_TMUX:-n}" == "y" ]] || setup::tmux
-[[ "${INSTALL_HOMEBREW:-n}" == "y" ]] && install::homebrew
 [[ "${INSTALL_SWAY_THEMES:-n}" == "y" ]] && install::sway_themes
