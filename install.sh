@@ -18,7 +18,7 @@ function check::dependencies() {
 
 function install::dotfiles() {
     echo "${COLOR_GREEN}:: Linking dotfiles ...${COLOR_RESET}"
-    stow atuin ghostty git neovim opencode pi sqlite tmux zsh --target "$HOME" --verbose
+    stow atuin ghostty git neovim opencode sqlite tmux zsh --target "$HOME" --verbose
 
     mkdir -pv "$HOME/.local/bin"
     stow bin --target "$HOME/.local/bin" --verbose
