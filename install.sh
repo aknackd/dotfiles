@@ -76,6 +76,6 @@ function install::sway_themes() {
 
 check::dependencies
 install::dotfiles
-[[ "${INSTALL_FZF:-n}" == "y" ]] || setup::fzf
 [[ "${SKIP_TMUX:-n}" == "y" ]] || setup::tmux
+[[ "${INSTALL_FZF:-n}" == "y" ]] && setup::fzf
 [[ "${INSTALL_SWAY_THEMES:-n}" == "y" ]] && install::sway_themes
