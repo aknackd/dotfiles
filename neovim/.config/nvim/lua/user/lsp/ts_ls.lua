@@ -10,8 +10,10 @@ local ts_ls_inlay_hints = {
 }
 
 local lsp = require("user.lsp")
+local typescript = require("user.lsp.shared.typescript")
 
 lsp.setup("ts_ls", {
+	root_dir = typescript.classic_root_dir,
 	settings = {
 		maxts_lsMemory = 12288,
 		typescript = {

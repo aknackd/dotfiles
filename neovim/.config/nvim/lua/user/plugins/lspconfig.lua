@@ -134,6 +134,7 @@ return {
 		require("user.lsp.ruby-lsp")
 		require("user.lsp.tailwindcss")
 		require("user.lsp.templ")
+		require("user.lsp.tsc")
 		require("user.lsp.ts_ls")
 		require("user.lsp.zls")
 
