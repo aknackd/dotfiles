@@ -27,7 +27,7 @@ return {
 						cmd = cmd[1]
 					end
 					if cmd and vim.fn.executable(cmd) == 1 then
-						lint.try_lint({ linters = { name } })
+						lint.try_lint({ name })
 						return
 					end
 				end
