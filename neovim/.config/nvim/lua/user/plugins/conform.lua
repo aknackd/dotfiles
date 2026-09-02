@@ -43,29 +43,21 @@ require("conform").setup({
 		blade = { "blade-formatter", "rustywind" },
 		go = { "goimports", "goimports-reviser" },
 		html = { "rustywind" },
-		javascript = { "biome", "prettierd", "prettier", stop_after_first = true },
+		javascript = { "oxfmt", "biome", "prettierd", "prettier", stop_after_first = true },
 		json = { "jq" },
+		javascriptreact = { "oxfmt", "biome", "prettierd", "prettier", stop_after_first = true },
 		jsx = { "rustywind" },
 		lua = { "stylua" },
 		python = { "isort", "black" },
 		sh = { "shfmt" },
-		typescript = { "biome", "prettierd", "prettier", stop_after_first = true },
-		typescriptreact = { "biome", "prettierd", "prettier", stop_after_first = true },
+		typescript = { "oxfmt", "biome", "prettierd", "prettier", stop_after_first = true },
+		typescriptreact = { "oxfmt", "biome", "prettierd", "prettier", stop_after_first = true },
 		vue = { "rustywind" },
 	},
 })
 
 vim.keymap.set("n", "<leader>f", function()
-	-- Use the LSP's formatting if supported
-	local buf_clients = vim.lsp.get_clients()
-	for _, client in pairs(buf_clients) do
-		if client.supports_method("textDocument/formatting") then
-			vim.lsp.buf.format({ async = true })
-			return
-		end
-	end
-
-	-- Otherwise fallback to conform
+	-- Prefer configured formatters and use LSP formatting only as a fallback.
 	require("conform").format({ async = true, lsp_format = "fallback" })
 end, {
 	desc = "[F]ormat buffer",
