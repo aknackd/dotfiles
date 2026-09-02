@@ -134,15 +134,6 @@ function M.get_directory_separator()
 	return package.config:sub(1, 1)
 end
 
----Returns whether or not a feature is enabled via an environment variable
----named `NVIM_FEATURE_{feature}` is set and has a truthy value.
----@param feature string Feature name
----@return boolean
-function M.has_feature(feature)
-	local value = M.env("NVIM_FEATURE_" .. string.upper(feature), "")
-	return string.match(value, "y|Y|true|1")
-end
-
 ---Returns whether or not a table has a specified key.
 ---@param t table Table
 ---@param s string Key
