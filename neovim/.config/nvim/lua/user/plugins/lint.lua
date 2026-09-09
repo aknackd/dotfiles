@@ -1,3 +1,12 @@
+-- Plugin: nvim-lint
+-- Description: Asynchronous linter runner for Neovim.
+-- URL: https://github.com/mfussenegger/nvim-lint
+-- Documentation: https://github.com/mfussenegger/nvim-lint#readme
+-- Required Neovim: >= 0.9.5.
+-- Language: Lua
+-- Dependencies: External linter binaries, including oxlint and biome in this configuration.
+-- User commands: None.
+
 return {
 	"mfussenegger/nvim-lint",
 	config = function()

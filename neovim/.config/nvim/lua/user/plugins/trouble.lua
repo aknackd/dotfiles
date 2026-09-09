@@ -1,3 +1,12 @@
+-- Plugin: trouble.nvim
+-- Description: Pretty lists for diagnostics, references, quickfix, and location lists.
+-- URL: https://github.com/folke/trouble.nvim
+-- Documentation: https://github.com/folke/trouble.nvim#readme
+-- Required Neovim: >= 0.9.2; Markdown parsers or Neovim >= 0.10 for Markdown rendering.
+-- Language: Lua
+-- Dependencies: Properly configured LSP client; optional nvim-web-devicons.
+-- User commands: :Trouble
+
 return {
 	"folke/trouble.nvim",
 	config = function()

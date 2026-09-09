@@ -1,3 +1,12 @@
+-- Plugin: nvim-cmp
+-- Description: Completion engine with extensible completion sources.
+-- URL: https://github.com/hrsh7th/nvim-cmp
+-- Documentation: https://github.com/hrsh7th/nvim-cmp#readme
+-- Required Neovim: >= 0.8.0.
+-- Language: Lua
+-- Dependencies: cmp-nvim-lsp, cmp-buffer, cmp-path, cmp-nvim-lsp-signature-help, LuaSnip, cmp_luasnip, lspkind.nvim; make and a C compiler for LuaSnip/jsregexp when built.
+-- User commands: :CmpStatus
+
 return {
 	"hrsh7th/nvim-cmp",
 	event = { "BufReadPost", "BufNewFile", "InsertEnter" },

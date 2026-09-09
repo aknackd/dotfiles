@@ -1,3 +1,12 @@
+-- Plugin: nvim-treesitter-context
+-- Description: Show the current code context at the top of the window.
+-- URL: https://github.com/nvim-treesitter/nvim-treesitter-context
+-- Documentation: https://github.com/nvim-treesitter/nvim-treesitter-context#readme
+-- Required Neovim: >= 0.9.0.
+-- Language: Lua
+-- Dependencies: nvim-treesitter and installed language parsers.
+-- User commands: :TSContext enable, :TSContext disable, :TSContext toggle
+
 return {
 	"nvim-treesitter/nvim-treesitter-context",
 	config = function()

@@ -1,3 +1,12 @@
+-- Plugin: render-markdown.nvim
+-- Description: Render Markdown syntax directly in Neovim buffers.
+-- URL: https://github.com/MeanderingProgrammer/render-markdown.nvim
+-- Documentation: https://github.com/MeanderingProgrammer/render-markdown.nvim#readme
+-- Required Neovim: >= 0.9.0; >= 0.10.0 recommended for inline extmarks.
+-- Language: Lua
+-- Dependencies: Optional mini.icons or nvim-web-devicons; optional latex and pylatexenc for LaTeX rendering; Markdown Treesitter parsers recommended.
+-- User commands: :RenderMarkdown (subcommands: render, enable, buf_enable, disable, buf_disable, toggle, buf_toggle, preview, log, expand, contract, debug, config)
+
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
 	config = function()

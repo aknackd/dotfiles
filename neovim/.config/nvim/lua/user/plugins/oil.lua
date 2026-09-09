@@ -1,3 +1,12 @@
+-- Plugin: oil.nvim
+-- Description: Edit the filesystem like a regular Neovim buffer.
+-- URL: https://github.com/stevearc/oil.nvim
+-- Documentation: https://github.com/stevearc/oil.nvim#readme
+-- Required Neovim: >= 0.8.0.
+-- Language: Lua
+-- Dependencies: Optional nvim-tree/nvim-web-devicons or mini.icons for icons.
+-- User commands: :Oil
+
 return {
 	"stevearc/oil.nvim",
 	config = function()

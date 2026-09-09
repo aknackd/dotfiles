@@ -1,3 +1,12 @@
+-- Plugin: lualine.nvim
+-- Description: Fast, configurable statusline and winbar for Neovim.
+-- URL: https://github.com/nvim-lualine/lualine.nvim
+-- Documentation: https://github.com/nvim-lualine/lualine.nvim#readme
+-- Required Neovim: >= 0.7.0.
+-- Language: Lua
+-- Dependencies: Optional nvim-tree/nvim-web-devicons for icons.
+-- User commands: None.
+
 return {
 	"nvim-lualine/lualine.nvim",
 	config = function()

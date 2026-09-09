@@ -1,3 +1,12 @@
+-- Plugin: nvim-lspconfig
+-- Description: Configurations and helpers for Neovim's built-in LSP client.
+-- URL: https://github.com/neovim/nvim-lspconfig
+-- Documentation: https://github.com/neovim/nvim-lspconfig#readme
+-- Required Neovim: >= 0.11.0.
+-- Language: Lua
+-- Dependencies: mason.nvim, mason-tool-installer.nvim, fidget.nvim, cmp-nvim-lsp; language-server binaries installed through Mason or the system.
+-- User commands: :LspInfo, :LspLog, :LspStart, :LspStop, :LspRestart
+
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {

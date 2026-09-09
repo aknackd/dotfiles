@@ -1,3 +1,12 @@
+-- Plugin: conform.nvim
+-- Description: Lightweight formatter runner with minimal-diff buffer formatting.
+-- URL: https://github.com/stevearc/conform.nvim
+-- Documentation: https://github.com/stevearc/conform.nvim#readme
+-- Required Neovim: >= 0.10.0.
+-- Language: Lua
+-- Dependencies: External formatter binaries configured per filetype; LSP client optional.
+-- User commands: :ConformInfo
+
 return {
 	"stevearc/conform.nvim",
 	event = { "BufWritePre" },

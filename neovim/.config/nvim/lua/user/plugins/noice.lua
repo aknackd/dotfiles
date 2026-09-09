@@ -1,3 +1,12 @@
+-- Plugin: noice.nvim
+-- Description: Highly experimental UI for messages, the command line, and popupmenu.
+-- URL: https://github.com/folke/noice.nvim
+-- Documentation: https://github.com/folke/noice.nvim#readme
+-- Required Neovim: >= 0.9.0.
+-- Language: Lua
+-- Dependencies: nui.nvim and nvim-notify; optional nvim-cmp for completion documentation.
+-- User commands: :Noice, :NoiceAll, :NoiceDismiss, :NoiceLast, :NoiceErrors, :NoiceHistory, :NoiceStats, :NoiceDebug
+
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",

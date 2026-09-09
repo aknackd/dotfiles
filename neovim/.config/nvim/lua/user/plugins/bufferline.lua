@@ -1,3 +1,12 @@
+-- Plugin: bufferline.nvim
+-- Description: A tabline/bufferline with tabpage integration.
+-- URL: https://github.com/akinsho/bufferline.nvim
+-- Documentation: https://github.com/akinsho/bufferline.nvim#readme
+-- Required Neovim: >= 0.8.0.
+-- Language: Lua
+-- Dependencies: Optional nvim-tree/nvim-web-devicons for icons.
+-- User commands: :BufferLinePick, :BufferLinePickClose, :BufferLineCycleNext, :BufferLineCyclePrev, :BufferLineCloseRight, :BufferLineCloseLeft, :BufferLineCloseOthers, :BufferLineMoveNext, :BufferLineMovePrev, :BufferLineSortByExtension, :BufferLineSortByDirectory, :BufferLineSortByRelativeDirectory, :BufferLineSortByTabs, :BufferLineGoToBuffer, :BufferLineTogglePin, :BufferLineTabRename, :BufferLineGroupClose, :BufferLineGroupToggle
+
 return {
 	"akinsho/bufferline.nvim",
 	config = function()

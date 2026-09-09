@@ -1,3 +1,12 @@
+-- Plugin: Catppuccin
+-- Description: Soothing pastel theme collection for Neovim.
+-- URL: https://github.com/catppuccin/nvim
+-- Documentation: https://github.com/catppuccin/nvim#readme
+-- Required Neovim: >= 0.8.0.
+-- Language: Lua
+-- Dependencies: Optional nvim-tree/nvim-web-devicons for integrations.
+-- User commands: :Catppuccin, :CatppuccinCompile
+
 return {
 	"catppuccin/nvim",
 	name = "catppuccin",

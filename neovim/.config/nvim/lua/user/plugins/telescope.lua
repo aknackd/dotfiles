@@ -1,3 +1,12 @@
+-- Plugin: telescope.nvim
+-- Description: Highly extendable fuzzy finder over lists.
+-- URL: https://github.com/nvim-telescope/telescope.nvim
+-- Documentation: https://github.com/nvim-telescope/telescope.nvim#readme
+-- Required Neovim: >= 0.9.0.
+-- Language: Lua
+-- Dependencies: plenary.nvim; optional telescope-fzf-native.nvim (make and C compiler), telescope-ui-select.nvim, telescope-live-grep-args.nvim; ripgrep recommended for live grep.
+-- User commands: :Telescope
+
 return {
 	"nvim-telescope/telescope.nvim",
 	branch = "master",

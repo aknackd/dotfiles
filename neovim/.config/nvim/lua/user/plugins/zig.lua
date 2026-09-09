@@ -1,3 +1,12 @@
+-- Plugin: zig.vim
+-- Description: Syntax highlighting, indentation, and tooling integration for Zig.
+-- URL: https://github.com/ziglang/zig.vim
+-- Documentation: https://github.com/ziglang/zig.vim#readme
+-- Required Neovim: Not specified; Vim-compatible.
+-- Language: Vimscript
+-- Dependencies: Zig compiler for formatting/compiler integration.
+-- User commands: None (provides the :compiler zig compiler definition).
+
 return {
 	"ziglang/zig.vim",
 	config = function()

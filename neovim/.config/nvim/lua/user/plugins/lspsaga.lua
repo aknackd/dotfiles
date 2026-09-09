@@ -1,3 +1,12 @@
+-- Plugin: lspsaga.nvim
+-- Description: UI enhancements for Neovim's built-in LSP client.
+-- URL: https://github.com/nvimdev/lspsaga.nvim
+-- Documentation: https://nvimdev.github.io/lspsaga/
+-- Required Neovim: >= 0.9.0.
+-- Language: Lua
+-- Dependencies: nui.nvim; configured LSP servers.
+-- User commands: :Lspsaga
+
 return {
 	"nvimdev/lspsaga.nvim",
 	branch = "main",
