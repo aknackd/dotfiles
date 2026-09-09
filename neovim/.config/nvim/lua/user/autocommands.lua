@@ -28,6 +28,17 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	command = "%s/\\s\\+$//e",
 })
 
+-- Create missing parent directories before writing a named file.
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = "bufcheck",
+	callback = function(args)
+		local name = vim.api.nvim_buf_get_name(args.buf)
+		if name ~= "" then
+			vim.fn.mkdir(vim.fn.fnamemodify(name, ":p:h"), "p")
+		end
+	end,
+})
+
 -- Enable spell checking on certain filenames
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = { "CONTRIBUTORS", "COPYING", "HACKING", "INSTALL", "LICENSE", "NEWS", "README", "UPGRADING" },
