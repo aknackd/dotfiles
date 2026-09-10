@@ -34,13 +34,56 @@ local function user_search(command, cwd, title, format, use_loclist)
 end
 
 local function user_split_args(args)
-	return vim.fn.split(args, "\\s\\+")
+	local result = {}
+	local current = {}
+	local quote
+	local escaped = false
+	local token_started = false
+
+	local function finish_token()
+		if token_started then
+			table.insert(result, table.concat(current))
+			current = {}
+			token_started = false
+		end
+	end
+
+	for i = 1, #args do
+		local char = args:sub(i, i)
+		if escaped then
+			table.insert(current, char)
+			escaped = false
+			token_started = true
+		elseif char == "\\" and quote ~= "'" then
+			escaped = true
+			token_started = true
+		elseif quote then
+			if char == quote then
+				quote = nil
+			else
+				table.insert(current, char)
+			end
+			token_started = true
+		elseif char == "'" or char == '"' then
+			quote = char
+			token_started = true
+		elseif char:match("%s") then
+			finish_token()
+		else
+			table.insert(current, char)
+			token_started = true
+		end
+	end
+	if escaped then
+		table.insert(current, "\\")
+	end
+	finish_token()
+	return result
 end
 
 local function user_rg(args, cwd, use_loclist)
 	local rg_args = user_split_args(args)
-	table.insert(rg_args, 1, "--vimgrep")
-	return user_search({ "rg", unpack(rg_args) }, cwd, "rg: " .. args, function(line)
+	return user_search({ "rg", "--vimgrep", unpack(rg_args) }, cwd, "rg: " .. args, function(line)
 		local file, lnum, col, text = line:match("^(.-):(%d+):(%d+):(.*)$")
 		return file, lnum, col, text
 	end, use_loclist)
