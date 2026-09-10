@@ -104,7 +104,7 @@ end
 -- :Rg searches the current working directory with ripgrep and opens quickfix.
 vim.api.nvim_create_user_command("Rg", function(opts)
 	user_rg(opts.args, vim.fn.getcwd())
-end, { nargs = "+" })
+end, { nargs = "+", complete = "file" })
 
 -- :RgRoot searches from the repository root with ripgrep and opens quickfix.
 vim.api.nvim_create_user_command("RgRoot", function(opts)
