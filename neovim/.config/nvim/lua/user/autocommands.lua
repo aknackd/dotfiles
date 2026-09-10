@@ -28,12 +28,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	command = "%s/\\s\\+$//e",
 })
 
--- Create missing parent directories before writing a named file.
+-- Create missing parent directories before writing a named file
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = "bufcheck",
 	callback = function(args)
 		local name = vim.api.nvim_buf_get_name(args.buf)
-		if name ~= "" then
+		if vim.bo[args.buf].buftype == "" and name ~= "" and not name:match("^[%a][%w+.-]*:/") then
 			vim.fn.mkdir(vim.fn.fnamemodify(name, ":p:h"), "p")
 		end
 	end,
