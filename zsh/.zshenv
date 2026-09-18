@@ -37,5 +37,7 @@ if [[ -d "${HOME}/Library/Application Support/Herd/config/php" ]]; then
     done
 fi
 
+[[ -f "$HOME/.config/vite-plus/env" ]] && source "$HOME/.config/vite-plus/env"
+
 # source environment specific .zshenv.local if exists
 [[ -f "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"

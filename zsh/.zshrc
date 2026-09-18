@@ -209,7 +209,8 @@ command -v mise > /dev/null && eval "$(mise activate zsh)"
 # shell history manager
 command -v atuin > /dev/null && eval "$(atuin init zsh --disable-up-arrow --disable-ai)"
 
-[[ -f "~/.orbstack/shell/init.zsh" ]] && source "~/.orbstack/shell/init.zsh"
+[[ -f "$HOME/.orbstack/shell/init.zsh" ]] && source "$HOME/.orbstack/shell/init.zsh"
+[[ -f "$HOME/.config/vite-plus/env" ]]    && source "$HOME/.config/vite-plus/env"
 
 # source environment specific .zshrc.local if exists
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
