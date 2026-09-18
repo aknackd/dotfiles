@@ -3,7 +3,7 @@
     email = adam@pyknotic.net
 
 [alias]
-    st = status
+    st = status --short --branch --untracked-files --renames
     ci = commit
     co = checkout
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
