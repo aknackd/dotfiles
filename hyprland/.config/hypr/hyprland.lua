@@ -26,11 +26,11 @@ local mainMod = "SUPER"
 -------------------
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("waybar --config $HOME/.config/waybar/config-hyprland.jsonc &")
-    hl.exec_cmd("$HOME/Wallpaper/set-wallpaper.sh")
-    hl.exec_cmd("swaync")
-    hl.exec_cmd("wl-paste -t text --watch clipman store --primary --persist")
-    hl.exec_cmd("vicinae server")
+	hl.exec_cmd("waybar --config $HOME/.config/waybar/config-hyprland.jsonc &")
+	hl.exec_cmd("$HOME/Wallpaper/set-wallpaper.sh")
+	hl.exec_cmd("swaync")
+	hl.exec_cmd("wl-paste -t text --watch clipman store --primary --persist")
+	hl.exec_cmd("vicinae server")
 end)
 
 -------------------------------
@@ -45,88 +45,88 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -----------------------
 
 hl.config({
-    general = {
-        gaps_in = 10,
-        gaps_out = 15,
-        border_size = 1,
-        col = {
-            active_border = "rgba(ccccccff)",
-            inactive_border = "rgba(aaaaaa33)",
-        },
-        resize_on_border = false,
-        allow_tearing = false,
-        layout = "dwindle",
-    },
+	general = {
+		gaps_in = 10,
+		gaps_out = 15,
+		border_size = 1,
+		col = {
+			active_border = "rgba(ccccccff)",
+			inactive_border = "rgba(aaaaaa33)",
+		},
+		resize_on_border = false,
+		allow_tearing = false,
+		layout = "dwindle",
+	},
 
-    decoration = {
-        rounding = 0,
-        rounding_power = 2,
-        active_opacity = 1.0,
-        inactive_opacity = 0.99,
-        shadow = {
-            enabled = true,
-            range = 8,
-            render_power = 3,
-            color = "rgba(1a1a1aee)",
-        },
-        blur = {
-            enabled = true,
-            size = 6,
-            passes = 1,
-            vibrancy = 0.1696,
-        },
-    },
+	decoration = {
+		rounding = 0,
+		rounding_power = 2,
+		active_opacity = 1.0,
+		inactive_opacity = 0.99,
+		shadow = {
+			enabled = true,
+			range = 8,
+			render_power = 3,
+			color = "rgba(1a1a1aee)",
+		},
+		blur = {
+			enabled = true,
+			size = 6,
+			passes = 1,
+			vibrancy = 0.1696,
+		},
+	},
 
-    cursor = {
-        no_hardware_cursors = true,
-    },
+	cursor = {
+		no_hardware_cursors = true,
+	},
 
-    animations = {
-        enabled = false,
-    },
+	animations = {
+		enabled = false,
+	},
 
-    dwindle = {
-        preserve_split = true,
-        force_split = 2,
-    },
+	dwindle = {
+		preserve_split = true,
+		force_split = 2,
+	},
 
-    master = {
-        new_status = "master",
-    },
+	master = {
+		new_status = "master",
+	},
 
-    misc = {
-        force_default_wallpaper = -1,
-        disable_hyprland_logo = true,
-        background_color = 0x000000,
-    },
+	misc = {
+		force_default_wallpaper = -1,
+		disable_hyprland_logo = true,
+		background_color = 0x000000,
+	},
 
-    input = {
-        kb_layout = "us",
-        kb_variant = "",
-        kb_model = "",
-        kb_options = "",
-        kb_rules = "",
-        follow_mouse = 1,
-        sensitivity = 0,
-        touchpad = {
-            natural_scroll = false,
-        },
-    },
+	input = {
+		kb_layout = "us",
+		kb_variant = "",
+		kb_model = "",
+		kb_options = "",
+		kb_rules = "",
+		follow_mouse = 1,
+		sensitivity = 0,
+		touchpad = {
+			natural_scroll = false,
+		},
+	},
 
-    gestures = {
-        workspace_swipe_distance = 300,
-        workspace_swipe_touch = false,
-        workspace_swipe_invert = true,
-        workspace_swipe_touch_invert = false,
-        workspace_swipe_min_speed_to_force = 30,
-        workspace_swipe_cancel_ratio = 0.5,
-        workspace_swipe_create_new = true,
-        workspace_swipe_direction_lock = true,
-        workspace_swipe_direction_lock_threshold = 10,
-        workspace_swipe_forever = false,
-        workspace_swipe_use_r = false,
-        close_max_timeout = 1000,
-    },
+	gestures = {
+		workspace_swipe_distance = 300,
+		workspace_swipe_touch = false,
+		workspace_swipe_invert = true,
+		workspace_swipe_touch_invert = false,
+		workspace_swipe_min_speed_to_force = 30,
+		workspace_swipe_cancel_ratio = 0.5,
+		workspace_swipe_create_new = true,
+		workspace_swipe_direction_lock = true,
+		workspace_swipe_direction_lock_threshold = 10,
+		workspace_swipe_forever = false,
+		workspace_swipe_use_r = false,
+		close_max_timeout = 1000,
+	},
 })
 
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
@@ -153,8 +153,8 @@ hl.animation({ leaf = "workspacesIn", enabled = false, speed = 1.21, bezier = "a
 hl.animation({ leaf = "workspacesOut", enabled = false, speed = 1.94, bezier = "almostLinear", style = "fade" })
 
 hl.device({
-    name = "epic-mouse-v1",
-    sensitivity = -0.5,
+	name = "epic-mouse-v1",
+	sensitivity = -0.5,
 })
 
 ---------------------
@@ -176,17 +176,23 @@ hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind("CTRL + Space", hl.dsp.exec_cmd("vicinae toggle"))
 
 for _, key_direction in ipairs({
-    { "left", "left" }, { "right", "right" }, { "up", "up" }, { "down", "down" },
-    { "h", "left" }, { "l", "right" }, { "k", "up" }, { "j", "down" },
+	{ "left", "left" },
+	{ "right", "right" },
+	{ "up", "up" },
+	{ "down", "down" },
+	{ "h", "left" },
+	{ "l", "right" },
+	{ "k", "up" },
+	{ "j", "down" },
 }) do
-    hl.bind(mainMod .. " + " .. key_direction[1], hl.dsp.focus({ direction = key_direction[2] }))
-    hl.bind(mainMod .. " + SHIFT + " .. key_direction[1], hl.dsp.window.move({ direction = key_direction[2] }))
+	hl.bind(mainMod .. " + " .. key_direction[1], hl.dsp.focus({ direction = key_direction[2] }))
+	hl.bind(mainMod .. " + SHIFT + " .. key_direction[1], hl.dsp.window.move({ direction = key_direction[2] }))
 end
 
 for i = 1, 10 do
-    local key = i % 10
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+	local key = i % 10
+	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -216,34 +222,34 @@ hl.layer_rule({ name = "vicinae-blur", blur = true, ignore_alpha = 0, match = { 
 hl.layer_rule({ name = "vicinae-no-animation", no_anim = true, match = { namespace = "vicinae" } })
 
 hl.window_rule({
-    name = "suppress-maximize-events",
-    match = { class = ".*" },
-    suppress_event = "maximize",
+	name = "suppress-maximize-events",
+	match = { class = ".*" },
+	suppress_event = "maximize",
 })
 
 hl.window_rule({
-    name = "fix-xwayland-drags",
-    match = {
-        class = "^$",
-        title = "^$",
-        xwayland = true,
-        float = true,
-        fullscreen = false,
-        pin = false,
-    },
-    no_focus = true,
+	name = "fix-xwayland-drags",
+	match = {
+		class = "^$",
+		title = "^$",
+		xwayland = true,
+		float = true,
+		fullscreen = false,
+		pin = false,
+	},
+	no_focus = true,
 })
 
 hl.window_rule({
-    name = "move-hyprland-run",
-    match = { class = "hyprland-run" },
-    move = "20 monitor_h-120",
-    float = true,
+	name = "move-hyprland-run",
+	match = { class = "hyprland-run" },
+	move = "20 monitor_h-120",
+	float = true,
 })
 
 hl.window_rule({
-    name = "ensure-steam-games-are-always-in-fullscreen",
-    match = { class = "^(steam_app_.*)$" },
-    rounding = 0,
-    fullscreen = 1,
+	name = "ensure-steam-games-are-always-in-fullscreen",
+	match = { class = "^(steam_app_.*)$" },
+	rounding = 0,
+	fullscreen = 1,
 })
