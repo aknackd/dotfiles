@@ -179,6 +179,7 @@ path=(
     $(dir_exists "${GOPATH}/bin")
     $(dir_exists /usr/local/sbin)
     $(dir_exists /usr/local/bin)
+    $(dir_exists "${HOME}/.bun/bin")
     $(dir_exists "${HOME}/.yarn/bin")
     $(dir_exists "${HOME}/.config/yarn/global/node_modules/.bin")
     $(dir_exists "${HOME}/.fzf/bin")
