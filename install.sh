@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare -a DEPENDENCIES=(curl git tmux stow)
+declare -a DEPENDENCIES=(curl git stow)
 
 COLOR_RED="$(echo -e "\033[0;31m")"
 COLOR_GREEN="$(echo -e "\033[0;32m")"
