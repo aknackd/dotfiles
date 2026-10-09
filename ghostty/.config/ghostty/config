@@ -35,6 +35,7 @@ font-feature = -dlig
 keybind = ctrl+page_up=previous_tab
 keybind = ctrl+page_down=next_tab
 keybind = shift+enter=text:\x1b\r
+keybind = ctrl+shift+o=unbind
 
 # [[misc]]
 app-notifications = no-clipboard-copy
