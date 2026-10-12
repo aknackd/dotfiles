@@ -159,6 +159,21 @@ gmu () {
     git merge upstream/$1
 }
 
+# Wrapper around herdr so we avoid running it inside a tmux session
+herdr () {
+    if [[ -n $TMUX ]]; then
+        2>&1 printf "🚨 Refusing to run herdr inside a tmux session 🚨\n"
+        return 1
+    fi
+
+    command herdr $@
+}
+
+herder () {
+    2>&1 printf "ℹ️ Running herdr ℹ️\n"
+    herdr $@
+}
+
 whereami () {
     echo "${USER}@$(hostname):$(pwd)"
 }
