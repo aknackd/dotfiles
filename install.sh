@@ -18,7 +18,7 @@ function check::dependencies() {
 
 function install::dotfiles() {
     echo "${GREEN}:: Linking dotfiles ...${RESET}"
-    stow atuin ghostty git herdr neovim opencode sqlite tmux zsh --target "$HOME" --verbose
+    stow atuin ghostty git herdr herdr-app neovim opencode sqlite tmux zsh --target "$HOME" --verbose
 
     case "$(uname -s)" in
     Linux)

@@ -1,0 +1,14 @@
+{
+  "zoom": 1.2,
+  "sounds": {
+    "enabled": true
+  },
+  "font": "0xProto Nerd Font Mono",
+  "font_size": 12,
+  "font_ligatures": false,
+  "telemetry": false,
+  "pane_scrollbars": false,
+  "minimum_contrast": 1,
+  "appearance": "dark",
+  "theme": "catppuccin"
+}

@@ -1,0 +1,16 @@
+data/
+frame/
+icons/
+update-notes-media/
+
+AGENTS.md
+installed.json
+seen.json
+shared.json
+update-notes.json
+view.json
+window.json
+windows.json
+
+*.d.ts
+
