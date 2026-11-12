@@ -7,7 +7,8 @@
   "diffs": {
     "wrap": "word",
     "view": "unified",
-    "single": false
+    "single": false,
+    "tree": true
   },
   "keybinds": {
     "session.toggle.thinking": "ctrl+o",
@@ -19,7 +20,9 @@
     "sidebar": "hide",
     "scrollbar": false,
     "thinking": "hide",
-    "grouping": "auto"
+    "grouping": "auto",
+    "tps": true,
+    "verbosity": "medium"
   },
   "animations": true,
   "tabs": {
@@ -27,5 +30,8 @@
     "indicators": "status",
     "enabled": false,
     "mode": "off"
+  },
+  "prompt": {
+    "image_preview": true
   }
 }
