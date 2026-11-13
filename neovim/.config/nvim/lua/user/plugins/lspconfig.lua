@@ -141,6 +141,7 @@ return {
 		require("user.lsp.jdtls")
 		require("user.lsp.lua_ls")
 		require("user.lsp.ruby-lsp")
+		require("user.lsp.rust-analyzer")
 		require("user.lsp.tailwindcss")
 		require("user.lsp.templ")
 		require("user.lsp.tsc")
